@@ -1,0 +1,236 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFBD25;
+}
+
+.nomeDoUsuario h2 {
+  margin-left: -15%;
+}
+
+.menuELogo {
+  display: flex;
+}
+
+.menuHamburguer button {
+  background: transparent;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+
+.menuDeFuncoes {
+  display: grid;
+  grid-template-columns: 400px 400px 400px;
+}
+
+
+section1 .direcaopag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+section2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section2 .tabela-produtos {
+  width: 80%;
+  background-color: #fff;
+  margin-top: 5%;
+}
+
+/* Menu Hamburguer */
+
+.secaoDeItensHamburguer{
+  background: #FFBD25;
+  position: absolute;
+  z-index: 9999;
+  top:59px;
+  width: 220px;
+  height: 0px;
+  display: block;
+  visibility:hidden;
+  transition: .6s;
+  overflow-y: hidden;
+  border-radius: 2px;
+}
+
+.ativo{
+  display: flex;
+  flex-direction: column;
+  height: 230px;
+  visibility:visible;
+  overflow-y: auto;
+}
+
+#btn{
+  display: flex;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background:none;
+  cursor: pointer;
+}
+
+#hamburguer{
+  width: 40px;
+  border-top: 5px solid;
+}
+
+
+#hamburguer::after,#hamburguer::before{
+  display: block;
+  content: '';
+  width: 40px;
+  height: 5px;
+  background: currentColor;
+  margin-top: 4px;
+  transition: 0.5s;
+  position: relative;
+}
+
+div.ativo1 #hamburguer{
+  border-color: transparent;
+}
+
+div.ativo1 #hamburguer::before{
+  transform: rotate(135deg);
+}
+
+div.ativo1 #hamburguer::after{
+  transform: rotate(-135deg);
+  top: -8px;
+}
+div.estoque{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
+h3.titulo{
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+a.botoes-hamburguer{
+  text-decoration: none;
+  color: #000000;
+}
+
+p.sub-titulo{
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  font-size: 15px;
+}
+
+p.sub-titulo svg{
+  margin-right: 5px;
+}
+
+thead {
+  background-color: #555;
+  color: #fff;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #e0e0e0;
+}
+
+.edit-btn {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.edit-btn:hover {
+  background-color: #333;
+}
+
+footer {
+  background: #FFBD25;
+  height: 6vh;
+  margin-top: 10%;
+}
+
+.dataeBotao{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.processar{
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  height: 15px;
+  background: #FFBD25;
+  border-radius: 4px;
+  color: #000000;
+  text-decoration: none;
+  margin-right: 40px;
+}
+
+/* Input data */
+
+.data{
+  font-size: 15px;
+  text-align: center;
+  color: #000000;
+  margin: 20px 15px;
+  border: 1px solid #D9D9D9;
+}
+
+.date-picker-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: #D9D9D9;
+  color: #000000;
+}
+
+.date-picker-wrapper input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 20px; 
+}
+
+.date-picker-wrapper::before {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: #000000;
+  mask: url('/assets/calendar\ \(1\).svg') no-repeat center; 
+  mask-size: cover;
+}

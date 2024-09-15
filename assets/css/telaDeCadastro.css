@@ -1,0 +1,179 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFBD25;
+}
+
+.nomeDoUsuario h2 {
+  margin-left: -15%;
+}
+
+.menuELogo {
+  display: flex;
+}
+
+.menuHamburguer button {
+  background: transparent;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+
+.menuDeFuncoes {
+  display: grid;
+  grid-template-columns: 400px 400px 400px;
+}
+
+
+section1 .direcaopag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+
+section2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+section2 .dadosProdutos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #9b9b9b;
+  gap: 10px;
+  width: 500px;
+  height: 70vh;
+  color: black;
+  border-radius: 2%;
+}
+
+section2 .dadosProdutos p {
+  text-align: left;
+  width: 50%;
+  margin-left: 2%;
+}
+
+section2 .dadosProdutos input {
+  height: 5vh;
+  width: 250px;
+  border-radius: 10px;
+}
+
+section2 .dadosProdutos a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  background: #1CAE3C;
+  height: 5vh;
+  padding: 1%;
+  width: 15%;
+  border-radius: 10px;
+}
+/* Menu Hamburguer */
+
+.secaoDeItensHamburguer{
+  background: #FFBD25;
+  position: absolute;
+  z-index: 9999;
+  top:59px;
+  width: 220px;
+  height: 0px;
+  display: block;
+  visibility:hidden;
+  transition: .6s;
+  overflow-y: hidden;
+  border-radius: 2px;
+}
+
+.ativo{
+  display: flex;
+  flex-direction: column;
+  height: 230px;
+  visibility:visible;
+  overflow-y: auto;
+}
+
+#btn{
+  display: flex;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background:none;
+  cursor: pointer;
+}
+
+#hamburguer{
+  width: 40px;
+  border-top: 5px solid;
+}
+
+
+#hamburguer::after,#hamburguer::before{
+  display: block;
+  content: '';
+  width: 40px;
+  height: 5px;
+  background: currentColor;
+  margin-top: 4px;
+  transition: 0.5s;
+  position: relative;
+}
+
+div.ativo1 #hamburguer{
+  border-color: transparent;
+}
+
+div.ativo1 #hamburguer::before{
+  transform: rotate(135deg);
+}
+
+div.ativo1 #hamburguer::after{
+  transform: rotate(-135deg);
+  top: -8px;
+}
+div.estoque{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
+h3.titulo{
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+a.botoes-hamburguer{
+  text-decoration: none;
+  color: #000000;
+}
+
+p.sub-titulo{
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  font-size: 15px;
+}
+
+p.sub-titulo svg{
+  margin-right: 5px;
+}
+footer {
+  background: #FFBD25;
+  height: 6vh;
+}

@@ -1,0 +1,181 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFBD25;
+}
+.flex{
+  flex: 1; /* Faz a .flex ocupar o espaço disponível */
+}
+
+.nomeDoUsuario h2 {
+  margin-left: -15%;
+}
+
+.menuELogo {
+  display: flex;
+}
+
+.menuHamburguer button {
+  background: transparent;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+
+
+.direcaopag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+.row{
+  width: 97%;
+  height: 2px;
+  margin: 15px 15px;
+  background: #000000;
+}
+.flexLabel{
+  display: flex;
+  align-items: center;
+}
+
+label{
+  margin:0px 20px;
+  width: 100px;
+  height: 20px;
+}
+
+select{
+  height: 25px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  margin: 10px 0px;
+}
+
+input{
+  height: 25px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  margin: 10px 0px;
+  padding-left: 5px;
+}
+
+input::placeholder{
+  padding: 2px;
+}
+input:disabled{
+  background: #a5a5a5;
+}
+
+/* Menu Hamburguer */
+
+.secaoDeItensHamburguer{
+  background: #FFBD25;
+  position: absolute;
+  z-index: 9999;
+  top:59px;
+  width: 220px;
+  height: 0px;
+  display: block;
+  visibility:hidden;
+  transition: .6s;
+  overflow-y: hidden;
+  border-radius: 2px;
+}
+
+.ativo{
+  display: flex;
+  flex-direction: column;
+  height: 230px;
+  visibility:visible;
+  overflow-y: auto;
+}
+
+#btn{
+  display: flex;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background:none;
+  cursor: pointer;
+}
+
+#hamburguer{
+  width: 40px;
+  border-top: 5px solid;
+}
+
+
+#hamburguer::after,#hamburguer::before{
+  display: block;
+  content: '';
+  width: 40px;
+  height: 5px;
+  background: currentColor;
+  margin-top: 4px;
+  transition: 0.5s;
+  position: relative;
+}
+
+div.ativo1 #hamburguer{
+  border-color: transparent;
+}
+
+div.ativo1 #hamburguer::before{
+  transform: rotate(135deg);
+}
+
+div.ativo1 #hamburguer::after{
+  transform: rotate(-135deg);
+  top: -8px;
+}
+div.estoque{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
+h3.titulo{
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+a.botoes-hamburguer{
+  text-decoration: none;
+  color: #000000;
+}
+
+p.sub-titulo{
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  font-size: 15px;
+}
+
+p.sub-titulo svg{
+  margin-right: 5px;
+}
+/* Footer */
+
+footer {
+  background: #FFBD25;
+  height: 50px;
+  margin-top: auto; /* Empurra o footer para o fim da página */
+}

@@ -1,0 +1,257 @@
+*{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header{
+  display: flex;
+  background: #FFBD25;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+p{
+  width: 125px;
+  height: 18px;
+  font-weight: 500;
+}
+
+.menuELogo{
+  display: flex;
+}
+
+.menuHamburguer button{
+  background: transparent;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+.nomeDoUsuario h2 {
+  margin:15px 15px 0px 0px ;
+}
+/* Seção de botões */
+
+.menuDeFuncoes{
+  display: grid;
+  grid-template-columns: 200px 300px 300px;
+}
+
+.botao{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 125px;
+  height: 100px;
+  padding: 25px;
+  margin: 0px 20px 20px 20px;
+  background: #FAB003;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #000000;
+}
+
+.estoque{
+margin-top: 16%;
+}
+
+.botao:nth-child(3){
+  grid-row: 2;
+}
+
+.botao:nth-child(4){
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.botao:nth-child(5){
+  grid-row: 3;
+}
+
+.botao p{
+  margin-top: 20px;
+  display: inline;
+  max-width: 100%;
+  width: 200px;
+  text-align: center;
+}
+
+.menuDeFuncoes svg{
+  width: 60px;
+  height: 60px;
+}
+
+h4{
+  width: 30px;
+  height: 30px;
+  margin: 20px 0px 0px 20px;
+}
+
+.secaoEstoque{
+  grid-column: 1;
+}
+
+.secaoRelatorio{
+  grid-column: 3;
+}
+
+/* Menu Hamburguer */
+
+.secaoDeItensHamburguer{
+  background: #FFBD25;
+  position: absolute;
+  z-index: 9999;
+  top:59px;
+  width: 220px;
+  height: 0px;
+  display: block;
+  visibility:hidden;
+  transition: .6s;
+  overflow-y: hidden;
+  border-radius: 2px;
+}
+
+.ativo{
+  display: flex;
+  flex-direction: column;
+  height: 230px;
+  visibility:visible;
+  overflow-y: auto;
+}
+
+#btn{
+  display: flex;
+  padding: .5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background:none;
+  cursor: pointer;
+}
+
+#hamburguer{
+  width: 40px;
+  border-top: 5px solid;
+}
+
+
+#hamburguer::after,#hamburguer::before{
+  display: block;
+  content: '';
+  width: 40px;
+  height: 5px;
+  background: currentColor;
+  margin-top: 4px;
+  transition: 0.5s;
+  position: relative;
+}
+
+div.ativo1 #hamburguer{
+  border-color: transparent;
+}
+
+div.ativo1 #hamburguer::before{
+  transform: rotate(135deg);
+}
+
+div.ativo1 #hamburguer::after{
+  transform: rotate(-135deg);
+  top: -8px;
+}
+div.estoque{
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
+}
+h3.titulo1{
+  margin-top: -30px;
+  margin-left: 20px;
+}
+
+h3.titulo{
+  margin-left: 20px;
+}
+
+p.sub-titulo{
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  margin-bottom: 5px;
+  font-size: 15px;
+  width: 180px;
+  height: 20px;
+
+}
+
+p.sub-titulo svg{
+  margin-right: 5px;
+  width: 24px;
+  height: 24px;
+}
+
+a.botoes-hamburguer{
+  text-decoration: none;
+  color: #000000;
+}
+/* Media Querys */
+
+@media (max-width: 900px) {
+  .secaoRelatorio{
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 550px) {
+  .menuDeFuncoes{
+    display: grid;
+    grid-template-columns: 200px 200px;
+  
+  }
+
+  .estoque{
+    margin-top: 25%;
+  }
+  .botao{
+    width:auto;
+  }
+
+  .saida{
+    grid-column: 1 / 3 !important;
+    grid-row: 3 !important;
+  }
+}
+
+@media (max-width: 410px) {
+  .menuDeFuncoes{
+    display: grid;
+    grid-template-columns: 200px;
+    margin-left: 20%;
+  }
+
+  .menuDeFuncoes > a{
+    grid-column: 1;
+  }
+
+  
+  .botao:nth-child(4){
+    grid-column: 1;
+    grid-row: inherit;
+    margin-top: 5px;
+  }
+
+  .secaoRelatorio{
+    grid-column: 1;
+  }
+
+  .estoque{
+    margin-top: 0;
+    margin-bottom: 17px;
+  }
+
+  .produtosCadastrados{
+    margin-top: 0px;
+  }
+
+  .saida{
+    margin-top: 0px;
+    grid-column: 1 !important;
+  }
+}
