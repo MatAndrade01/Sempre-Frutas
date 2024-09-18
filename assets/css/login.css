@@ -357,5 +357,6 @@
         font-weight: bolder;
         border: none;
         background-image: linear-gradient(to right, #EECB0A, #EC9317, #E95E20 );
+        cursor: pointer;
     }
 }

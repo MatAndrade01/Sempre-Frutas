@@ -12,9 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const validPassword = 'teste123';
 
         if (username === validUsername && password === validPassword) {
-            alert('Login realizado com sucesso!');
             // Redirecionar para outra página ou executar alguma ação
-            window.location.href = '/pages/telaHome.html'; // Exemplo de redirecionamento
+            window.location.href = '/pages/home.html'; // Exemplo de redirecionamento
         } else {
             alert('Usuário ou senha incorretos. Tente novamente.');
         }
