@@ -19,6 +19,8 @@
         display: flex;
         margin-left: 10px;
         margin-right: 20px;
+        border-right: 1px solid black;
+        width: 50px;
     }
 
     #idButtonBuguer {
@@ -82,6 +84,8 @@
     .divLogo img {
         height: auto;
         max-width: 100%; 
+        height: 5vh;
+        margin-top: -10px;
     }
 
     .divNameUser {
@@ -220,6 +224,8 @@
         display: flex;
         margin-left: 10px;
         margin-right: 20px;
+        border-right: 1px solid black;
+        width: 70px;
     }
 
     #idButtonBuguer {
@@ -278,7 +284,9 @@
 
     .divLogo img {
         height: auto;
-        max-width: 100%; 
+        max-width: 100%;
+        height: 4vh;
+        margin-top: -5px; 
     }
 
     .divNameUser {
@@ -402,7 +410,7 @@
         background: #FFBD25;
         justify-content: space-between;
         align-items: center; 
-        height: 3rem;
+        height: 4rem;
         width: 100%;
         position: relative;
     }
@@ -416,6 +424,8 @@
         display: flex;
         margin-left: 10px;
         margin-right: 20px;
+        border-right: 1px solid black;
+        width: 80px;
     }
 
     #idButtonBuguer {
@@ -479,8 +489,8 @@
     }
 
     .divLogo img {
-        height: auto;
-        max-width: 100%; 
+        height: 7.5vh;
+        margin-top: -10px;
     }
 
     .divNameUser {
