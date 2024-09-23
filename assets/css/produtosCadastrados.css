@@ -1,236 +1,187 @@
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  font-family: Arial, Helvetica, sans-serif;
+/*DESKTOP*/
+@media screen and (min-width: 992px) {
+
+  /* Estilos básicos do cabeçalho e do menu */
+  header {
+      display: flex;
+      background: #FFBD25;
+      justify-content: space-between;
+      align-items: center; 
+      height: 4rem;
+      width: 100%;
+      position: relative;
+  }
+
+  .divMenuElogo {
+      display: flex;
+      align-items: center; 
+  }
+
+  .divMenuBuguer {
+      display: flex;
+      margin-left: 10px;
+      margin-right: 20px;
+      border-right: 1px solid black;
+      width: 80px;
+  }
+
+  #idButtonBuguer {
+      background: transparent;
+      cursor: pointer;
+      border: none;
+  }
+
+  #idButtonBuguer #idBurguerIcon svg {
+      width:2.5rem;
+      height: 2.5rem;
+      margin-left: 5px;
+  }
+
+  #idDropDowMenu {
+      display: none; 
+      position: absolute; 
+      top: 100%; 
+      left: 0;
+      background: #FFBD25; 
+      z-index: 10; 
+      opacity: 0;
+      transform: translateY(-10px); 
+      visibility: hidden; 
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+  }
+
+  /* Classe para mostrar o menu com animação */
+  #idDropDowMenu.show {
+      display: block; /* Torna o menu visível */
+      opacity: 1; /* Torna o menu visível */
+      transform: translateY(0); /* Move o menu para baixo */
+      visibility: visible; /* Torna o menu visível */
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+  }
+
+  /* Estilos adicionais para o conteúdo do menu */
+  #idDropDowMenu .divEstoqueDropdowMenu,
+  #idDropDowMenu .divRelatorioDropdowMenu {
+      padding: 10px; /* Espaçamento interno do menu */
+      /* Outros estilos conforme necessário */
+  }
+
+  #idDropDowMenu a {
+      display: block;
+      padding-top: 15px;
+      text-decoration: none; 
+      color: #000; 
+      font-size: .8rem;
+  }
+  #idDropDowMenu a:hover {
+      cursor: pointer;
+      color: #006b0f; 
+      
+  }
+  /* Outros estilos para o cabeçalho e conteúdo */
+  .divLogo {
+      display: flex;
+      align-items: center;
+  }
+
+  .divLogo img {
+      height: 7.5vh;
+      margin-top: -10px;
+  }
+
+  .divNameUser {
+      display: flex;
+      align-items: center;
+  }
+
+  #idNameUser {
+      margin-right: 1rem;
+      font-size: 1rem;
+  }
+
+  section{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #FFBD25;
-}
+  section .divpathItensCadastrados {
+    display: flex;
+    margin-top: 3vh;
+    margin-left: 20px;
+  }
 
-.nomeDoUsuario h2 {
-  margin-left: -15%;
-}
+  section .divpathItensCadastrados svg {
+    display: flex;
+    margin-left: 0;
+  }
 
-.menuELogo {
-  display: flex;
-}
+  section .divpathItensCadastrados p {
+    display: flex;
+    margin: auto;
+    margin-left: 0;
+  }
 
-.menuHamburguer button {
-  background: transparent;
-  cursor: pointer;
-  margin: 10px 20px;
-}
+  section hr {
+    width: 96vw;
+    display: flex;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
 
-.menuDeFuncoes {
-  display: grid;
-  grid-template-columns: 400px 400px 400px;
-}
+  section .divPesquisa {
+    display: flex;
+    width: 95vw;
+    margin-top: 50px;
+    margin-left: 20px;
+    justify-content: space-between;
+  }
 
+  section .divPesquisa .divInputText {
+    display: flex;
+  }
+  section .divPesquisa .divButtonFiltrar {
+    display: flex;
+  }
 
-section1 .direcaopag {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 1%;
-  margin-top: 1%;
-}
+  section .divTabelaDeProdutos {
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 0;
+    justify-content: center;
+    width: 96vw;
+  }
 
-section2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  section .divTabelaDeProdutos .tabelaDeProdutos {
+    width: 100%;
+  }
 
-section2 .tabela-produtos {
-  width: 80%;
-  background-color: #fff;
-  margin-top: 5%;
-}
+  thead {
+    background-color: #555;
+    color: #fff;
+  }
 
-/* Menu Hamburguer */
+  thead tr th {
+    text-align: center;
+    padding: 12px;
+  }
 
-.secaoDeItensHamburguer{
-  background: #FFBD25;
-  position: absolute;
-  z-index: 9999;
-  top:59px;
-  width: 220px;
-  height: 0px;
-  display: block;
-  visibility:hidden;
-  transition: .6s;
-  overflow-y: hidden;
-  border-radius: 2px;
-}
+  tbody tr td {
+    text-align: center;
+    padding: 12px;
+  }
 
-.ativo{
-  display: flex;
-  flex-direction: column;
-  height: 230px;
-  visibility:visible;
-  overflow-y: auto;
-}
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #e0e0e0;
+  }
 
-#btn{
-  display: flex;
-  padding: .5rem 1rem;
-  font-size: 1rem;
-  border: none;
-  background:none;
-  cursor: pointer;
-}
-
-#hamburguer{
-  width: 40px;
-  border-top: 5px solid;
-}
-
-
-#hamburguer::after,#hamburguer::before{
-  display: block;
-  content: '';
-  width: 40px;
-  height: 5px;
-  background: currentColor;
-  margin-top: 4px;
-  transition: 0.5s;
-  position: relative;
-}
-
-div.ativo1 #hamburguer{
-  border-color: transparent;
-}
-
-div.ativo1 #hamburguer::before{
-  transform: rotate(135deg);
-}
-
-div.ativo1 #hamburguer::after{
-  transform: rotate(-135deg);
-  top: -8px;
-}
-div.estoque{
-  display: flex;
-  flex-direction: column;
-  row-gap: 2px;
-}
-h3.titulo{
-  margin-top: 5px;
-  margin-left: 20px;
-}
-
-a.botoes-hamburguer{
-  text-decoration: none;
-  color: #000000;
-}
-
-p.sub-titulo{
-  display: flex;
-  align-items: center;
-  margin-left: 30px;
-  font-size: 15px;
-}
-
-p.sub-titulo svg{
-  margin-right: 5px;
-}
-
-thead {
-  background-color: #555;
-  color: #fff;
-}
-
-th,
-td {
-  padding: 12px;
-  text-align: left;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: #e0e0e0;
-}
-
-.edit-btn {
-  background-color: #555;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.edit-btn:hover {
-  background-color: #333;
-}
-
-footer {
-  background: #FFBD25;
-  height: 6vh;
-  margin-top: 10%;
-}
-
-.dataeBotao{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.processar{
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  height: 15px;
-  background: #FFBD25;
-  border-radius: 4px;
-  color: #000000;
-  text-decoration: none;
-  margin-right: 40px;
-}
-
-/* Input data */
-
-.data{
-  font-size: 15px;
-  text-align: center;
-  color: #000000;
-  margin: 20px 15px;
-  border: 1px solid #D9D9D9;
-}
-
-.date-picker-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  background: #D9D9D9;
-  color: #000000;
-}
-
-.date-picker-wrapper input[type="date"] {
-  appearance: none;
-  -webkit-appearance: none;
-  padding-right: 20px; 
-}
-
-.date-picker-wrapper::before {
-  content: "";
-  position: absolute;
-  right: 1px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  background: #000000;
-  mask: url('/assets/calendar\ \(1\).svg') no-repeat center; 
-  mask-size: cover;
+  footer {
+    background: #FFBD25;
+    height: 6vh;
+  }
 }

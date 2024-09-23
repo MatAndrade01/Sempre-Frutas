@@ -1,189 +1,614 @@
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  font-family: Arial, Helvetica, sans-serif;
+/*MOBILE*/
+@media only screen and (max-width: 667px) {
+  header {
+      display: flex;
+      background: #FFBD25;
+      justify-content: space-between;
+      align-items: center; 
+      height: 3rem;
+      width: 100%;
+      position: relative;
+  }
+
+  .divMenuElogo {
+      display: flex;
+      align-items: center; 
+  }
+
+  .divMenuBuguer {
+      display: flex;
+      margin-left: 10px;
+      margin-right: 20px;
+      border-right: 1px solid black;
+      width: 50px;
+  }
+
+  #idButtonBuguer {
+      background: transparent;
+      cursor: pointer;
+      border: none;
+  }
+
+  #idButtonBuguer #idBurguerIcon svg {
+      width:1.5rem;
+      height: 1.5rem;
+  }
+
+
+  #idDropDowMenu {
+      display: none; 
+      position: absolute; 
+      top: 100%; 
+      left: 0;
+      background: #FFBD25; 
+      z-index: 10; 
+      opacity: 0;
+      transform: translateY(-10px); 
+      visibility: hidden; 
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+  }
+
+  /* Classe para mostrar o menu com animação */
+  #idDropDowMenu.show {
+      display: block; /* Torna o menu visível */
+      opacity: 1; /* Torna o menu visível */
+      transform: translateY(0); /* Move o menu para baixo */
+      visibility: visible; /* Torna o menu visível */
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+  }
+
+  /* Estilos adicionais para o conteúdo do menu */
+  #idDropDowMenu .divEstoqueDropdowMenu,
+  #idDropDowMenu .divRelatorioDropdowMenu {
+      padding: 10px; /* Espaçamento interno do menu */
+      /* Outros estilos conforme necessário */
+  }
+
+  #idDropDowMenu a {
+      display: block;
+      padding-top: 15px;
+      text-decoration: none; 
+      color: #000; 
+      font-size: .8rem;
+  }
+  #idDropDowMenu a:hover {
+      cursor: pointer;
+      color: #006b0f; 
+  }
+  /* Outros estilos para o cabeçalho e conteúdo */
+  .divLogo {
+      display: flex;
+      align-items: center;
+  }
+
+  .divLogo img {
+      height: auto;
+      max-width: 100%; 
+      height: 5vh;
+      margin-top: -10px;
+  }
+
+  .divNameUser {
+      display: flex;
+      align-items: center;
+  }
+
+  #idNameUser {
+      margin-right: 1rem;
+      font-size: 1rem;
+  }
+
+  section{
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+  }
+  
+  section .divpathEntradaDeItens {
+      display: flex;
+      position: absolute;
+      margin-top: 3vh;
+      margin-left: 10px;
+  }
+
+  section .divpathEntradaDeItens svg {
+      display: flex;
+      margin-left: 0;
+  }
+
+  section .divpathEntradaDeItens p {
+      display: flex;
+      margin: auto;
+      margin-left: 0;
+  }
+  
+  section .divdadosProdutos {
+      display: flex;
+      background-color: #dfdede;
+      width: 100%;
+      height: 80vh;
+      margin: auto;
+      margin-right: 0;
+      margin-left: 0;
+      border-radius: 5px;
+  }
+
+  #formEntrada {
+      display: flex;
+      margin: auto;
+      flex-direction: column;
+      
+  }
+
+  #formEntrada .single-input {
+      position: relative;
+  }
+
+  #formEntrada  .single-input label {
+      position: absolute;
+      left: 0;
+      justify-content: center;
+      cursor: text;
+      color: rgb(0, 0, 0);
+      transition: 0.5s ease-in-out;
+      font-size: .8rem;
+      top: 5px;
+      left: 5px;
+  }
+
+  #formEntrada .single-input .inputEntrada {
+      max-width: 15rem;
+      width: 100vw;
+      color: rgb(0, 0, 0);
+      padding: 5px;
+      border: .1rem solid rgb(59, 59, 59);
+      border-radius: 5px;
+      outline: 0;
+      margin-bottom: 40px;
+  }
+
+  #formEntrada .single-input .inputEntrada:focus,
+  #formEntrada .single-input .inputEntrada:valid {
+      border: 1px solid #006b0f ;
+  }
+  
+  #formEntrada .single-input .inputEntrada:focus ~ label,
+  #formEntrada .single-input .inputEntrada:valid ~ label{
+      transform: translateY(-24px);
+      font-size: .9rem;
+      left: 0;
+      color: #006b0f;
+  }
+ 
+  #formEntrada .divButtonSalvar {
+      display: flex;
+  }
+
+  #formEntrada .divButtonSalvar #idButtonSalvar {
+      width: 100px;
+      height: 40px;
+      margin: auto;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #006b0f;
+      color: #ffffff;
+  }
+
+  footer {
+      background: #FFBD25;
+      bottom: 0;
+      width: 100%;
+      height: 2rem;
+      text-align: center;
+  }
 }
+/*TABLETE*/
+@media screen and (min-width: 667px) and (max-width: 992px) {
+  header {
+      display: flex;
+      background: #FFBD25;
+      justify-content: space-between;
+      align-items: center; 
+      height: 3rem;
+      width: 100%;
+      position: relative;
+  }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #FFBD25;
+  .divMenuElogo {
+      display: flex;
+      align-items: center; 
+  }
+
+  .divMenuBuguer {
+      display: flex;
+      margin-left: 10px;
+      margin-right: 20px;
+      border-right: 1px solid black;
+      width: 70px;
+  }
+
+  #idButtonBuguer {
+      background: transparent;
+      cursor: pointer;
+      border: none;
+  }
+
+  #idButtonBuguer #idBurguerIcon svg {
+      width:2.5rem;
+      height: 2.5rem;
+  }
+
+
+  #idDropDowMenu {
+      display: none; 
+      position: absolute; 
+      top: 100%; 
+      left: 0;
+      background: #FFBD25; 
+      z-index: 10; 
+      opacity: 0;
+      transform: translateY(-10px); 
+      visibility: hidden; 
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+  }
+
+  /* Classe para mostrar o menu com animação */
+  #idDropDowMenu.show {
+      display: block; /* Torna o menu visível */
+      opacity: 1; /* Torna o menu visível */
+      transform: translateY(0); /* Move o menu para baixo */
+      visibility: visible; /* Torna o menu visível */
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+  }
+
+  /* Estilos adicionais para o conteúdo do menu */
+  #idDropDowMenu .divEstoqueDropdowMenu,
+  #idDropDowMenu .divRelatorioDropdowMenu {
+      padding: 10px; /* Espaçamento interno do menu */
+      /* Outros estilos conforme necessário */
+  }
+
+  #idDropDowMenu a {
+      display: block;
+      padding-top: 15px;
+      text-decoration: none; 
+      color: #000; 
+      font-size: 1.5rem;
+  }
+  /* Outros estilos para o cabeçalho e conteúdo */
+  .divLogo {
+      display: flex;
+      align-items: center;
+  }
+
+  .divLogo img {
+      height: auto;
+      max-width: 100%;
+      height: 4vh;
+      margin-top: -5px; 
+  }
+
+  .divNameUser {
+      display: flex;
+      align-items: center;
+  }
+
+  #idNameUser {
+      margin-right: 1rem;
+      font-size: 1rem;
+  }
+
+  section{
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+  }
+  
+  section .divpathEntradaDeItens {
+      display: flex;
+      position: absolute;
+      margin-top: 3vh;
+      margin-left: 10px;
+  }
+
+  section .divpathEntradaDeItens svg {
+      display: flex;
+      margin-left: 0;
+  }
+
+  section .divpathEntradaDeItens p {
+      display: flex;
+      margin: auto;
+      margin-left: 0;
+  }
+  
+  section .divdadosProdutos {
+      display: flex;
+      background-color: #dfdede;
+      width: 80vw;
+      height: 80vh;
+      margin: auto;
+      border-radius: 5px;
+  }
+
+  #formEntrada {
+      display: flex;
+      margin: auto;
+      flex-direction: column;
+      width: 50vw;
+  }
+
+  #formEntrada .single-input {
+      position: relative;
+  }
+
+  #formEntrada  .single-input label {
+      position: absolute;
+      left: 0;
+      justify-content: center;
+      cursor: text;
+      color: rgb(0, 0, 0);
+      transition: 0.5s ease-in-out;
+      font-size: 2.2vh;
+      top: 1.5vh;
+      left: 5px;
+  }
+
+  #formEntrada .single-input .inputEntrada {
+      height: 5vh;
+      width: 100%;
+      color: rgb(0, 0, 0);
+      padding: 5px;
+      border: .1rem solid rgb(59, 59, 59);
+      border-radius: 5px;
+      outline: 0;
+      margin-bottom: 60px;
+  }
+
+  #formEntrada .single-input .inputEntrada:focus,
+  #formEntrada .single-input .inputEntrada:valid {
+      border: 1px solid #006b0f ;
+  }
+  
+  #formEntrada .single-input .inputEntrada:focus ~ label,
+  #formEntrada .single-input .inputEntrada:valid ~ label{
+      transform: translateY(-4vh);
+      font-size: 2vh;
+      left: 0;
+      color: #006b0f;
+  }
+ 
+  #formEntrada .divButtonSalvar {
+      display: flex;
+  }
+
+  #formEntrada .divButtonSalvar #idButtonSalvar {
+      width: 20vw;
+      height: 5vh;
+      margin: auto;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #006b0f;
+      color: #ffffff;
+      font-size: 2.1vh;
+  }
+
+  footer {
+      background: #FFBD25;
+      bottom: 0;
+      width: 100%;
+      height: 2rem;
+      text-align: center;
+  }
 }
+/*DESKTOP*/
+@media screen and (min-width: 992px){
+  header {
+      display: flex;
+      background: #FFBD25;
+      justify-content: space-between;
+      align-items: center; 
+      height: 4rem;
+      width: 100%;
+      position: relative;
+  }
 
-.nomeDoUsuario h2 {
-  margin-left: -15%;
-}
+  .divMenuElogo {
+      display: flex;
+      align-items: center; 
+  }
 
-.menuELogo {
-  display: flex;
-}
+  .divMenuBuguer {
+      display: flex;
+      margin-left: 10px;
+      margin-right: 20px;
+      border-right: 1px solid black;
+      width: 80px;
+  }
 
-.menuHamburguer button {
-  background: transparent;
-  cursor: pointer;
-  margin: 10px 20px;
-}
+  #idButtonBuguer {
+      background: transparent;
+      cursor: pointer;
+      border: none;
+  }
 
-.menuDeFuncoes {
-  display: grid;
-  grid-template-columns: 400px 400px 400px;
-}
+  #idButtonBuguer #idBurguerIcon svg {
+      width:2.5rem;
+      height: 2.5rem;
+  }
 
+  #idDropDowMenu {
+      display: none; 
+      position: absolute; 
+      top: 100%; 
+      left: 0;
+      background: #FFBD25; 
+      z-index: 10; 
+      opacity: 0;
+      transform: translateY(-10px); 
+      visibility: hidden; 
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+  }
 
-section1 .direcaopag {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 1%;
-  margin-top: 1%;
-}
+  /* Classe para mostrar o menu com animação */
+  #idDropDowMenu.show {
+      display: block; /* Torna o menu visível */
+      opacity: 1; /* Torna o menu visível */
+      transform: translateY(0); /* Move o menu para baixo */
+      visibility: visible; /* Torna o menu visível */
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+  }
 
+  /* Estilos adicionais para o conteúdo do menu */
+  #idDropDowMenu .divEstoqueDropdowMenu,
+  #idDropDowMenu .divRelatorioDropdowMenu {
+      padding: 10px; /* Espaçamento interno do menu */
+      /* Outros estilos conforme necessário */
+  }
 
-section2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-}
+  #idDropDowMenu a {
+      display: block;
+      padding-top: 15px;
+      text-decoration: none; 
+      color: #000; 
+  }
 
-section2 .dadosProdutos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: #9b9b9b;
-  gap: 10px;
-  width: 500px;
-  height: 70vh;
-  color: black;
-  border-radius: 2%;
-}
+  #idDropDowMenu a:hover {
+      cursor: pointer;
+      color: #006b0f; 
+      
+  }
 
-section2 .dadosProdutos p {
-  text-align: left;
-  width: 50%;
-  margin-left: 2%;
-}
+  /* Outros estilos para o cabeçalho e conteúdo */
+  .divLogo {
+      display: flex;
+      align-items: center;
+  }
 
-section2 .dadosProdutos input {
-  height: 5vh;
-  width: 250px;
-  border-radius: 10px;
-}
+  .divLogo img {
+      height: 7.5vh;
+      margin-top: -10px;
+  }
 
-section2 .dadosProdutos a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  text-decoration: none;
-  color: white;
-  background: #1CAE3C;
-  height: 5vh;
-  padding: 1%;
-  width: 15%;
-  border-radius: 10px;
-}
+  .divNameUser {
+      display: flex;
+      align-items: center;
+  }
 
-/* Menu Hamburguer */
+  #idNameUser {
+      margin-right: 1rem;
+      font-size: 1rem;
+  }
 
-.secaoDeItensHamburguer{
-  background: #FFBD25;
-  position: absolute;
-  z-index: 9999;
-  top:59px;
-  width: 220px;
-  height: 0px;
-  display: block;
-  visibility:hidden;
-  transition: .6s;
-  overflow-y: hidden;
-  border-radius: 2px;
-}
+  section{
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+  }
+  
+  section .divpathEntradaDeItens {
+      display: flex;
+      position: absolute;
+      margin-top: 3vh;
+      margin-left: 10px;
+  }
 
-.ativo{
-  display: flex;
-  flex-direction: column;
-  height: 230px;
-  visibility:visible;
-  overflow-y: auto;
-}
+  section .divpathEntradaDeItens svg {
+      display: flex;
+      margin-left: 0;
+  }
 
-#btn{
-  display: flex;
-  padding: .5rem 1rem;
-  font-size: 1rem;
-  border: none;
-  background:none;
-  cursor: pointer;
-}
+  section .divpathEntradaDeItens p {
+      display: flex;
+      margin: auto;
+      margin-left: 0;
+  }
+  
+  section .divdadosProdutos {
+      display: flex;
+      background-color: #dfdede;
+      width: 50vw;
+      height: 80vh;
+      margin: auto;
+      border-radius: 5px;
+  }
 
-#hamburguer{
-  width: 40px;
-  border-top: 5px solid;
-}
+  #formEntrada {
+      display: flex;
+      margin: auto;
+      flex-direction: column;
+      width: 30vw;
+  }
 
+  #formEntrada .single-input {
+      position: relative;
+  }
 
-#hamburguer::after,#hamburguer::before{
-  display: block;
-  content: '';
-  width: 40px;
-  height: 5px;
-  background: currentColor;
-  margin-top: 4px;
-  transition: 0.5s;
-  position: relative;
-}
+  #formEntrada  .single-input label {
+      position: absolute;
+      left: 0;
+      justify-content: center;
+      cursor: text;
+      color: rgb(0, 0, 0);
+      transition: 0.5s ease-in-out;
+      font-size: 2.2vh;
+      top: 1.5vh;
+      left: 5px;
+  }
 
-div.ativo1 #hamburguer{
-  border-color: transparent;
-}
+  #formEntrada .single-input .inputEntrada {
+      height: 5vh;
+      width: 100%;
+      color: rgb(0, 0, 0);
+      padding: 5px;
+      border: .1rem solid rgb(59, 59, 59);
+      border-radius: 5px;
+      outline: 0;
+      margin-bottom: 5vh;
+  }
 
-div.ativo1 #hamburguer::before{
-  transform: rotate(135deg);
-}
+  #formEntrada .single-input .inputEntrada:focus,
+  #formEntrada .single-input .inputEntrada:valid {
+      border: 1px solid #006b0f ;
+  }
+  
+  #formEntrada .single-input .inputEntrada:focus ~ label,
+  #formEntrada .single-input .inputEntrada:valid ~ label{
+      transform: translateY(-4vh);
+      font-size: 2vh;
+      left: 0;
+      color: #006b0f;
+  }
+ 
+  #formEntrada .divButtonSalvar {
+      display: flex;
+  }
 
-div.ativo1 #hamburguer::after{
-  transform: rotate(-135deg);
-  top: -8px;
-}
-div.estoque{
-  display: flex;
-  flex-direction: column;
-  row-gap: 2px;
-}
-h3.titulo1{
-  margin-left: 20px;
-}
+  #formEntrada .divButtonSalvar #idButtonSalvar {
+      width: 10vw;
+      height: 6vh;
+      margin: auto;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #006b0f;
+      color: #ffffff;
+      font-size: 2.1vh;
+  }
 
-h3.titulo{
-  margin-left: 20px;
-}
+  #formEntrada .divButtonSalvar #idButtonSalvar:hover {
+      background-color: #038f15;
+      color: #eeeded;
+      cursor: pointer;
+  }
 
-p.sub-titulo{
-  display: flex;
-  align-items: center;
-  margin-left: 30px;
-  margin-bottom: 5px;
-  font-size: 15px;
-  width: 180px;
-  height: 20px;
-
-}
-
-p.sub-titulo svg{
-  margin-right: 5px;
-  width: 24px;
-  height: 24px;
-}
-
-a.botoes-hamburguer{
-  text-decoration: none;
-  color: #000000;
-}
-footer {
-  background: #FFBD25;
-  height: 6vh;
+  footer {
+      background: #FFBD25;
+      bottom: 0;
+      width: 100%;
+      height: 2rem;
+      text-align: center;
+  }
 }
