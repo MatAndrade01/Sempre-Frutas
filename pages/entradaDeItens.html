@@ -46,23 +46,39 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
             <p>Estoque > Entrada de Alimento</p>
         </div>
+        <hr>
         <div class="divdadosProdutos">
             <form action="" id="formEntrada">
                 <div class="single-input">
-                    <input type="text" id="idNFproduto" class="inputEntrada" required>
+                    <input type="number" id="idNFproduto" class="inputEntrada" required>
                     <label for="idNFproduto">NF/Recibo</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idCodigoProduto" class="inputEntrada" required>
-                    <label for="idCodigoProduto">Codigo/Descrição</label>
+                    <input type="date" class="inputEntrada" required>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idUnidadeDeMedida" class="inputEntrada" required>
+                    <input type="text" id="idCodigoProduto" class="inputEntrada" required>
+                    <label for="idCodigoProduto">Codigo</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idNomeDoProduto" class="inputEntrada" required>
+                    <label for="idNomeDoProduto">Nome</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idFornecedor" class="inputEntrada" required>
+                    <label for="idFornecedor">Fornecedor</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idUnidadeDeMedida" class="inputEntrada" required>
                     <label for="idUnidadeDeMedida">Quantidade</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idValorDaCompra" class="inputEntrada" required>
+                    <input type="number" id="idValorDaCompra" class="inputEntrada" required>
                     <label for="idValorDaCompra">Valor da Compra</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idValorTotal" class="inputEntrada" required>
+                    <label for="idValorTotal">Valor Total</label>
                 </div>
                 <div class="divButtonSalvar">
                     <input type="submit" id="idButtonSalvar" value="Salvar">

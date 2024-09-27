@@ -1,9 +1,13 @@
-//Menu Hamburguer
+document.addEventListener('DOMContentLoaded', function() {
+  const button = document.getElementById('idButtonBuguer');
+  const menu = document.getElementById('idDropDowMenu');
 
-const menuHamburguer = document.querySelector('#btn')
-const secaoDeItensHamburguer = document.querySelector('.secaoDeItensHamburguer')
-const divMenuHamburguer = document.querySelector('.menuHamburguer')
-menuHamburguer.addEventListener('click',()=>{
-  secaoDeItensHamburguer.classList.toggle('ativo')
-  divMenuHamburguer.classList.toggle('ativo1')
-})
+  button.addEventListener('click', function() {
+      // Verifica se o menu está visível
+      if (menu.classList.contains('show')) {
+          menu.classList.remove('show'); // Oculta o menu
+      } else {
+          menu.classList.add('show'); // Mostra o menu
+      }
+  });
+});
