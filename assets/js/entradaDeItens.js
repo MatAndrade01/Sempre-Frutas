@@ -1,4 +1,4 @@
-import { parentPort } from "worker_threads";
+//import { parentPort } from "worker_threads";
 
 document.addEventListener('DOMContentLoaded', function() {
   const button = document.getElementById('idButtonBuguer');
@@ -12,6 +12,40 @@ document.addEventListener('DOMContentLoaded', function() {
           menu.classList.add('show'); // Mostra o menu
       }
   });
+});
+
+// Função para definir a data atual no input
+function definirDataAtual() {
+    const inputData = document.getElementById('idInputDate');
+    const dataAtual = new Date();
+    
+    // Formata a data no formato YYYY-MM-DD
+    const ano = dataAtual.getFullYear();
+    const mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Meses começam em 0
+    const dia = String(dataAtual.getDate()).padStart(2, '0');
+    
+    const dataFormatada = `${ano}-${mes}-${dia}`;
+    inputData.value = dataFormatada; // Atribui a data formatada ao input
+}
+
+// Chama a função ao carregar a página
+window.onload = definirDataAtual;
+
+document.addEventListener("DOMContentLoaded", function() {
+    const quantidadeInput = document.getElementById("idQuantidade");
+    const valorCompraInput = document.getElementById("idValorDaCompra");
+    const valorTotalInput = document.getElementById("idValorTotal");
+
+    const calcularValorTotal = () => {
+        const quantidade = parseFloat(quantidadeInput.value) || 0; // Converte para número ou 0
+        const valorCompra = parseFloat(valorCompraInput.value) || 0; // Converte para número ou 0
+        const valorTotal = quantidade * valorCompra;
+        valorTotalInput.value = valorTotal.toFixed(2); // Atualiza o valor total com 2 casas decimais
+    };
+
+    // Adiciona ouvintes de eventos para atualizar o valor total
+    quantidadeInput.addEventListener("input", calcularValorTotal);
+    valorCompraInput.addEventListener("input", calcularValorTotal);
 });
 
 fetch('http://localhost:3333/teste').then(response =>{
@@ -40,3 +74,4 @@ formulario.addEventListener('submit', async()=>{
 })
 
 
+console.log('ok')

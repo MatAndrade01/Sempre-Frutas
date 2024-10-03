@@ -174,6 +174,29 @@
       margin-bottom: 40px;
   }
 
+  #formEntrada .single-input .setInput {
+    height: 5vh;
+    width: 100%;
+    color: rgb(0, 0, 0);
+    padding: 5px;
+    border: .1rem solid rgb(59, 59, 59);
+    border-radius: 5px;
+    outline: 0;
+    margin-bottom: 5vh;
+    background-color: #adadad;
+    }
+
+    #formEntrada .single-input .setInput {
+        border: 1px solid #006b0f ;
+    }
+
+    #formEntrada .single-input .setInput ~ label {
+        transform: translateY(-24px);
+        font-size: 2vh;
+        left: 0;
+        color: #006b0f;
+    }
+
   #formEntrada .single-input .inputEntrada:focus,
   #formEntrada .single-input .inputEntrada:valid {
       border: 1px solid #006b0f ;
@@ -185,7 +208,7 @@
       font-size: .9rem;
       left: 0;
       color: #006b0f;
-  }
+    }
  
   #formEntrada .divButtonSalvar {
       display: flex;
@@ -381,6 +404,29 @@
       outline: 0;
       margin-bottom: 60px;
   }
+
+  #formEntrada .single-input .setInput {
+    height: 5vh;
+    width: 100%;
+    color: rgb(0, 0, 0);
+    padding: 5px;
+    border: .1rem solid rgb(59, 59, 59);
+    border-radius: 5px;
+    outline: 0;
+    margin-bottom: 5vh;
+    background-color: #adadad;
+    }
+
+    #formEntrada .single-input .setInput {
+        border: 1px solid #006b0f ;
+    }
+
+    #formEntrada .single-input .setInput ~ label {
+        transform: translateY(-4vh);
+        font-size: 2vh;
+        left: 0;
+        color: #006b0f;
+    }
 
   #formEntrada .single-input .inputEntrada:focus,
   #formEntrada .single-input .inputEntrada:valid {
@@ -593,6 +639,29 @@
       outline: 0;
       margin-bottom: 5vh;
   }
+
+  #formEntrada .single-input .setInput {
+    height: 5vh;
+    width: 100%;
+    color: rgb(0, 0, 0);
+    padding: 5px;
+    border: .1rem solid rgb(59, 59, 59);
+    border-radius: 5px;
+    outline: 0;
+    margin-bottom: 5vh;
+    background-color: #adadad;
+    }
+
+    #formEntrada .single-input .setInput {
+        border: 1px solid #006b0f ;
+    }
+
+    #formEntrada .single-input .setInput ~ label {
+        transform: translateY(-4vh);
+        font-size: 2vh;
+        left: 0;
+        color: #006b0f;
+    }
 
   #formEntrada .single-input .inputEntrada:focus,
   #formEntrada .single-input .inputEntrada:valid {

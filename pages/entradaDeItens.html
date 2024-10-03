@@ -49,42 +49,42 @@
         <hr>
         <div class="divdadosProdutos">
             <form action="http://localhost:3333/entradaDeItems" id="formEntrada" method="post">
-    <div class="single-input">
-        <input type="number" id="idNFproduto" class="inputEntrada" required name="nfrecibo">
-        <label for="idNFproduto">NF/Recibo</label>
-    </div>
-    <div class="single-input">
-        <input type="date" class="inputEntrada" name="data" required>
-    </div>
-    <div class="single-input">
-        <input type="text" id="idCodigoProduto" class="inputEntrada" required name="idCodigoProduto">
-        <label for="idCodigoProduto">Codigo</label>
-    </div>
-    <div class="single-input">
-        <input type="text" id="idNomeDoProduto" class="inputEntrada" name="nome" required>
-        <label for="idNomeDoProduto">Nome</label>
-    </div>
-    <div class="single-input">
-        <input type="text" id="idFornecedor" class="inputEntrada" name="fornecedor" required>
-        <label for="idFornecedor">Fornecedor</label>
-    </div>
-    <div class="single-input">
-        <input type="number" id="idQuantidade" class="inputEntrada" name="quantidade" required>
-        <label for="idUnidadeDeMedida">Quantidade</label>
-    </div>
-    <div class="single-input">
-        <input type="number" id="idValorDaCompra" class="inputEntrada" name="valorcompra" required>
-        <label for="idValorDaCompra">Valor da Compra</label>
-    </div>
-    <div class="single-input">
-        <input type="number" id="idValorTotal" class="inputEntrada" name="valortotal" required>
-        <label for="idValorTotal">Valor Total</label>
-    </div>
-    <div class="divButtonSalvar">
-        <input type="submit" id="idButtonSalvar" value="Salvar">
-    </div>
-</form>
-
+                <div class="single-input">
+                    <input type="number" id="idNFproduto" class="inputEntrada" required name="nfrecibo">
+                    <label for="idNFproduto">NF/Recibo</label>
+                </div>
+                <div class="single-input">
+                    <input type="date" class="setInput" name="data" required id="idInputDate" readonly>
+                    <label for="idInputDate">Data</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idCodigoProduto" class="inputEntrada" required name="idCodigoProduto">
+                    <label for="idCodigoProduto">Codigo</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idNomeDoProduto" class="inputEntrada" name="nome" required>
+                    <label for="idNomeDoProduto">Nome</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idFornecedor" class="inputEntrada" name="fornecedor" required>
+                    <label for="idFornecedor">Fornecedor</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idQuantidade" class="inputEntrada" name="quantidade" required>
+                    <label for="idUnidadeDeMedida">Quantidade</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idValorDaCompra" class="inputEntrada" name="valorcompra" required>
+                    <label for="idValorDaCompra">Valor da Compra</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idValorTotal" class="setInput" name="valortotal"  required readonly value="0">
+                    <label for="idValorTotal">Valor Total</label>
+                </div>
+                <div class="divButtonSalvar">
+                    <input type="submit" id="idButtonSalvar" value="Salvar">
+                </div>
+            </form>
         </div>
     </section>
     <footer></footer>
