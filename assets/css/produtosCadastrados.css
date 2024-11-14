@@ -2,6 +2,8 @@
 @media screen and (min-width: 992px) {
 
   /* Estilos básicos do cabeçalho e do menu */
+
+
   header {
       display: flex;
       background: #FFBD25;
@@ -102,7 +104,6 @@
   section{
     display: flex;
     flex-direction: column;
-    height: 100vh;
   }
 
   section .divpathItensCadastrados {
@@ -289,8 +290,47 @@
     background-color: #b9b9b9;
   }
 
+  .pagination {
+    display: none;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px
+  }
+
+  .pagination button {
+    margin-left: 15px;
+    cursor: pointer;
+  }
+
   footer {
     background: #FFBD25;
     height: 6vh;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+  }
+}
+
+span.carregando{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border-radius: 50%;
+  border: 12px solid #FFBD25;
+  border-top: 12px solid transparent;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  0%{
+      transform: rotate(0deg);
+  }
+
+  100%{
+    transform: rotate(360deg);
   }
 }

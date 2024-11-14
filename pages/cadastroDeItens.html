@@ -48,32 +48,33 @@
         </div>
         <hr>
         <div class="divdadosProdutos">
-            <form action="" id="formCadastro">
+            <form action="http://localhost:3333/cadastroDeItem" id="formCadastro" method="post">
                 <div class="single-input">
-                    <input type="date" id="idDataDoProduto" class="inputCadastro" required>
+                    <input type="date" id="idDataDoProduto" class="setInput"  required readonly>
+                    <label for="idDataDoProduto">Data</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idCodigoDoProduto" class="inputCadastro" required>
+                    <input type="text" id="idCodigoDoProduto" class="setInput" name="id" required>
                     <label for="idCodigoDoProduto">Codigo</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idNameProduto" class="inputCadastro" required>
+                    <input type="text" id="idNameProduto" class="inputCadastro" name="nome" required>
                     <label for="idNameProduto">Nome</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idFornecedor" class="inputCadastro" required>
-                    <label for="idFornecedor">Fonecedor</label>
+                    <input type="text" id="Fornecedor" class="inputCadastro" name="fornecedor" required>
+                    <label for="Fornecedor">Fonecedor</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idCategoria" class="inputCadastro" required>
-                    <label for="id idCategoria">Categoria</label>
+                    <input type="text" id="Categoria" class="inputCadastro" name="categoria" required>
+                    <label for="Categoria">Categoria</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idUnidadeDeMedida" class="inputCadastro" required>
+                    <input type="text" id="idUnidadeDeMedida" class="inputCadastro" name="unidadereferencia" required>
                     <label for="idUnidadeDeMedida">Unidade de Medida</label>
                 </div>
                 <div class="single-input">
-                    <input type="number" id="idValorDaCompra" class="inputCadastro" required>
+                    <input type="number" id="idValorDaCompra" class="inputCadastro" name="valor" required>
                     <label for="idValorDaCompra">Valor de Venda</label>
                 </div>
                 <div class="divButtonSalvar">

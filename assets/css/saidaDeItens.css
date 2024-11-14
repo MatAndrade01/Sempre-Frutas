@@ -1,60 +1,151 @@
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-html, body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
 header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: #FFBD25;
-}
-.flex{
-  flex: 1; /* Faz a .flex ocupar o espaço disponível */
-}
-
-.nomeDoUsuario h2 {
-  margin-left: -15%;
+  justify-content: space-between;
+  align-items: center; 
+  height: 4rem;
+  width: 100%;
+  position: relative;
 }
 
-.menuELogo {
+.divMenuElogo {
   display: flex;
+  align-items: center; 
 }
 
-.menuHamburguer button {
+.divMenuBuguer {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 20px;
+  border-right: 1px solid black;
+  width: 80px;
+}
+
+#idButtonBuguer {
   background: transparent;
   cursor: pointer;
-  margin: 10px 20px;
+  border: none;
 }
 
+#idButtonBuguer #idBurguerIcon svg {
+  width:2.5rem;
+  height: 2.5rem;
+}
 
-.direcaopag {
+#idDropDowMenu {
+  display: none; 
+  position: absolute; 
+  top: 100%; 
+  left: 0;
+  background: #FFBD25; 
+  z-index: 10; 
+  opacity: 0;
+  transform: translateY(-10px); 
+  visibility: hidden; 
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+}
+
+/* Classe para mostrar o menu com animação */
+#idDropDowMenu.show {
+  display: block; /* Torna o menu visível */
+  opacity: 1; /* Torna o menu visível */
+  transform: translateY(0); /* Move o menu para baixo */
+  visibility: visible; /* Torna o menu visível */
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+}
+
+/* Estilos adicionais para o conteúdo do menu */
+#idDropDowMenu .divEstoqueDropdowMenu,
+#idDropDowMenu .divRelatorioDropdowMenu {
+  padding: 10px; /* Espaçamento interno do menu */
+  /* Outros estilos conforme necessário */
+}
+
+#idDropDowMenu a {
+  display: block;
+  padding-top: 15px;
+  text-decoration: none; 
+  color: #000; 
+}
+
+#idDropDowMenu a:hover {
+  cursor: pointer;
+  color: #006b0f; 
+  
+}
+
+/* Outros estilos para o cabeçalho e conteúdo */
+.divLogo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-left: 1%;
-  margin-top: 1%;
 }
 
-.row{
-  width: 97%;
-  height: 2px;
-  margin: 15px 15px;
-  background: #000000;
+.divLogo img {
+  height: 7.5vh;
+  margin-top: -10px;
 }
+
+.divNameUser {
+  display: flex;
+  align-items: center;
+}
+
+#idNameUser {
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+
+section{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+section .divpathEntradaDeItens {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+section hr {
+text-align: center;
+width: 98%;
+margin-left: auto;
+margin-right: auto;
+}
+
+section .divpathEntradaDeItens svg {
+  display: flex;
+  margin-left: 0;
+}
+
+section .divpathEntradaDeItens p {
+  display: flex;
+  margin: auto;
+  margin-left: 0;
+}
+
+section .divSaidaDeEstoque {
+  display: flex;
+  background-color: #dfdede;
+  width: 50vw;
+  margin: auto;
+  border-radius: 5px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+section .divSaidaDeEstoque form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
 .flexLabel{
   display: flex;
   align-items: center;
+  margin: 15px;
 }
 
 label{
@@ -85,97 +176,12 @@ input:disabled{
   background: #a5a5a5;
 }
 
-/* Menu Hamburguer */
-
-.secaoDeItensHamburguer{
-  background: #FFBD25;
-  position: absolute;
-  z-index: 9999;
-  top:59px;
-  width: 220px;
-  height: 0px;
-  display: block;
-  visibility:hidden;
-  transition: .6s;
-  overflow-y: hidden;
-  border-radius: 2px;
-}
-
-.ativo{
-  display: flex;
-  flex-direction: column;
-  height: 230px;
-  visibility:visible;
-  overflow-y: auto;
-}
-
-#btn{
-  display: flex;
-  padding: .5rem 1rem;
-  font-size: 1rem;
-  border: none;
-  background:none;
-  cursor: pointer;
-}
-
-#hamburguer{
-  width: 40px;
-  border-top: 5px solid;
-}
-
-
-#hamburguer::after,#hamburguer::before{
-  display: block;
-  content: '';
-  width: 40px;
-  height: 5px;
-  background: currentColor;
-  margin-top: 4px;
-  transition: 0.5s;
-  position: relative;
-}
-
-div.ativo1 #hamburguer{
-  border-color: transparent;
-}
-
-div.ativo1 #hamburguer::before{
-  transform: rotate(135deg);
-}
-
-div.ativo1 #hamburguer::after{
-  transform: rotate(-135deg);
-  top: -8px;
-}
-div.estoque{
-  display: flex;
-  flex-direction: column;
-  row-gap: 2px;
-}
-h3.titulo{
-  margin-top: 5px;
-  margin-left: 20px;
-}
-
-a.botoes-hamburguer{
-  text-decoration: none;
-  color: #000000;
-}
-
-p.sub-titulo{
-  display: flex;
-  align-items: center;
-  margin-left: 30px;
-  font-size: 15px;
-}
-
-p.sub-titulo svg{
-  margin-right: 5px;
-}
 /* Footer */
 
 footer {
   background: #FFBD25;
-  height: 50px;
-  margin-top: auto; /* Empurra o footer para o fim da página */
+  height: 6vh;
+  width: 100%;
+  bottom: 0;
+  position: fixed;
 }

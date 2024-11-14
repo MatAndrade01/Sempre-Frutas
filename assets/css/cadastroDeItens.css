@@ -561,7 +561,7 @@
         margin: auto;
         flex-direction: column;
         width: 30vw;
-        padding: 20px;
+        padding: 25px;
     }
 
     #formCadastro .single-input {
@@ -589,6 +589,25 @@
         border-radius: 5px;
         outline: 0;
         margin-bottom: 5vh;
+    }
+
+    #formCadastro .single-input .setInput {
+        height: 5vh;
+        width: 100%;
+        color: rgb(0, 0, 0);
+        padding: 5px;
+        border: .1rem solid #006b0f;
+        border-radius: 5px;
+        outline: 0;
+        margin-bottom: 5vh;
+        background-color: #adadad;
+    }
+
+    #formCadastro .single-input .setInput ~ label {
+        transform: translateY(-4vh);
+        font-size: 2vh;
+        left: 0;
+        color: #006b0f;
     }
 
     #formCadastro .single-input .inputCadastro:focus,

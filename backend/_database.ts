@@ -9,3 +9,4 @@ const client = new pg.Client({
 })
 
 export {client};
+
