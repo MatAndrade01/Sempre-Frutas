@@ -44,30 +44,28 @@
       </div>
       <hr>
       <div class="divSaidaDeEstoque">
-        <form action="">
-          <div class="flexLabel">
-            <label for="">Tipo de Saida</label>
-            <select name="saida" id="">
-              <option value="Venda">Saida por venda</option>
-              <option value="transformacao">Saida por transformacao</option>
-              <option value="perca">Saida por perca</option>
-            </select>
+        <form action="#" id="formSainda" method="#">
+          <div class="single-input">
+            <input type="date" class="setInput" name="data" required id="inputSaida" readonly>
+            <label for="idInputDate">Data</label>
+        </div>
+          <div class="single-input">
+              <input type="text" id="idTipoDeSaida" class="inputSaida" required name="tipoSaida">
+              <label for="idNFproduto">Tipo de saida</label>
           </div>
-          <div class="flexLabel">
-            <label for="idNamProduto">Produto</label>
-            <input type="search" placeholder="Pesquise..." id="idNamProduto">
-            <div class="content"></div>
+
+          <div class="single-input">
+              <input type="number" id="idQuantidadeSaida" class="inputSaida" name="quantidadeSaida" required>
+              <label for="idNomeDoProduto">Quantidade</label>
           </div>
-          <div class="flexLabel">
-            <label for="idQuantidade">Quantidade</label>
-            <input type="text" class="quantidade" placeholder="Quantidade..." id="idQuantidade">
+          <div class="single-input">
+              <input type="number" id="idValorDaSaida" class="setInput" name="valorDaSaida"  required readonly value="0">
+              <label for="idValorTotal">Valor da Saida</label>
           </div>
-          <div class="flexLabel">
-            <label for="">Total</label>
-            <input type="number"disabled>
+          <div class="divButtonSalvar">
+              <input type="submit" id="idButtonSalvar" value="Salvar">
           </div>
-          <input type="submit" id="idButtonSaida">
-        </form>
+      </form>
       </div>
     </section>
     <footer></footer>
