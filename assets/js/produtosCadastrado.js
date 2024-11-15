@@ -37,11 +37,10 @@ const getRowsProducts = () => {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
     // Obtém os valores dos campos de pesquisa
-    const codigo = document.querySelector('input[name="codigo"]').value; // ID do produto
     const nomepesquisa = document.querySelector('input[name="nomepesquisa"]').value; // Nome do produto
 
     // Monta a URL com os parâmetros de pesquisa
-    const url = `http://localhost:3333/produtosCadastrado?codigo=${codigo}&nomepesquisa=${nomepesquisa}`;
+    const url = `http://localhost:3333/produtosCadastrado?nomepesquisa=${nomepesquisa}`;
 
     // Exibe um indicador de carregamento enquanto aguarda a resposta da API
     const carregando = document.createElement('span');
@@ -60,9 +59,8 @@ const getRowsProducts = () => {
 
     // Filtra os produtos com base nos valores passados no formulário
     const filteredProducts = allProducts.filter(item => {
-      const matchesCodigo = codigo ? item.id.toString() === codigo : true;
       const matchesNome = nomepesquisa ? item.nome.toLowerCase().includes(nomepesquisa.toLowerCase()) : true;
-      return matchesCodigo && matchesNome;
+      return matchesNome;
     });
 
     // Atualiza a exibição dos produtos filtrados

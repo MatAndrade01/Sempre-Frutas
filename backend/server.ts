@@ -3,6 +3,7 @@ import { client } from './_database.ts';
 import { z } from 'zod';
 import cors from '@fastify/cors';
 import formbody from '@fastify/formbody';
+import { request } from 'http';
 
 const server = fastify();
 await server.register(cors);
@@ -13,17 +14,34 @@ client.connect();
 // Endpoint para listar produtos cadastrados
 server.get('/produtosCadastrado', async (request, reply) => {
     const createEventSchema = z.object({
-        codigo: z.string().optional(),
-        nomepesquisa: z.string().optional(),
+        nomepesquisa: z.string().optional(), // Nome do produto para pesquisa
     });
 
-    const { codigo, nomepesquisa } = createEventSchema.parse(request.query);
+    const { nomepesquisa } = createEventSchema.parse(request.query);
 
-    if (codigo) {
-        const result = await client.query('SELECT * FROM produtos WHERE id = $1', [codigo]);
+    if (nomepesquisa) {
+        const result = await client.query('SELECT * FROM produtos WHERE nome = $1', [nomepesquisa.toUpperCase()]);
         return result.rows;
     } else {
         const result = await client.query('SELECT * FROM produtos');
+        return result.rows;
+    }
+});
+
+
+server.get('/estoque', async (request, reply) => {
+    const createEventSchema = z.object({
+        codigo: z.string().optional(),
+        nomePesquisa: z.string().optional(),
+    });
+
+    const {codigo, nomePesquisa} = createEventSchema.parse(request.query);
+
+    if(codigo) {
+        const result = await client.query('SELECT * FROM estoque WHERE id = $1', [codigo]);
+        return result.rows;
+    } else {
+        const result = await client.query('SELECT * FROM estoque');
         return result.rows;
     }
 });
@@ -71,6 +89,11 @@ server.post('/entradaDeItems', async (request, reply) => {
             await client.query(
                 'INSERT INTO entrada (nfrecibo, quantidade, valorcompra, nome) VALUES ($1, $2, $3, $4) RETURNING *',
                 [data.nfrecibo, data.quantidade, data.valorcompra, data.nome]
+            );
+
+            await client.query(
+                'INSERT INTO relatorio (nomedoproduto, valor, tipo, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
+                [data.nome, data.valorcompra, 'ENTADA', data.quantidade ]
             );
 
             // Atualizar a quantidade no estoque

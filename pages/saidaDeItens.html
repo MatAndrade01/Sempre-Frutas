@@ -45,15 +45,22 @@
       <hr>
       <div class="divSaidaDeEstoque">
         <form action="#" id="formSainda" method="#">
+            <div class="single-input">
+                <input type="date" class="setInput" name="data" required id="idDataSaida" readonly>
+                <label for="idInputDate">Data</label>
+            </div>
+            <div class="single-input">
+                <input type="text" class="inputSaida" name="nomeDoProduto" required id="idNomeDoProduto">
+                <label for="idInputDate">Nome</label>
+            </div>
           <div class="single-input">
-            <input type="date" class="setInput" name="data" required id="inputSaida" readonly>
-            <label for="idInputDate">Data</label>
-        </div>
-          <div class="single-input">
-              <input type="text" id="idTipoDeSaida" class="inputSaida" required name="tipoSaida">
+              <select id="idTipoDeSaida" class="inputSaida" required name="tipoSaida">
+                <option value="Saida Para Venda">Saida Para Venda</option>
+                <option value="Saida Por Perca">Saida Por Perca</option>
+                <option value="Saida Para Transformação">Saida Para Transformação</option>
+              </select>
               <label for="idNFproduto">Tipo de saida</label>
           </div>
-
           <div class="single-input">
               <input type="number" id="idQuantidadeSaida" class="inputSaida" name="quantidadeSaida" required>
               <label for="idNomeDoProduto">Quantidade</label>
