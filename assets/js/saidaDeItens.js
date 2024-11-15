@@ -74,4 +74,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Chama a função para definir a data atual no campo de data
     definirDataAtual();
+
+    document.getElementById('formSainda').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Impede o recarregamento da página
+    
+        const nome = document.getElementById('idNomeDoProduto').value.trim();
+        const quantidade = parseInt(document.getElementById('idQuantidadeSaida').value);
+        const tipoSaida = document.getElementById('idTipoDeSaida').value;
+        const valorDaSaida = parseFloat(document.getElementById('idValorDaSaida').value); // Convertendo para número
+    
+        // Verificando se os campos são válidos
+        if (!nome || !quantidade || quantidade <= 0 || isNaN(valorDaSaida)) {
+            alert('Preencha todos os campos corretamente.');
+            return;
+        }
+    
+        try {
+            const response = await fetch('http://localhost:3333/saidaDeItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nome, quantidade, tipoSaida, valorDaSaida }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert('Saída registrada com sucesso!');
+                // Limpar os campos do formulário
+                document.getElementById('formSainda').reset();
+            } else {
+                console.log(data.message);
+                alert(`Erro: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Erro ao enviar saída:', error);
+            alert('Erro ao processar a saída.');
+        }
+    });
+    
+    
 });

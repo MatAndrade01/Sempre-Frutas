@@ -151,6 +151,56 @@ server.post('/cadastroDeItem', async (request, reply) => {
     return reply.status(201).send({ message: 'Produto cadastrado com sucesso' });
 });
 
+server.post('/saidaDeItem', async (request, reply) => {
+    const createEventSchema = z.object({
+        nome: z.string(),
+        quantidade: z.number().min(1),
+        tipoSaida: z.string(),
+        valorDaSaida: z.number(),
+    });
+
+    try {
+        const { nome, quantidade, tipoSaida, valorDaSaida } = createEventSchema.parse(request.body);
+
+        const nomeProduto = nome.toUpperCase();
+
+        // Verificar se o produto existe no estoque
+        const result = await client.query('SELECT quantidadedoproduto FROM estoque WHERE nomedoproduto = $1', [nomeProduto]);
+
+        if (result.rowCount === 0) {
+            return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
+        }
+
+        const quantidadeAtual = parseInt(result.rows[0].quantidadedoproduto);
+        const novaQuantidade = quantidadeAtual - quantidade;
+
+        if (novaQuantidade < 0) {
+            return reply.status(400).send({ message: 'Quantidade insuficiente no estoque.' });
+        }
+
+        // Atualizar a quantidade no estoque
+        await client.query('UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2', [novaQuantidade, nomeProduto]);
+
+        // Registrar a saída no relatório
+        await client.query(
+            'INSERT INTO relatorio (nomedoproduto, valor, tipo, quantidade) VALUES ($1, $2, $3, $4)',
+            [nomeProduto, valorDaSaida, tipoSaida, quantidade]
+        );
+
+        return reply.status(200).send({ message: 'Saída registrada com sucesso.' });
+    } catch (error: unknown) {  // Agora o tipo do erro é 'unknown'
+        if (error instanceof Error) {
+            
+            return reply.status(500).send({ message: `Erro ao registrar saída de item: ${error.message}` });
+        } else {
+            console.error('Erro desconhecido ao registrar saída de item');
+            return reply.status(500).send({ message: 'Erro desconhecido ao registrar saída de item.' });
+        }
+    }
+});
+
+
+
 // Inicializando o servidor
 server.listen({ port: 3333 }).then(() => {
     console.log('Servidor funcionando na porta 3333');
