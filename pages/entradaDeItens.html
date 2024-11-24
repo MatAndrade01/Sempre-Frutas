@@ -50,10 +50,6 @@
         <div class="divdadosProdutos">
             <form action="http://localhost:3333/entradaDeItems" id="formEntrada" method="post">
                 <div class="single-input">
-                    <input type="number" id="idNFproduto" class="inputEntrada" required name="nfrecibo">
-                    <label for="idNFproduto">NF/Recibo</label>
-                </div>
-                <div class="single-input">
                     <input type="date" class="setInput" name="data" required id="idInputDate" readonly>
                     <label for="idInputDate">Data</label>
                 </div>
@@ -62,15 +58,26 @@
                     <label for="idNomeDoProduto">Nome</label>
                 </div>
                 <div class="single-input">
-                    <input type="number" id="idQuantidade" class="inputEntrada" name="quantidade" required>
-                    <label for="idUnidadeDeMedida">Quantidade</label>
+                    <select id="idtipoDeEntrada" class="inputEntrada" required name="tipodeentrada" onchange="verificarSelect()">
+                        <option value="caixa">Caixa</option>
+                        <option value="unidade">Unidade</option>
+                    </select>
+                    <label for="idtipoDeEntrada">Tipo de Entrada</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idQuantidadePorCaixa" class="inputEntrada" name="quantidadeporcaixa" required>
+                    <label for="idQuantidadePorCaixa">Quantidade Por Caixa</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idQuantidade" class="inputEntrada" name="quantidade" required >
+                    <label for="idQuantidade">Quantidade</label>
                 </div>
                 <div class="single-input">
                     <input type="number" id="idValorDaCompra" class="inputEntrada" name="valorcompra" required>
                     <label for="idValorDaCompra">Valor da Compra</label>
                 </div>
                 <div class="single-input">
-                    <input type="number" id="idValorTotal" class="setInput" name="valortotal"  required readonly value="0">
+                    <input type="number" id="idValorTotal" class="setInput" name="valortotal" required readonly value="0">
                     <label for="idValorTotal">Valor Total</label>
                 </div>
                 <div class="divButtonSalvar">

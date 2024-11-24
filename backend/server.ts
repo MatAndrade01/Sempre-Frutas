@@ -54,18 +54,18 @@ server.get('/getId', async (request, reply) => {
 
 // Endpoint para registrar a entrada de itens no estoque
 server.post('/entradaDeItems', async (request, reply) => {
-    // Ajuste do schema para não exigir o campo fornecedor
     const createEventSchema = z.object({
-        nfrecibo: z.string().nullable(),
         quantidade: z.string().min(1).nullable(),
         valorcompra: z.string().min(1).nullable(),
         nome: z.string().nullable(),
-        // fornecedor foi removido aqui
+        tipodeentrada: z.string(),
+        quantidadeporcaixa: z.string(),
     });
 
     // Parse dos dados da requisição
     const data = createEventSchema.parse(request.body);
     const nameUper = data.nome?.toUpperCase();
+
 
     // Verificação no banco para a quantidade do produto
     const productResult = await client.query(
@@ -85,14 +85,14 @@ server.post('/entradaDeItems', async (request, reply) => {
         const newQuantity = parseInt(existingQuantity) + parseInt(data.quantidade);
 
         try {
-            // Inserir na tabela de entrada (removendo fornecedor)
+            // Inserir na tabela de entrada
             await client.query(
-                'INSERT INTO entrada (nfrecibo, quantidade, valorcompra, nome) VALUES ($1, $2, $3, $4) RETURNING *',
-                [data.nfrecibo, data.quantidade, data.valorcompra, data.nome]
+                'INSERT INTO entrada ( quantidade, valorcompra, nome, tipo, quantiadeporcaixa) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                [data.quantidade, data.valorcompra, data.nome, data.tipodeentrada, data.quantidadeporcaixa]
             );
 
             await client.query(
-                'INSERT INTO relatorio (nomedoproduto, valor, tipo, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
+                'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
                 [data.nome, data.valorcompra, 'ENTADA', data.quantidade ]
             );
 
