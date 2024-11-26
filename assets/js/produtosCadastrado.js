@@ -56,7 +56,7 @@ const getRowsProducts = () => {
     allProducts = responseJson;  
     totalProducts = allProducts.length; // Atualiza o total de produtos
     currentPage = 1; // Reseta para a primeira página
-
+    
     // Filtra os produtos com base nos valores passados no formulário
     const filteredProducts = allProducts.filter(item => {
       const matchesNome = nomepesquisa ? item.nome.toLowerCase().includes(nomepesquisa.toLowerCase()) : true;
@@ -82,6 +82,16 @@ const updateProductsDisplay = () => {
   // Exibe ou oculta a barra de navegação de páginas dependendo do número de produtos encontrados
   const paginationDiv = document.querySelector('.pagination');
   paginationDiv.style.display = produtosFiltrados.length > 0 ? 'flex' : 'none';
+
+  // Fixar o footer se menos de 15 produtos forem encontrados
+  const footer = document.querySelector('footer');
+  if (produtosFiltrados.length < 6) {
+    footer.style.position = 'fixed';
+    footer.style.bottom = '0';
+    footer.style.width = '100%';
+  } else {
+    footer.style.position = 'relative';
+  }
 };
 
 // Função para atualizar os botões de navegação de páginas
@@ -115,7 +125,7 @@ const createRowProducts = (produtosFiltrados) => {
   tbody.innerHTML = ''; // Limpa a tabela antes de renderizar
 
   tHead.style.opacity = '1';
-  footer.style.position = 'relative'
+  footer.style.position = 'relative'; // Define a posição inicial do footer
 
   produtosFiltrados.forEach(item => {
     const createTr = document.createElement('tr');

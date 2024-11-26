@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Função para formatar a data como 'YYYY-MM-DD'
+  function formatDate(date) {
+    return date.toISOString().split('T')[0]; // Retorna no formato 'YYYY-MM-DD'
+  }
+
+  // Preenche os campos de data com a data atual
+  document.getElementById('datainicial').value = formatDate(new Date());
+  document.getElementById('datafinal').value = formatDate(new Date());
+
   const button = document.getElementById('idButtonBuguer');
   const menu = document.getElementById('idDropDowMenu');
 
@@ -38,9 +47,11 @@ const getRowsProducts = () => {
 
     // Obtém os valores dos campos de pesquisa
     const nomepesquisa = document.querySelector('input[name="nomepesquisa"]').value; // Nome do produto
+    const datainicial = document.querySelector('input[name="datainicial"]').value; // Data inicial
+    const datafinal = document.querySelector('input[name="datafinal"]').value; // Data final
 
     // Monta a URL com os parâmetros de pesquisa
-    const url = `http://localhost:3333/produtosCadastrado?nomepesquisa=${nomepesquisa}`;
+    const url = `http://localhost:3333/relatorio?nomepesquisa=${nomepesquisa}&datainicial=${datainicial}&datafinal=${datafinal}`;
 
     // Exibe um indicador de carregamento enquanto aguarda a resposta da API
     const carregando = document.createElement('span');
@@ -115,27 +126,18 @@ const createRowProducts = (produtosFiltrados) => {
   tbody.innerHTML = ''; // Limpa a tabela antes de renderizar
 
   tHead.style.opacity = '1';
-  footer.style.position = 'relative'
+  footer.style.position = 'relative';
 
   produtosFiltrados.forEach(item => {
     const createTr = document.createElement('tr');
     createTr.innerHTML = `
       <td>${item.id}</td>
-      <td>${item.nome}</td>
-      <td>R$ ${item.valor.replace('.', ',')}</td>
-      <td>${item.unidadereferencia}</td>
-      <td>${item.fornecedor}</td>
-      <td>${item.categoria}</td>
-      <td>
-        <div class="divDropdowGear">
-          <button class="buttonGear" id="idButtonGear">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings">
-              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-        </div>
-      </td>`;
+      <td>${item.nomedoproduto}</td>
+      <td>R$ ${parseFloat(item.valor).toFixed(2).replace('.', ',')}</td>
+      <td>${item.tipodemovimento}</td>
+      <td>${item.quantidade}</td>
+      <td>${new Date(item.data).toLocaleDateString('pt-BR')}</td>
+      `;
 
     tbody.appendChild(createTr);
   });

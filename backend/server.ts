@@ -229,6 +229,43 @@ server.post('/saidaDeItem', async (request, reply) => {
     }
 });
 
+server.get('/relatorio', async (request, reply) => {
+    const createEventSchema = z.object({
+        nomepesquisa: z.string().optional(), // Nome do produto para pesquisa
+        dataInicio: z.string().optional(), // Data de início (formato ISO)
+        dataFim: z.string().optional() // Data de fim (formato ISO)
+    });
+
+    const { nomepesquisa, dataInicio, dataFim } = createEventSchema.parse(request.query);
+
+    try {
+        let query = 'SELECT * FROM relatorio WHERE 1=1';
+        let params = [];
+
+        if (nomepesquisa) {
+            query += ' AND nome = $' + (params.length + 1); // Adiciona filtro por nome
+            params.push(nomepesquisa.toUpperCase());
+        }
+
+        if (dataInicio) {
+            query += ' AND data >= $' + (params.length + 1); // Adiciona filtro pela data de início
+            params.push(dataInicio);
+        }
+
+        if (dataFim) {
+            query += ' AND data <= $' + (params.length + 1); // Adiciona filtro pela data de fim
+            params.push(dataFim);
+        }
+
+        const result = await client.query(query, params);
+        return result.rows;
+    } catch (error) {
+        console.error('Erro na consulta ao banco de dados:', error);
+        return reply.status(500).send({ error: 'Erro ao consultar o banco de dados' });
+    }
+});
+
+
 
 
 // Inicializando o servidor
