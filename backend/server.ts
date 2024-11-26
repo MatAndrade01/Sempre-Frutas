@@ -213,7 +213,7 @@ server.post('/saidaDeItem', async (request, reply) => {
 
         // Registrar a saída no relatório
         await client.query(
-            'INSERT INTO relatorio (nomedoproduto, valor, tipo, quantidade) VALUES ($1, $2, $3, $4)',
+            'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4)',
             [nomeProduto, valorDaSaida, tipoSaida, quantidade]
         );
 
