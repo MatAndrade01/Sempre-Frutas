@@ -57,15 +57,18 @@ server.post('/entradaDeItems', async (request, reply) => {
     const createEventSchema = z.object({
         quantidade: z.string().min(1).nullable(),
         valorcompra: z.string().min(1).nullable(),
+        valortotal: z.string(),
         nome: z.string().nullable(),
         tipodeentrada: z.string(),
-        quantidadeporcaixa: z.string(),
+        quantidadeporcaixa: z.string().nullable(),
     });
+
 
     // Parse dos dados da requisição
     const data = createEventSchema.parse(request.body);
     const nameUper = data.nome?.toUpperCase();
 
+    
 
     // Verificação no banco para a quantidade do produto
     const productResult = await client.query(
@@ -80,27 +83,54 @@ server.post('/entradaDeItems', async (request, reply) => {
     );
 
     // Se o produto existir no estoque e a quantidade for informada
-    if (nomeProdutoEstoque.rows[0]?.nomedoproduto === nameUper && data.quantidade) {
+    if (nomeProdutoEstoque.rows[0]?.nomedoproduto === nameUper && data.quantidade && data.quantidadeporcaixa) {
         const existingQuantity = productResult.rows[0].quantidadedoproduto;
-        const newQuantity = parseInt(existingQuantity) + parseInt(data.quantidade);
+        let newQuantity = 0
+
+        const quantityBox = parseInt(data.quantidade) * parseInt(data.quantidadeporcaixa);
 
         try {
-            // Inserir na tabela de entrada
-            await client.query(
-                'INSERT INTO entrada ( quantidade, valorcompra, nome, tipo, quantiadeporcaixa) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                [data.quantidade, data.valorcompra, data.nome, data.tipodeentrada, data.quantidadeporcaixa]
-            );
+            // Inserir na tabela de entrada se for CAIXA
+            if(data.tipodeentrada === 'caixa') {
+                
+                newQuantity = parseInt(existingQuantity) + quantityBox;
 
-            await client.query(
-                'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
-                [data.nome, data.valorcompra, 'ENTADA', data.quantidade ]
-            );
+                await client.query(
+                    'INSERT INTO entrada ( quantidade, valorcompra, nome, tipo, quantiadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                    [quantityBox, data.valorcompra, nameUper, data.tipodeentrada, data.   quantidadeporcaixa, data.valortotal]
+                );
 
-            // Atualizar a quantidade no estoque
-            await client.query(
+                await client.query(
+                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
+                    [nameUper, data.valorcompra, 'ENTADA DE CAIXA', quantityBox ]
+                );
+                // Atualizar a quantidade no estoque
+                await client.query(
+                    'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
+                    [newQuantity, nameUper]
+                );
+            } else if (data.tipodeentrada === 'unidade') {
+
+                newQuantity = parseInt(existingQuantity) + parseInt(data.quantidade);
+
+                await client.query(
+                    'INSERT INTO entrada ( quantidade, valorcompra, nome, tipo, quantiadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                    [data.quantidade, data.valorcompra, nameUper, data.tipodeentrada, data.   quantidadeporcaixa, data.valortotal]
+                );
+
+                await client.query(
+                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
+                    [nameUper, data.valorcompra, 'ENTADA DE UNIDADE', data.quantidade]
+                );
+
+                // Atualizar a quantidade no estoque
+                await client.query(
                 'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
                 [newQuantity, nameUper]
-            );
+                );
+
+            }
+
 
             console.log(`Estoque atualizado para o produto ${data.nome}: ${newQuantity} unidades.`);
             reply.status(200).send({ message: `Estoque atualizado para o produto ${data.nome}` });

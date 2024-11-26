@@ -58,19 +58,19 @@
                     <label for="idNomeDoProduto">Nome</label>
                 </div>
                 <div class="single-input">
-                    <select id="idtipoDeEntrada" class="inputEntrada" required name="tipodeentrada" onchange="verificarSelect()">
+                    <select id="idTipoDeEntrada" class="inputEntrada" required name="tipodeentrada" onchange="verificarSelect()">
                         <option value="caixa">Caixa</option>
                         <option value="unidade">Unidade</option>
                     </select>
                     <label for="idtipoDeEntrada">Tipo de Entrada</label>
                 </div>
                 <div class="single-input">
-                    <input type="number" id="idQuantidadePorCaixa" class="inputEntrada" name="quantidadeporcaixa" required>
-                    <label for="idQuantidadePorCaixa">Quantidade Por Caixa</label>
+                    <input type="number" id="idQuantidade" class="inputEntrada" name="quantidade" required >
+                    <label for="idQuantidade" id="idLabelQuantidade"></label>
                 </div>
                 <div class="single-input">
-                    <input type="number" id="idQuantidade" class="inputEntrada" name="quantidade" required >
-                    <label for="idQuantidade">Quantidade</label>
+                    <input type="number" id="idQuantidadePorCaixa" class="inputEntrada" name="quantidadeporcaixa" required>
+                    <label for="idQuantidadePorCaixa" id="idLabelQuantidadePorCaixa">Quantidade Por Caixa</label>
                 </div>
                 <div class="single-input">
                     <input type="number" id="idValorDaCompra" class="inputEntrada" name="valorcompra" required>

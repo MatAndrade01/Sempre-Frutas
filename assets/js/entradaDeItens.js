@@ -1,4 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Função para verificar o tipo de entrada selecionado
+    function verificarSelect() {
+        const getQuantidadePorCaixa = document.querySelector('#idQuantidadePorCaixa');
+        const getLabelQuantidadePorCaixa = document.querySelector('#idLabelQuantidadePorCaixa')
+        const getLabelQuantidade = document.querySelector('#idLabelQuantidade');
+        const getValorTipoDeEntrada = document.querySelector('#idTipoDeEntrada').value;
+    
+        if (getValorTipoDeEntrada === "unidade") {
+            getQuantidadePorCaixa.readOnly = true; // Torna o campo somente leitura
+            getQuantidadePorCaixa.style.pointerEvents = 'none';
+            getQuantidadePorCaixa.removeAttribute("required")
+            getLabelQuantidadePorCaixa.style.pointerEvents = 'none';
+            getQuantidadePorCaixa.style.backgroundColor = '#adadad'; // Muda a cor de fundo
+            getLabelQuantidade.innerHTML = 'Quantidade(UN)'
+        } else {
+            getQuantidadePorCaixa.disabled = false; // Habilita o campo se a condição não for atendida
+            getQuantidadePorCaixa.style.backgroundColor = ''; // Reseta a cor de fundo
+            getQuantidadePorCaixa.style.visibility = 'visible'; // Torna o campo visível novamente
+            getLabelQuantidade.innerHTML = 'Quantidade De Caixas'
+        }
+    }
+
+    // Adiciona um evento ao campo tipoDeEntrada para verificar a opção selecionada
+    document.getElementById('idTipoDeEntrada').addEventListener('change', verificarSelect);
+
+    // Chama a função verificarSelect ao carregar a página
+    verificarSelect();
+
     const button = document.getElementById('idButtonBuguer');
     const menu = document.getElementById('idDropDowMenu');
   
@@ -23,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Chama a função para definir a data atual ao carregar a página
-    window.onload = definirDataAtual;
+    definirDataAtual();
 
     // Interceptar o envio do formulário para enviar dados via fetch
     const form = document.getElementById('formEntrada');
@@ -35,6 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const data = Object.fromEntries(formData.entries());
         console.log(data); // Exibe os dados coletados no console para depuração
 
+
+        // Verifica se 'quantidadeporcaixa' está vazio ou nulo e substitui por 0
+        if (!data.quantidadeporcaixa || data.quantidadeporcaixa === "") {
+            data.quantidadeporcaixa = "0";
+        }
+
         // Enviar os dados para a API
         try {
             const response = await fetch('http://localhost:3333/entradaDeItems', {
@@ -42,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
+
+            console.log(response.body)
 
             if (response.ok) {
                 // Limpar o formulário após o sucesso
@@ -58,24 +94,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para calcular o valor total (considerando a entrada como unidade ou caixa)
     function calcularValorTotal() {
-        const tipoDeEntrada = document.getElementById("idtipoDeEntrada").value;
+        const tipoDeEntrada = document.getElementById("idTipoDeEntrada").value;
         const quantidadeInput = document.getElementById("idQuantidade");
         const valorCompraInput = document.getElementById("idValorDaCompra");
         const valorTotalInput = document.getElementById("idValorTotal");
 
-        const quantidade = parseFloat(quantidadeInput.value) || 0;
-        const valorCompra = parseFloat(valorCompraInput.value) || 0;
+        const quantidadeValor = parseFloat(quantidadeInput.value);
+        const valorCompra = parseFloat(valorCompraInput.value);
 
         let valorTotal = 0;
 
         // Se a entrada for por "unidade", faz o cálculo baseado na quantidade
         if (tipoDeEntrada === "unidade") {
-            valorTotal = quantidade * valorCompra;
+            valorTotal = quantidadeValor * valorCompra;
         } 
         // Se a entrada for por "caixa", faz o cálculo baseado na quantidade por caixa
         else if (tipoDeEntrada === "caixa") {
-            const quantidadePorCaixa = parseFloat(document.getElementById("idQuantidadePorCaixa").value) || 1;
-            valorTotal = (quantidade * valorCompra) * quantidadePorCaixa;
+            valorTotal = (quantidadeValor * valorCompra);
         }
 
         valorTotalInput.value = valorTotal.toFixed(2); // Exibe o valor total no campo
@@ -87,24 +122,4 @@ document.addEventListener('DOMContentLoaded', function() {
     quantidadeInput.addEventListener("input", calcularValorTotal);
     valorCompraInput.addEventListener("input", calcularValorTotal);
     document.getElementById("idQuantidadePorCaixa").addEventListener("input", calcularValorTotal);
-
-    // Função para verificar o tipo de entrada selecionado
-    function verificarSelect() {
-        const getQuantidadePorCaixa = document.querySelector('#idQuantidadePorCaixa');
-        const getValorTipoDeEntrada = document.querySelector('#idtipoDeEntrada').value;
-    
-        if (getValorTipoDeEntrada === "unidade") {
-            getQuantidadePorCaixa.disabled = true; // Desabilita o campo
-            getQuantidadePorCaixa.style.backgroundColor = '#adadad'; // Muda a cor de fundo
-        } else {
-            getQuantidadePorCaixa.disabled = false; // Habilita o campo se a condição não for atendida
-            getQuantidadePorCaixa.style.backgroundColor = ''; // Reseta a cor de fundo
-        }
-    }
-
-    // Adiciona um evento ao campo tipoDeEntrada para verificar a opção selecionada
-    document.getElementById('idtipoDeEntrada').addEventListener('change', verificarSelect);
-
-    // Chama a função verificarSelect ao carregar a página
-    verificarSelect();
 });
