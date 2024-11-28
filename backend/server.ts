@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import { FastifyRequest } from 'fastify';
 import { client } from './_database.ts';
 import { z } from 'zod';
 import cors from '@fastify/cors';
@@ -264,6 +265,45 @@ server.get('/relatorio', async (request, reply) => {
 });
 
 
+// Endpoint para excluir um produto
+server.delete('/deleteProduto/:id', async (request: FastifyRequest, reply) => {
+    const { id } = request.params as { id: string };  // Forçando a tipagem de 'id' como string
+
+    try {
+        // Verificar se o produto existe na tabela produtos
+        const produtoResult = await client.query('SELECT * FROM produtos WHERE id = $1', [id]);
+
+        if (produtoResult.rowCount === 0) {
+            return reply.status(404).send({ message: 'Produto não encontrado.' });
+        }
+
+        // Verificar se o produto existe na tabela estoque
+        const estoqueResult = await client.query('SELECT * FROM estoque WHERE nomedoproduto = $1', [produtoResult.rows[0].nome]);
+
+        if (estoqueResult.rowCount === 0) {
+            return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
+        }
+
+        // Excluir o produto da tabela de estoque
+        await client.query('DELETE FROM estoque WHERE nomedoproduto = $1', [produtoResult.rows[0].nome]);
+
+        // Excluir o produto da tabela produtos
+        await client.query('DELETE FROM produtos WHERE id = $1', [id]);
+
+        return reply.status(200).send({ message: 'Produto excluído com sucesso.' });
+    } catch (error) {
+        // Logando mais detalhes do erro para depuração
+        console.error('Erro ao excluir produto:', error);
+
+        // Verificando o tipo de erro
+        if (error instanceof Error) {
+            return reply.status(500).send({ message: `Erro interno ao excluir o produto: ${error.message}` });
+        }
+
+        // Caso não seja um erro esperado, retornamos uma mensagem genérica
+        return reply.status(500).send({ message: 'Erro desconhecido ao excluir o produto.' });
+    }
+});
 
 // Inicializando o servidor
 server.listen({ port: 3333 }).then(() => {
