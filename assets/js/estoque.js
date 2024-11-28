@@ -64,6 +64,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Exibe ou oculta a barra de navegação de páginas dependendo do número de produtos encontrados
     const paginationDiv = document.querySelector('.pagination');
     paginationDiv.style.display = produtosFiltrados.length > 0 ? 'flex' : 'none';
+
+    // Fixar o footer se menos de 15 produtos forem encontrados
+    const footer = document.querySelector('footer');
+    if (produtosFiltrados.length < 6) {
+      footer.style.position = 'fixed';
+      footer.style.bottom = '0';
+      footer.style.width = '100%';
+    } else {
+      footer.style.position = 'relative';
+    }
   };
   
   // Função para atualizar os botões de navegação de páginas

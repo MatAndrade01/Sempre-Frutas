@@ -46,9 +46,11 @@ const getRowsProducts = () => {
     event.preventDefault(); // Previne o comportamento padrão do formulário
 
     // Obtém os valores dos campos de pesquisa
-    const nomepesquisa = document.querySelector('input[name="nomepesquisa"]').value; // Nome do produto
-    const datainicial = document.querySelector('input[name="datainicial"]').value; // Data inicial
-    const datafinal = document.querySelector('input[name="datafinal"]').value; // Data final
+    const nomepesquisa = document.querySelector('#nomepesquisa').value; // Nome do produto
+    const datainicial = document.querySelector('#datainicial').value; // Data inicial
+    const datafinal = document.querySelector('#datafinal').value; // Data final
+
+    
 
     // Monta a URL com os parâmetros de pesquisa
     const url = `http://localhost:3333/relatorio?nomepesquisa=${nomepesquisa}&datainicial=${datainicial}&datafinal=${datafinal}`;
@@ -70,9 +72,11 @@ const getRowsProducts = () => {
 
     // Filtra os produtos com base nos valores passados no formulário
     const filteredProducts = allProducts.filter(item => {
-      const matchesNome = nomepesquisa ? item.nome.toLowerCase().includes(nomepesquisa.toLowerCase()) : true;
-      return matchesNome;
-    });
+    // Verifica se item.nome é uma string válida antes de chamar toLowerCase()
+    const matchesNome = nomepesquisa ? 
+        item.nome && item.nome.toLowerCase().includes(nomepesquisa.toLowerCase()) : true;
+    return matchesNome;
+});
 
     // Atualiza a exibição dos produtos filtrados
     totalProducts = filteredProducts.length; // Atualiza o total de produtos filtrados
@@ -93,6 +97,16 @@ const updateProductsDisplay = () => {
   // Exibe ou oculta a barra de navegação de páginas dependendo do número de produtos encontrados
   const paginationDiv = document.querySelector('.pagination');
   paginationDiv.style.display = produtosFiltrados.length > 0 ? 'flex' : 'none';
+
+  // Fixar o footer se menos de 15 produtos forem encontrados
+  const footer = document.querySelector('footer');
+  if (produtosFiltrados.length < 6) {
+    footer.style.position = 'fixed';
+    footer.style.bottom = '0';
+    footer.style.width = '100%';
+  } else {
+    footer.style.position = 'relative';
+  }
 };
 
 // Função para atualizar os botões de navegação de páginas

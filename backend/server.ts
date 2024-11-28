@@ -4,6 +4,7 @@ import { z } from 'zod';
 import cors from '@fastify/cors';
 import formbody from '@fastify/formbody';
 import { request } from 'http';
+import { Console } from 'console';
 
 const server = fastify();
 await server.register(cors);
@@ -31,14 +32,13 @@ server.get('/produtosCadastrado', async (request, reply) => {
 
 server.get('/estoque', async (request, reply) => {
     const createEventSchema = z.object({
-        codigo: z.string().optional(),
         nomePesquisa: z.string().optional(),
     });
 
-    const {codigo, nomePesquisa} = createEventSchema.parse(request.query);
+    const {nomePesquisa} = createEventSchema.parse(request.query);
 
-    if(codigo) {
-        const result = await client.query('SELECT * FROM estoque WHERE id = $1', [codigo]);
+    if(nomePesquisa) {
+        const result = await client.query('SELECT * FROM estoque WHERE nomedoproduto = $1', [nomePesquisa]);
         return result.rows;
     } else {
         const result = await client.query('SELECT * FROM estoque');
@@ -96,13 +96,13 @@ server.post('/entradaDeItems', async (request, reply) => {
                 newQuantity = parseInt(existingQuantity) + quantityBox;
 
                 await client.query(
-                    'INSERT INTO entrada ( quantidade, valorcompra, nome, tipo, quantiadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                    'INSERT INTO entrada ( quantidade, valordecompra, nome, tipodeentrada, quantidadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
                     [quantityBox, data.valorcompra, nameUper, data.tipodeentrada, data.   quantidadeporcaixa, data.valortotal]
                 );
 
                 await client.query(
                     'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
-                    [nameUper, data.valorcompra, 'ENTADA DE CAIXA', quantityBox ]
+                    [nameUper, data.valorcompra, 'ENTRADA DE CAIXA', quantityBox ]
                 );
                 // Atualizar a quantidade no estoque
                 await client.query(
@@ -114,13 +114,13 @@ server.post('/entradaDeItems', async (request, reply) => {
                 newQuantity = parseInt(existingQuantity) + parseInt(data.quantidade);
 
                 await client.query(
-                    'INSERT INTO entrada ( quantidade, valorcompra, nome, tipo, quantiadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                    'INSERT INTO entrada ( quantidade, valordecompra, nome, tipodeentrada, quantidadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
                     [data.quantidade, data.valorcompra, nameUper, data.tipodeentrada, data.   quantidadeporcaixa, data.valortotal]
                 );
 
                 await client.query(
                     'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
-                    [nameUper, data.valorcompra, 'ENTADA DE UNIDADE', data.quantidade]
+                    [nameUper, data.valorcompra, 'ENTRADA DE UNIDADE', data.quantidade]
                 );
 
                 // Atualizar a quantidade no estoque
@@ -231,40 +231,37 @@ server.post('/saidaDeItem', async (request, reply) => {
 
 server.get('/relatorio', async (request, reply) => {
     const createEventSchema = z.object({
-        nomepesquisa: z.string().optional(), // Nome do produto para pesquisa
-        dataInicio: z.string().optional(), // Data de início (formato ISO)
-        dataFim: z.string().optional() // Data de fim (formato ISO)
+        nomepesquisa: z.string().optional(),
+        datainicial: z.string().optional(),
+        datafinal: z.string().optional()
     });
 
-    const { nomepesquisa, dataInicio, dataFim } = createEventSchema.parse(request.query);
+    const { nomepesquisa, datainicial, datafinal } = createEventSchema.parse(request.query);
 
-    try {
-        let query = 'SELECT * FROM relatorio WHERE 1=1';
-        let params = [];
+    // Transformando nomepesquisa para maiúsculas
+    const nomeUper = nomepesquisa ? nomepesquisa.toUpperCase() : nomepesquisa;
 
-        if (nomepesquisa) {
-            query += ' AND nome = $' + (params.length + 1); // Adiciona filtro por nome
-            params.push(nomepesquisa.toUpperCase());
-        }
+    let query = 'SELECT * FROM relatorio WHERE 1=1'; // Base da query
+    const values = [];
 
-        if (dataInicio) {
-            query += ' AND data >= $' + (params.length + 1); // Adiciona filtro pela data de início
-            params.push(dataInicio);
-        }
+    // Filtro por nome (comparando o nome)
+    3
 
-        if (dataFim) {
-            query += ' AND data <= $' + (params.length + 1); // Adiciona filtro pela data de fim
-            params.push(dataFim);
-        }
-
-        const result = await client.query(query, params);
-        return result.rows;
-    } catch (error) {
-        console.error('Erro na consulta ao banco de dados:', error);
-        return reply.status(500).send({ error: 'Erro ao consultar o banco de dados' });
+    // Filtro por data inicial (comparando apenas a data)
+    if (datainicial) {
+        query += ` AND data::DATE >= $${values.length + 1}`;
+        values.push(datainicial);
     }
-});
 
+    // Filtro por data final (comparando apenas a data)
+    if (datafinal) {
+        query += ` AND data::DATE <= $${values.length + 1}`;
+        values.push(datafinal);
+    }
+
+    const result = await client.query(query, values);
+    return result.rows;
+});
 
 
 
