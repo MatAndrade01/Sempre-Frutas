@@ -4,8 +4,6 @@ import { client } from './_database.ts';
 import { z } from 'zod';
 import cors from '@fastify/cors';
 import formbody from '@fastify/formbody';
-import { request } from 'http';
-import { Console } from 'console';
 
 const server = fastify();
 await server.register(cors);
@@ -153,7 +151,6 @@ server.post('/cadastroDeItem', async (request, reply) => {
         valor: z.string().min(1).nullable(),
         unidadereferencia: z.string().min(1).nullable(),
         categoria: z.string().min(1).nullable(),
-        fornecedor: z.string().min(1).nullable(),
     });
 
     const data = createEventSchema.parse(request.body);
@@ -169,13 +166,13 @@ server.post('/cadastroDeItem', async (request, reply) => {
     }
 
     const result = await client.query(
-        'INSERT INTO produtos (nome, valor, unidadereferencia, categoria, fornecedor) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-        [data.nome?.toUpperCase(), data.valor, data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), data.fornecedor?.toUpperCase()]
+        'INSERT INTO produtos (nome, valor, unidadereferencia, categoria) VALUES ($1, $2, $3, $4) RETURNING id',
+        [data.nome?.toUpperCase(), data.valor, data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase()]
     );
 
     await client.query(
-        'INSERT INTO estoque (nomedoproduto, quantidadedoproduto, unidadedereferencia, fornecedor, categoria, valordevenda) VALUES ($1, 0, $2, $3, $4, $5)',
-        [data.nome?.toUpperCase(), data.unidadereferencia?.toUpperCase(), data.fornecedor?.toUpperCase(), data.categoria?.toUpperCase(), data.valor?.toUpperCase()]
+        'INSERT INTO estoque (nomedoproduto, quantidadedoproduto, unidadedereferencia, categoria, valordevenda) VALUES ($1, 0, $2, $3, $4)',
+        [data.nome?.toUpperCase(), data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), data.valor?.toUpperCase()]
     );
 
     // Enviar resposta mínima
@@ -304,6 +301,63 @@ server.delete('/deleteProduto/:id', async (request: FastifyRequest, reply) => {
         return reply.status(500).send({ message: 'Erro desconhecido ao excluir o produto.' });
     }
 });
+
+
+server.put('/atualizarProduto/:id', async (request, reply) => {
+    const { id } = request.params as { id: string }; // Obtendo o ID do produto da URL
+
+    const createEventSchema = z.object({
+        nome: z.string().min(1).nullable(),
+        valor: z.string().min(1).nullable(),
+        unidadereferencia: z.string().min(1).nullable(),
+        categoria: z.string().min(1).nullable(),
+    });
+
+    try {
+        const data = createEventSchema.parse(request.body);
+
+        // Inicia uma transação para garantir que ambas as atualizações (produtos e estoque) sejam feitas de forma segura
+        await client.query('BEGIN'); // Inicia a transação
+
+        // Atualizando o produto na tabela 'produtos'
+        const resultProduto = await client.query(
+            `UPDATE produtos
+            SET nome = $1, valor = $2, unidadereferencia = $3, categoria = $4
+            WHERE id = $5 RETURNING *`,
+            [data.nome?.toUpperCase(), data.valor, data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), id]
+        );
+
+        if (resultProduto.rowCount === 0) {
+            await client.query('ROLLBACK'); // Desfaz qualquer alteração se o produto não for encontrado
+            return reply.status(404).send({ message: 'Produto não encontrado.' });
+        }
+
+        // Atualizando a tabela 'estoque' (caso seja necessário atualizar o estoque junto)
+        const resultEstoque = await client.query(
+            `UPDATE estoque
+            SET nomedoproduto = $1, unidadedereferencia = $2, categoria = $3
+            WHERE id = $4 RETURNING *`,
+            [data.nome?.toUpperCase(), data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), id] // Pode ser necessário ajustar esses campos
+        );
+
+        if (resultEstoque.rowCount === 0) {
+            await client.query('ROLLBACK'); // Se o estoque não for atualizado, desfaz as mudanças no produto
+            return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
+        }
+
+        // Se tudo ocorrer bem, comita a transação
+        await client.query('COMMIT');
+        
+        return reply.status(200).send({ message: 'Produto e estoque atualizados com sucesso' });
+
+    } catch (error) {
+        console.error('Erro ao atualizar o produto:', error);
+        await client.query('ROLLBACK'); // Em caso de erro, desfaz a transação
+        return reply.status(500).send({ message: 'Erro interno ao atualizar o produto.' });
+    }
+});
+
+
 
 // Inicializando o servidor
 server.listen({ port: 3333 }).then(() => {

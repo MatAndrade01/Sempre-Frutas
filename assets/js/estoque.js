@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <td>${item.nomedoproduto}</td>
         <td>${item.unidadedereferencia}</td>
         <td>${item.quantidadedoproduto}</td>
-        <td>${item.fornecedor}</td>
         <td>${item.categoria}</td>
+        <td>R$${item.valordevenda}</td>
         `;
   
       tbody.appendChild(createTr);

@@ -114,9 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
       createTr.innerHTML = `
         <td>${item.id}</td>
         <td>${item.nome}</td>
-        <td>R$ ${item.valor.replace('.', ',')}</td>
+        <td>R$ ${String(item.valor).replace('.', ',')}</td>
         <td>${item.unidadereferencia}</td>
-        <td>${item.fornecedor}</td>
         <td>${item.categoria}</td>
         <td>
           <div class="divDropdowGear">

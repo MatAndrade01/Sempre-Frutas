@@ -4,8 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Produto</title>
+    <link rel="shortcut icon" href="../assets/image/locoIco.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/editarProduto.css">
 </head>
 <body>
-    Editar produto
+    <header>
+        <div class="divMenuElogo">
+            <div class="divMenuBuguer">
+              <button id="idButtonBuguer"><span id="idBurguerIcon"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg></span></button>
+            </div>
+            <div class="divLogo">
+                <a href="../pages/home.html"><img src="../assets/image/logoHeader.png" alt="Logo"></a>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="divpathCadastroDeItens"> 
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            <p>Estoque > Produtos Cadastrdados > Editar</p>
+        </div>
+        <hr>
+        <div class="divdadosProdutos">
+            <form id="formEditarProduto">
+                <div class="single-input">
+                    <input type="text" id="idCodigoDoProduto" class="setInput" name="id" readonly>
+                    <label for="idCodigoDoProduto">Codigo</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idNameProduto" class="inputEditarProduto" name="nome" required>
+                    <label for="idNameProduto">Nome</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="Categoria" class="inputEditarProduto" name="categoria" required>
+                    <label for="Categoria">Categoria</label>
+                </div>
+                <div class="single-input">
+                    <input type="text" id="idUnidadeDeMedida" class="inputEditarProduto" name="unidadereferencia" required>
+                    <label for="idUnidadeDeMedida">Unidade de Medida</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idValorDaCompra" class="inputEditarProduto" name="valor" required step="any">
+                    <label for="idValorDaCompra">Valor de Venda</label>
+                </div>
+                <div class="divButtonSalvar">
+                    <input type="submit" id="idButtonSalvar" value="Salvar">
+                </div>
+            </form>
+        </div>
+    </section>
+    <footer></footer>
+    <script src="../assets/js/editarProduto.js"></script>
 </body>
 </html>
