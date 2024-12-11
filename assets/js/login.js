@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Simulando um login simples com dados fixos
         const validUsername = 'admin';
-        const validPassword = 'teste123';
+        const validPassword = 'admin';
 
         if (username === validUsername && password === validPassword) {
             // Redirecionar para outra página ou executar alguma ação
