@@ -1,344 +1,221 @@
-/*MOBILE*/
-@media only screen and (max-width: 667px) {
-
-  /* Estilos básicos do cabeçalho e do menu */
-  header {
-    display: flex;
-    background: #FFBD25;
-    justify-content: space-between;
-    align-items: center;
-    height: 3rem;
-    width: 100%;
-    position: relative;
-  }
-
-  .divMenuElogo {
-    display: flex;
-    align-items: center;
-  }
-
-  .divMenuBuguer {
-    display: flex;
-    margin-left: 10px;
-    margin-right: 20px;
-    border-right: 1px solid black;
-    width: 50px;
-  }
-
-  #idButtonBuguer {
-    background: transparent;
-    cursor: pointer;
-    border: none;
-  }
-
-  #idButtonBuguer #idBurguerIcon svg {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  #idDropDowMenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #FFBD25;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-10px);
-    visibility: hidden;
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-  }
-
-  /* Classe para mostrar o menu com animação */
-  #idDropDowMenu.show {
-    display: block;
-    /* Torna o menu visível */
-    opacity: 1;
-    /* Torna o menu visível */
-    transform: translateY(0);
-    /* Move o menu para baixo */
-    visibility: visible;
-    /* Torna o menu visível */
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-    /* Transições suaves */
-  }
-
-  /* Estilos adicionais para o conteúdo do menu */
-  #idDropDowMenu .divEstoqueDropdowMenu,
-  #idDropDowMenu .divRelatorioDropdowMenu {
-    padding: 10px;
-    /* Espaçamento interno do menu */
-    /* Outros estilos conforme necessário */
-  }
-
-  #idDropDowMenu a {
-    display: block;
-    padding-top: 15px;
-    text-decoration: none;
-    color: #000;
-    font-size: .8rem;
-  }
-
-  /* Outros estilos para o cabeçalho e conteúdo */
-  .divLogo {
-    display: flex;
-    align-items: center;
-  }
-
-  .divLogo img {
-    height: 5vh;
-    margin-top: -10px;
-  }
-
-  .divNameUser {
-    display: flex;
-    align-items: center;
-  }
-
-  #idNameUser {
-    margin-right: 1rem;
-    font-size: 0.7rem;
-  }
-
-  footer {
-    background: #FFBD25;
-    bottom: 0;
-    width: 100%;
-    height: 2rem;
-    text-align: center;
-  }
+/* Estilos básicos do cabeçalho e do menu */
+body {
+  min-height: 100vh;
 }
 
-/*TABLETE*/
-@media screen and (min-width: 667px) and (max-width: 992px) {
+header {
+  display: flex;
+  background: #FFBD25;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  width: 100%;
+  position: relative;
+}
 
-  /* Estilos básicos do cabeçalho e do menu */
-  header {
-    display: flex;
-    background: #FFBD25;
-    justify-content: space-between;
-    align-items: center;
-    height: 3rem;
-    width: 100%;
-    position: relative;
-  }
+.divMenuElogo {
+  display: flex;
+  align-items: center;
+}
 
-  .divMenuElogo {
-    display: flex;
-    align-items: center;
-  }
+.divMenuBuguer {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 20px;
+  border-right: 1px solid black;
+  width: 80px;
+}
 
-  .divMenuBuguer {
-    display: flex;
-    margin-left: 10px;
-    margin-right: 20px;
-    border-right: 1px solid black;
-    width: 70px;
-  }
+#idButtonBuguer {
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}
 
-  #idButtonBuguer {
-    background: transparent;
-    cursor: pointer;
-    border: none;
-  }
-
-  #idButtonBuguer #idBurguerIcon svg {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
+#idButtonBuguer #idBurguerIcon svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: 5px;
+}
 
 
-  #idDropDowMenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #FFBD25;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-10px);
-    visibility: hidden;
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-  }
+#idDropDowMenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #FFBD25;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+}
 
-  /* Classe para mostrar o menu com animação */
-  #idDropDowMenu.show {
-    display: block;
-    /* Torna o menu visível */
-    opacity: 1;
-    /* Torna o menu visível */
-    transform: translateY(0);
-    /* Move o menu para baixo */
-    visibility: visible;
-    /* Torna o menu visível */
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-    /* Transições suaves */
-  }
+/* Classe para mostrar o menu com animação */
+#idDropDowMenu.show {
+  display: block;
+  /* Torna o menu visível */
+  opacity: 1;
+  /* Torna o menu visível */
+  transform: translateY(0);
+  /* Move o menu para baixo */
+  visibility: visible;
+  /* Torna o menu visível */
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+  /* Transições suaves */
+}
 
-  /* Estilos adicionais para o conteúdo do menu */
-  #idDropDowMenu .divEstoqueDropdowMenu,
-  #idDropDowMenu .divRelatorioDropdowMenu {
-    padding: 10px;
-    /* Espaçamento interno do menu */
-    /* Outros estilos conforme necessário */
-  }
+/* Estilos adicionais para o conteúdo do menu */
+#idDropDowMenu .divEstoqueDropdowMenu,
+#idDropDowMenu .divRelatorioDropdowMenu {
+  padding: 10px;
+  /* Espaçamento interno do menu */
+  /* Outros estilos conforme necessário */
+}
 
-  #idDropDowMenu a {
-    display: block;
-    padding-top: 15px;
-    text-decoration: none;
-    color: #000;
-    font-size: .8rem;
-  }
+#idDropDowMenu a {
+  display: block;
+  padding-top: 15px;
+  text-decoration: none;
+  color: #000;
+  font-size: .8rem;
+}
 
-  /* Outros estilos para o cabeçalho e conteúdo */
-  .divLogo {
-    display: flex;
-    align-items: center;
-  }
-
-  .divLogo img {
-    height: 4vh;
-    margin-top: -5px;
-  }
-
-  .divNameUser {
-    display: flex;
-    align-items: center;
-  }
-
-  #idNameUser {
-    margin-right: 1rem;
-    font-size: 1rem;
-  }
-
-  footer {
-    background: #FFBD25;
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    height: 2rem;
-    text-align: center;
-  }
+#idDropDowMenu a:hover {
+  cursor: pointer;
+  color: #006b0f;
 
 }
 
-/*DESKTOP*/
-@media screen and (min-width: 992px) {
+/* Outros estilos para o cabeçalho e conteúdo */
+.divLogo {
+  display: flex;
+  align-items: center;
+}
 
-  /* Estilos básicos do cabeçalho e do menu */
-  header {
-    display: flex;
-    background: #FFBD25;
-    justify-content: space-between;
-    align-items: center;
-    height: 4rem;
-    width: 100%;
-    position: relative;
-  }
+.divLogo img {
+  height: 7.5vh;
+  margin-top: -10px;
+}
 
-  .divMenuElogo {
-    display: flex;
-    align-items: center;
-  }
+.divNameUser {
+  display: flex;
+  align-items: center;
+}
 
-  .divMenuBuguer {
-    display: flex;
-    margin-left: 10px;
-    margin-right: 20px;
-    border-right: 1px solid black;
-    width: 80px;
-  }
+#idNameUser {
+  margin-right: 1rem;
+  font-size: 1rem;
+}
 
-  #idButtonBuguer {
-    background: transparent;
-    cursor: pointer;
-    border: none;
-  }
-
-  #idButtonBuguer #idBurguerIcon svg {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-left: 5px;
-  }
+main {
+  height: 100vh;
+}
 
 
-  #idDropDowMenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #FFBD25;
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-10px);
-    visibility: hidden;
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-  }
+main h1 {
+  text-align: center;
+  margin-top: 20px;
+}
 
-  /* Classe para mostrar o menu com animação */
-  #idDropDowMenu.show {
-    display: block;
-    /* Torna o menu visível */
-    opacity: 1;
-    /* Torna o menu visível */
-    transform: translateY(0);
-    /* Move o menu para baixo */
-    visibility: visible;
-    /* Torna o menu visível */
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-    /* Transições suaves */
-  }
+main form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3rem;
+  margin-right: 60px;
+  margin-top: 80px;
+}
 
-  /* Estilos adicionais para o conteúdo do menu */
-  #idDropDowMenu .divEstoqueDropdowMenu,
-  #idDropDowMenu .divRelatorioDropdowMenu {
-    padding: 10px;
-    /* Espaçamento interno do menu */
-    /* Outros estilos conforme necessário */
-  }
+main form .input-faturamento {
+  display: flex;
+  flex-direction: column;
+}
 
-  #idDropDowMenu a {
-    display: block;
-    padding-top: 15px;
-    text-decoration: none;
-    color: #000;
-    font-size: .8rem;
-  }
+main form input {
+  border: none;
+  border-bottom: 1px solid black;
 
-  #idDropDowMenu a:hover {
-    cursor: pointer;
-    color: #006b0f;
+  height: 25px;
+  width: 200px;
 
-  }
+  background-color: transparent;
 
-  /* Outros estilos para o cabeçalho e conteúdo */
-  .divLogo {
-    display: flex;
-    align-items: center;
-  }
+}
 
-  .divLogo img {
-    height: 7.5vh;
-    margin-top: -10px;
-  }
+main form button {
+  border: none;
+  border-radius: 10px;
 
-  .divNameUser {
-    display: flex;
-    align-items: center;
-  }
+  height: 40px;
+  width: 80px;
 
-  #idNameUser {
-    margin-right: 1rem;
-    font-size: 1rem;
-  }
+  background-color: #006b0f;
+  color: #FFFFFF;
+}
 
-  footer {
-    background: #FFBD25;
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    height: 2rem;
-    text-align: center;
-  }
+main .section-lista {
+  display: flex;
+  justify-content: center;
+
+  margin: auto;
+  margin-top: 4rem;
+  width: 90vw;
+  
+  border-radius: 15px;
+
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.247);
+}
+
+main section #lista-de-faturamento li {
+  display: flex;
+  gap: 10rem;
+  justify-content: center;
+  align-items: center;
+
+  list-style: none;
+
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+main section #lista-de-faturamento li button {
+  height: 40px;
+  width: 80px;
+  background-color: rgb(223, 2, 2);
+  color: #FFFFFF;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+main .button-faturar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3rem;
+  margin-right: 60px;
+  margin-top: 80px;
+}
+
+main .button-faturar button {
+  border: none;
+  border-radius: 10px;
+
+  height: 40px;
+  width: 100px;
+
+  color: white;
+  background-color: #006b0f;
+
+  cursor: pointer;
+}
+
+footer {
+  background: #FFBD25;
+  bottom: 0;
+  width: 100%;
+  height: 2rem;
+  text-align: center;
 }
