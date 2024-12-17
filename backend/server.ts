@@ -412,8 +412,13 @@ server.post('/faturamento', async (request, reply) => {
         'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor) VALUES ($1, $2, $3, $4)',
         [item.nome, 'Venda', item.quantidade, item.valor]
       );
-    }
 
+    }
+    
+    await client.query(
+      'INSERT INTO itensfaturados (itens, valorpago, valortotal, tipodepagamento) VALUES ($1, $2, $3, $4)',
+      [itens, data.valorpago, data.valortotal, data.tipodepagamento]
+    )
     // Finalizar faturamento e enviar a resposta
     reply.status(200).send({ message: 'Faturamento realizado com sucesso' });
   } catch (err) {
