@@ -404,7 +404,7 @@
     /* Estilos para a seção e rodapé */
     section {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         margin-top: 10px;
         margin-left: 20px;
         max-width: 100vh;
@@ -423,10 +423,18 @@
         height: 0;
     }
 
+    .divSectionFaturamento {
+        margin-top: 30px;
+        margin-left: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Ajusta automaticamente o layout */
+        gap: 15px; /* Espaçamento entre os itens */
+        height: 0;
+    }
+
     .divSectionRelatorio {
         margin-left: 15px;
         margin-top: 30px;
-        display: grid;
         grid-template-columns: 200px 200px; /* Ajusta automaticamente o layout */
         gap: 20px; /* Espaçamento entre os itens */
     }

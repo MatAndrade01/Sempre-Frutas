@@ -127,11 +127,15 @@ botaoFaturar.addEventListener("click", async () => {
   }
 
   // Obtendo os dados do formulário de faturamento
-  const tipodepagamento = document.querySelector("#tipo-de-pagamento").value; // Tipo de pagamento
-  const valorpago = parseFloat(document.querySelector("#valor-pago").value); // Valor pago
-  const valortotal = parseFloat(document.querySelector("#valor-total").value); // Valor total
-  console.log(tipodepagamento)
-  console.log(valorpago)
+  const tipodepagamento = document.querySelector("#tipo-de-pagamento").value;
+  const valorpago = parseFloat(document.querySelector("#valor-pago").value);
+  const valortotal = parseFloat(document.querySelector("#valor-total").value);
+  const nomedocliente = document.querySelector("#nome-do-cliente").value;
+  const cidadedocliente = document.querySelector("#cidade-do-cliente").value;
+  const enderecodocliente = document.querySelector("#endereco-do-cliente").value;
+  const numerodacasadocliente = document.querySelector("#numero-da-casa").value;
+  const bairrodocliente = document.querySelector("#bairro-do-cliente").value;
+
 
   if (!tipodepagamento || isNaN(valorpago) || isNaN(valortotal)) {
     alert("Por favor, preencha todos os campos do formulário corretamente.");
@@ -143,7 +147,13 @@ botaoFaturar.addEventListener("click", async () => {
     tipodepagamento,
     valorpago,
     valortotal,
-    itens: compras
+    itens: compras,
+    cliente: nomedocliente, // Exemplo de cliente
+    cpfCliente: "123.456.789-00", // Exemplo de CPF do cliente
+    empresa: "Minha Empresa LTDA",
+    cnpj: "12.345.678/0001-99",
+    endereco: "Rua Exemplo, 123, Cidade, Estado",
+    enderecocliente: `${bairrodocliente}, ${enderecodocliente}, ${numerodacasadocliente}, ${cidadedocliente}`
   };
 
   try {
@@ -152,16 +162,21 @@ botaoFaturar.addEventListener("click", async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(dadosFaturamento), // Enviar todos os dados juntos
+      body: JSON.stringify(dadosFaturamento),
     });
 
     const data = await response.json();
 
     if (response.ok) {
       alert("Faturamento realizado com sucesso!");
+
+      // Gerar e abrir o cupom fiscal para impressão
+      abrirTelaDeImpressao(dadosFaturamento);
+
+      // Limpar a lista e o valor total
       compras = [];
-      todoListUl.innerHTML = ""; // Limpa os itens na interface
-      calcularValorTotal(); // Zera o valor total
+      todoListUl.innerHTML = "";
+      calcularValorTotal();
     } else {
       alert(`Erro ao faturar: ${data.message}`);
     }
@@ -171,5 +186,135 @@ botaoFaturar.addEventListener("click", async () => {
   }
 
   // Limpa o campo de valor pago
-  document.querySelector("#valor-pago").value = '';  // Limpa o campo de "valor pago"
+  document.querySelector("#valor-pago").value = '';
+  nomedocliente.value = '';
+  bairrodocliente.value = '';
+  cidadedocliente.value = '';
+  enderecodocliente.value = '';
+  numerodacasadocliente.value = '';
 });
+
+// Função para gerar e abrir a tela de impressão do cupom fiscal
+function abrirTelaDeImpressao(dadosFaturamento) {
+  // Criar o conteúdo HTML do cupom fiscal
+  const cupom = `
+    <html>
+      <head>
+        <title>Cupom Fiscal</title>
+        <style>
+          body {
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.4;
+            font-size: 12px;
+          }
+
+          h2 {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+          }
+
+          .dados-empresa,
+          .dados-cliente {
+            margin-bottom: 10px;
+          }
+
+          .dados-empresa p,
+          .dados-cliente p {
+            margin: 5px 0;
+          }
+
+          .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 12px;
+          }
+
+          .table th,
+          .table td {
+            padding: 6px;
+            text-align: left;
+          }
+
+          .table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+          }
+
+          .total {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+          }
+
+          .center {
+            text-align: center;
+          }
+
+          .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+          }
+        </style>
+      </head>
+      <body>
+        <h2>********** CUPOM FISCAL **********</h2>
+
+        <div class="dados-empresa">
+          <p><strong>Empresa:</strong> ${dadosFaturamento.empresa}</p>
+          <p><strong>CNPJ:</strong> ${dadosFaturamento.cnpj}</p>
+          <p><strong>Endereço:</strong> ${dadosFaturamento.endereco}</p>
+        </div>
+
+        <div class="dados-cliente">
+          <p><strong>Cliente:</strong> ${dadosFaturamento.cliente}</p>
+          <p><strong>Endereço do Cliente:</strong> ${dadosFaturamento.enderecocliente}</p>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Produto(s)</th>
+              <th>Quantidade</th>
+              <th>Preço Unitário</th>
+              <th>Sub Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${dadosFaturamento.itens.map(item => `
+              <tr>
+                <td>${item.nome}</td>
+                <td>${item.quantidade}</td>
+                <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</td>
+                <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.quantidade * item.valor)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <div class="total">
+          <strong>Total: </strong>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(dadosFaturamento.valortotal)}
+        </div>
+        <div>
+          <strong>Forma de Pagamento:${dadosFaturamento.tipodepagamento}</strong>
+        </div>
+
+        <div class="footer">
+          <p>Obrigado pela preferência!</p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const novaJanela = window.open("", "_blank");
+  novaJanela.document.write(cupom);
+  novaJanela.document.close();
+
+  novaJanela.print();
+}
