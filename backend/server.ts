@@ -358,62 +358,69 @@ server.put('/atualizarProduto/:id', async (request, reply) => {
 });
 
 server.post('/faturamento', async (request, reply) => {
-    const createEventSchema = z.object({
-      itens: z.array(
-        z.object({
-          nome: z.string().min(1),
-          quantidade: z.number().min(1),
-        })
-      ),
-    });
-
-  
-    try {
-      // Validando o corpo da requisição
-      const data = createEventSchema.parse(request.body);
-  
-      // Lógica do faturamento
-      for (const item of data.itens) {
-        console.log(`Faturando item: ${item.nome} com a quantidade ${item.quantidade}`);
-  
-        // Recuperar informações do estoque (exemplo)
-        const estoqueResult = await client.query(
-          'SELECT quantidadedoproduto, valordevenda FROM estoque WHERE nomedoproduto = $1',
-          [item.nome]
-        );
-  
-        if (estoqueResult.rows.length === 0) {
-          reply.status(404).send({ message: `Produto ${item.nome} não encontrado no estoque.` });
-          return;
-        }
-  
-        const produto = estoqueResult.rows[0];
-        const novaQuantidade = produto.quantidadedoproduto - item.quantidade;
-        // const valorDaSaida = produto.valor * item.quantidade;
-        const tipoSaida = 'Venda'; // Ou o tipo que você preferir
-        
-        console.log(`Atualizando estoque: ${item.nome} - Nova quantidade: ${novaQuantidade}`);
-        // Atualizar a quantidade no estoque
-        await client.query(
-          'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
-          [novaQuantidade, item.nome]
-        );
-  
-        // Registrar a saída no relatório
-        await client.query(
-          'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor) VALUES ($1, $2, $3, $4)',
-          [item.nome, tipoSaida, item.quantidade, 2]
-        );
-      }
-  
-      reply.status(200).send({ message: 'Faturamento realizado com sucesso' });
-    } catch (err) {
-      console.error('Erro ao faturar:', err);
-      reply.status(500).send({ message: 'Erro interno ao faturar' });
-    }
+  // Atualizando o schema para incluir as novas informações
+  const createEventSchema = z.object({
+    itens: z.array(
+      z.object({
+        nome: z.string().min(1),
+        quantidade: z.number().min(1),
+        valor: z.number().min(1),
+      })
+    ),
+    tipodepagamento: z.string(),
+    valorpago: z.number().min(1),
+    valortotal: z.number().min(1)
   });
-    
 
+  try {
+    // Validando o corpo da requisição
+    const data = createEventSchema.parse(request.body);
+
+    // Acessando os dados do formulário e dos itens
+    const { itens, tipodepagamento, valorpago, valortotal } = data;
+
+    console.log(`Tipo de pagamento: ${tipodepagamento}`);
+    console.log(`Valor pago: ${valorpago}`);
+    console.log(`Valor pago: ${valortotal}`);
+
+    // Lógica do faturamento
+    for (const item of itens) {
+      console.log(`Faturando item: ${item.nome} com a quantidade ${item.quantidade}`);
+
+      // Recuperar informações do estoque (exemplo)
+      const estoqueResult = await client.query(
+        'SELECT quantidadedoproduto, valordevenda FROM estoque WHERE nomedoproduto = $1',
+        [item.nome]
+      );
+
+      if (estoqueResult.rows.length === 0) {
+        reply.status(404).send({ message: `Produto ${item.nome} não encontrado no estoque.` });
+        return;
+      }
+
+      const produto = estoqueResult.rows[0];
+      const novaQuantidade = produto.quantidadedoproduto - item.quantidade;
+
+      // Atualizar a quantidade no estoque
+      await client.query(
+        'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
+        [novaQuantidade, item.nome]
+      );
+
+      // Registrar a saída no relatório
+      await client.query(
+        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor) VALUES ($1, $2, $3, $4)',
+        [item.nome, 'Venda', item.quantidade, item.valor]
+      );
+    }
+
+    // Finalizar faturamento e enviar a resposta
+    reply.status(200).send({ message: 'Faturamento realizado com sucesso' });
+  } catch (err) {
+    console.error('Erro ao faturar:', err);
+    reply.status(500).send({ message: 'Erro interno ao faturar' });
+  }
+});
 
 // Inicializando o servidor
 server.listen({ port: 3333 }).then(() => {

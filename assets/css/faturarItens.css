@@ -1,7 +1,5 @@
 /* Estilos básicos do cabeçalho e do menu */
-body {
-  min-height: 100vh;
-}
+
 
 header {
   display: flex;
@@ -190,6 +188,25 @@ main section #lista-de-faturamento li button {
 
   cursor: pointer;
 }
+ 
+main .section-faturamento {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+main .section-faturamento .form-faturamento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main .section-faturamento .form-faturamento .input-faturamento select {
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.356);
+  margin-top: 0.8rem;
+}
 
 main .button-faturar {
   display: flex;
@@ -212,10 +229,4 @@ main .button-faturar button {
   cursor: pointer;
 }
 
-footer {
-  background: #FFBD25;
-  bottom: 0;
-  width: 100%;
-  height: 2rem;
-  text-align: center;
-}
+
