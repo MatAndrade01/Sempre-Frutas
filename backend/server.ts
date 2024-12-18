@@ -100,8 +100,8 @@ server.post('/entradaDeItems', async (request, reply) => {
                 );
 
                 await client.query(
-                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
-                    [nameUper, data.valorcompra, 'ENTRADA DE CAIXA', quantityBox ]
+                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                    [nameUper, data.valorcompra, 'ENTRADA DE CAIXA', quantityBox, "NAO FOI COMPRA" ]
                 );
                 // Atualizar a quantidade no estoque
                 await client.query(
@@ -118,8 +118,8 @@ server.post('/entradaDeItems', async (request, reply) => {
                 );
 
                 await client.query(
-                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4) RETURNING *',
-                    [nameUper, data.valorcompra, 'ENTRADA DE UNIDADE', data.quantidade]
+                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES ($1, $2, $3, $4 $5) RETURNING *',
+                    [nameUper, data.valorcompra, 'ENTRADA DE UNIDADE', data.quantidade, "NAO FOI COMPRA"]
                 );
 
                 // Atualizar a quantidade no estoque
@@ -211,8 +211,8 @@ server.post('/saidaDeItem', async (request, reply) => {
 
         // Registrar a saída no relatório
         await client.query(
-            'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade) VALUES ($1, $2, $3, $4)',
-            [nomeProduto, valorDaSaida, tipoSaida, quantidade]
+            'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES ($1, $2, $3, $4, $5)',
+            [nomeProduto, valorDaSaida, tipoSaida, quantidade, "NAO FOI COMPRA"]
         );
 
         return reply.status(200).send({ message: 'Saída registrada com sucesso.' });
@@ -369,7 +369,8 @@ server.post('/faturamento', async (request, reply) => {
     ),
     tipodepagamento: z.string(),
     valorpago: z.number().min(1),
-    valortotal: z.number().min(1)
+    valortotal: z.number().min(1),
+    tipodecompra: z.string().min(1)
   });
 
   try {
@@ -377,11 +378,12 @@ server.post('/faturamento', async (request, reply) => {
     const data = createEventSchema.parse(request.body);
 
     // Acessando os dados do formulário e dos itens
-    const { itens, tipodepagamento, valorpago, valortotal } = data;
+    const { itens, tipodepagamento, valorpago, valortotal, tipodecompra} = data;
 
     console.log(`Tipo de pagamento: ${tipodepagamento}`);
     console.log(`Valor pago: ${valorpago}`);
-    console.log(`Valor pago: ${valortotal}`);
+    console.log(`Valor total: ${valortotal}`);
+    console.log(`Tipo de compra: ${tipodecompra}`);
 
     // Lógica do faturamento
     for (const item of itens) {
@@ -409,8 +411,8 @@ server.post('/faturamento', async (request, reply) => {
 
       // Registrar a saída no relatório
       await client.query(
-        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor) VALUES ($1, $2, $3, $4)',
-        [item.nome, 'Venda', item.quantidade, item.valor]
+        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor, tipodecompra) VALUES ($1, $2, $3, $4, $5)',
+        [item.nome, 'VENDA', item.quantidade, item.valor, data.tipodecompra]
       );
 
     }

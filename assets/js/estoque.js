@@ -106,7 +106,20 @@ document.addEventListener('DOMContentLoaded', function() {
     let footer = document.querySelector('footer');
     tbody.innerHTML = ''; // Limpa a tabela antes de renderizar
   
-    tHead.style.opacity = '1';
+    
+    if (!tHead.hasChildNodes()) {
+      const createTrHead = document.createElement('tr');
+      createTrHead.innerHTML = `
+      <th>COD</th>
+      <th>NOME</th>
+      <th>UNIDADE DE MEDIDA</th>
+      <th>QUANTIDADE</th>
+      <th>CATEGORIA</th>
+      <th>VALOR DE VENDA</th>
+      `;
+      tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
+    }
+    
     footer.style.position = 'relative'
   
     produtosFiltrados.forEach(item => {
@@ -117,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <td>${item.unidadedereferencia}</td>
         <td>${item.quantidadedoproduto}</td>
         <td>${item.categoria}</td>
-        <td>R$${item.valordevenda}</td>
+        <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valordevenda)}</td>
         `;
   
       tbody.appendChild(createTr);

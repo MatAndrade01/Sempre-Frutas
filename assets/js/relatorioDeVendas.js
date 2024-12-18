@@ -137,22 +137,38 @@ const createRowProducts = (produtosFiltrados) => {
   let tHead = document.querySelector('thead');
   let tbody = document.querySelector('tbody');
   let footer = document.querySelector('footer');
+  
   tbody.innerHTML = ''; // Limpa a tabela antes de renderizar
+  
+  // Verifica se o cabeçalho já existe, se não, cria o cabeçalho
+  if (!tHead.hasChildNodes()) {
+    const createTrHead = document.createElement('tr');
+    createTrHead.innerHTML = `
+      <th>COD</th>
+      <th>NOME</th>
+      <th>QUANTIDADE</th>
+      <th>VALOR DA MOVIMENTAÇÃO</th>
+      <th>TIPO DE MOVIMENTAÇÃO</th>
+      <th>TIPO DE COMPRA</th>
+      <th>DATA</th>
+    `;
+    tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
+  }
 
-  tHead.style.opacity = '1';
   footer.style.position = 'relative';
 
+  // Preenche o tbody com as linhas dos produtos filtrados
   produtosFiltrados.forEach(item => {
     const createTr = document.createElement('tr');
     createTr.innerHTML = `
       <td>${item.id}</td>
       <td>${item.nomedoproduto}</td>
+      <td>${item.quantidade}</td>
       <td>R$ ${parseFloat(item.valor).toFixed(2).replace('.', ',')}</td>
       <td>${item.tipodemovimento}</td>
-      <td>${item.quantidade}</td>
+      <td>${item.tipodecompra}</td>
       <td>${new Date(item.data).toLocaleDateString('pt-BR')}</td>
-      `;
-
+    `;
     tbody.appendChild(createTr);
   });
 };
