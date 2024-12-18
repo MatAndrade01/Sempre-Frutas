@@ -3,6 +3,28 @@ const nome = document.querySelector("#nome-item");
 const quantidade = document.querySelector("#quantidade-item");
 const todoListUl = document.querySelector("#lista-de-faturamento");
 
+function verificarSelect() {
+  const tipoDeCompra = document.querySelector("#tipo-de-compra");
+  const valorDaEntrega = document.querySelector("#valor-da-entrega");
+
+  if (tipoDeCompra.value === "LOJA") { // Corrigido aqui
+    valorDaEntrega.readOnly = true;
+    valorDaEntrega.style.pointerEvents = 'none';
+    valorDaEntrega.style.backgroundColor = '#adadad';
+  } else { // Se for outro tipo de compra, habilitar o campo
+    valorDaEntrega.readOnly = false;
+    valorDaEntrega.style.pointerEvents = 'auto';
+    valorDaEntrega.style.backgroundColor = ''; // Reseta a cor de fundo
+  }
+}
+
+// Adiciona um evento ao campo tipoDeCompra para verificar a opção selecionada
+document.getElementById('tipo-de-compra').addEventListener('change', verificarSelect);
+
+// Chama a função verificarSelect ao carregar a página
+window.addEventListener('load', verificarSelect); // Garantir que seja chamado quando a página carregar
+
+
 let compras = [];
 
 // Função para mostrar a lista de compras
@@ -70,13 +92,21 @@ async function buscarCaracteristicasDoItem(nomeItem) {
   }
 }
 
-// Função para calcular o valor total
+// Seleciona o campo de valor da entrega
+const campoValorDaEntrega = document.querySelector("#valor-da-entrega");
+
+// Atualiza o valor total em tempo real ao digitar no campo de valor da entrega
+campoValorDaEntrega.addEventListener("input", calcularValorTotal);
+
+// Ajuste o cálculo do valor total se necessário
 function calcularValorTotal() {
+  const valordaentrega = parseFloat(campoValorDaEntrega.value) || 0;
+
   const valorTotal = compras.reduce((total, item) => {
     return total + item.quantidade * item.valor;
-  }, 0);
+  }, 0) + valordaentrega;
 
-  // Atualizar o input com o valor total
+  // Atualizar o input com o valor total formatado
   const inputValorTotal = document.querySelector("#valor-total");
   inputValorTotal.value = valorTotal.toFixed(2);
 }
@@ -135,6 +165,8 @@ botaoFaturar.addEventListener("click", async () => {
   const enderecodocliente = document.querySelector("#endereco-do-cliente").value;
   const numerodacasadocliente = document.querySelector("#numero-da-casa").value;
   const bairrodocliente = document.querySelector("#bairro-do-cliente").value;
+  const tipodecompra = document.querySelector("#tipo-de-compra").value;
+  const valordaentrega = document.querySelector("#valor-da-entrega").value;
 
 
   if (!tipodepagamento || isNaN(valorpago) || isNaN(valortotal)) {
@@ -153,7 +185,9 @@ botaoFaturar.addEventListener("click", async () => {
     empresa: "Minha Empresa LTDA",
     cnpj: "12.345.678/0001-99",
     endereco: "Rua Exemplo, 123, Cidade, Estado",
-    enderecocliente: `${bairrodocliente}, ${enderecodocliente}, ${numerodacasadocliente}, ${cidadedocliente}`
+    enderecocliente: `${bairrodocliente}, ${enderecodocliente}, ${numerodacasadocliente}, ${cidadedocliente}`,
+    tipodecompra,
+    valordaentrega,
   };
 
   try {
@@ -187,11 +221,12 @@ botaoFaturar.addEventListener("click", async () => {
 
   // Limpa o campo de valor pago
   document.querySelector("#valor-pago").value = '';
-  nomedocliente.value = '';
-  bairrodocliente.value = '';
-  cidadedocliente.value = '';
-  enderecodocliente.value = '';
-  numerodacasadocliente.value = '';
+  document.querySelector("#nome-do-cliente").value = '';
+  document.querySelector("#bairro-do-cliente").value = '';
+  document.querySelector("#cidade-do-cliente").value = '';
+  document.querySelector("#endereco-do-cliente").value = '';
+  document.querySelector("#numero-da-casa").value = '';
+  document.querySelector("#valor-da-entrega").value = '';
 });
 
 // Função para gerar e abrir a tela de impressão do cupom fiscal
@@ -295,6 +330,12 @@ function abrirTelaDeImpressao(dadosFaturamento) {
                 <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.quantidade * item.valor)}</td>
               </tr>
             `).join('')}
+            <tr>
+              <td>${dadosFaturamento.tipodecompra}</td>
+              <td></td>
+              <td></td>
+              <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(dadosFaturamento.valordaentrega)}</td>
+            </tr>
           </tbody>
         </table>
 

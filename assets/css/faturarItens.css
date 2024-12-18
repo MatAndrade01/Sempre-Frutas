@@ -138,17 +138,11 @@ main .divpathItensCaixa p {
   margin-left: 0;
 }
 
-
-main h1 {
-  text-align: center;
-  margin-top: 20px;
-}
-
 main .dados-do-cliente {
   display: flex;
   gap: 2rem;
 
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-left: 1rem;;
 }
 
@@ -160,9 +154,10 @@ main .dados-do-cliente .input-dados-do-cliente {
 }
 
 main .dados-do-cliente .input-dados-do-cliente input {
-  border: none;
-  border-bottom: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.363);
+  border-radius: 5px;
 
+  margin-top: 0.2rem;
   height: 25px;
   width: 200px;
 
@@ -173,6 +168,7 @@ main .dados-do-cliente .input-dados-do-cliente input {
 main form {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 3rem;
   margin-right: 60px;
   margin-top: 80px;
@@ -184,9 +180,10 @@ main form .input-faturamento {
 }
 
 main form input {
-  border: none;
-  border-bottom: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.363);
+  border-radius: 5px;
 
+  margin-top: 0.8rem;
   height: 25px;
   width: 200px;
 
@@ -266,7 +263,7 @@ main .button-faturar {
   justify-content: flex-end;
   gap: 3rem;
   margin-right: 60px;
-  margin-top: 80px;
+  margin-top: 1.5rem;
 }
 
 main .button-faturar button {
