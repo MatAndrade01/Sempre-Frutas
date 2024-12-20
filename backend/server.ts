@@ -231,10 +231,16 @@ server.get('/relatorio', async (request, reply) => {
     const createEventSchema = z.object({
         nomepesquisa: z.string().optional(),
         datainicial: z.string().optional(),
-        datafinal: z.string().optional()
+        datafinal: z.string().optional(),
+        tipodemovimentacao: z.string().optional(),
+        tipodevenda: z.string().optional(),
+        formadepagamento: z.string().optional()
     });
 
-    const { nomepesquisa, datainicial, datafinal } = createEventSchema.parse(request.query);
+    // Validando os parâmetros da query string
+    const { nomepesquisa, datainicial, datafinal, tipodemovimentacao, tipodevenda, formadepagamento } = createEventSchema.parse(request.query);
+
+    console.log(nomepesquisa); // Verifique o valor de nomepesquisa
 
     // Transformando nomepesquisa para maiúsculas
     const nomeUper = nomepesquisa ? nomepesquisa.toUpperCase() : nomepesquisa;
@@ -242,8 +248,11 @@ server.get('/relatorio', async (request, reply) => {
     let query = 'SELECT * FROM relatorio WHERE 1=1'; // Base da query
     const values = [];
 
-    // Filtro por nome (comparando o nome)
-    3
+    // Filtro por nomedoproduto (usando ILIKE para busca insensível a maiúsculas/minúsculas)
+    if (nomepesquisa) {
+        query += ` AND TRIM(BOTH FROM nomedoproduto) ILIKE $${values.length + 1}`; // Usando TRIM
+        values.push(`${nomeUper}`); // Adicionando o valor com nome transformado em maiúsculas
+    }
 
     // Filtro por data inicial (comparando apenas a data)
     if (datainicial) {
@@ -257,9 +266,35 @@ server.get('/relatorio', async (request, reply) => {
         values.push(datafinal);
     }
 
+    // Filtro por tipo de movimentação
+    if (tipodemovimentacao) {
+        query += ` AND tipodemovimento = $${values.length + 1}`;
+        values.push(tipodemovimentacao);
+    }
+
+    // Filtro por tipo de venda
+    if (tipodevenda) {
+        query += ` AND tipodecompra = $${values.length + 1}`;
+        values.push(tipodevenda);
+    }
+    // Filtro por forma de pagamento
+    if (formadepagamento) {
+        query += ` AND formadepagamento = $${values.length + 1}`;
+        values.push(formadepagamento);
+    }
+
+    // Imprime a query e os valores para depuração
+    console.log('Query:', query);
+    console.log('Values:', values);
+
+    // Executando a consulta no banco
     const result = await client.query(query, values);
+
+    console.log(result.rows);
+    // Retornando os dados filtrados
     return result.rows;
 });
+
 
 
 // Endpoint para excluir um produto
@@ -411,8 +446,8 @@ server.post('/faturamento', async (request, reply) => {
 
       // Registrar a saída no relatório
       await client.query(
-        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor, tipodecompra) VALUES ($1, $2, $3, $4, $5)',
-        [item.nome, 'VENDA', item.quantidade, item.valor, data.tipodecompra]
+        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor, tipodecompra, formadepagamento) VALUES ($1, $2, $3, $4, $5, $6)',
+        [item.nome, 'VENDA', item.quantidade, item.valor, data.tipodecompra, data.tipodepagamento]
       );
 
     }

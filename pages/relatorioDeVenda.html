@@ -46,8 +46,19 @@
     </div>
     <hr>
     <form id="searchForm">
+      <div class="single-input">
+        <select name="filtros" id="filtros" class="inputPesquisa">
+          <option value="nome">Nome</option>
+          <option value="nomeetipodemovimentacaoeperiodo">Nome + Tipo de Movimentação + Período</option>
+          <option value="nomeeperiodoeformadepagamento">Nome + Período + Forma de Pagamento</option>
+          <option value="nomeeperiodo">Nome + Período</option>
+          <option value="periodoetipodemovimentacao">Período + Tipo de Movimentação</option>
+          <option value="periodoetipodevenda">Período + Tipo de Venda</option>
+        </select>
+        <label for="filtros">Filtros</label>
+      </div>
       <div class="divPesquisa">
-        <div class="divInputText">;
+        <div class="divInputText">
           <div class="inputPesquisaPorNome single-input">
             <input type="text" id="nomepesquisa" class="inputPesquisa" name="nomepesquisa" placeholder="Digite o nome do produto">
             <label for="nomepesquisa">Nome</label>
@@ -59,6 +70,32 @@
           <div class="iputPesquisaPorData single-input">
             <input type="date" id="datafinal" class="inputPesquisa" name="datafinal">
             <label for="datafinal">Peridio Final</label>
+          </div>
+          <div class="iputPesquisaPorTipoDeMovimentacao single-input">
+            <select name="tipodemovimentacao" id="tipo-de-movimentacao" class="inputPesquisa">
+              <option value="VENDA" selected>Venda</option>
+              <option value="SAIDA PARA VENDA">Saida Para Venda</option>
+              <option value="ENTRADA DE CAIXA">Entrada de Caixa</option>
+              <option value="ENTRADA DE UNIDADE">Entrada de Unidade</option>
+              <option value="SAIDA POR PERCA">Saida por Perca</option>
+              <option value="SAIDA PARA TRANSFORMACAO">Saida para Transformação</option>
+            </select>
+            <label for="tipo-de-movimentacao">Tipo de Movimentação</label>
+          </div>
+          <div class="inputTipoDeVenda single-input">
+            <select name="tipodevenda" id="tipo-de-venda" class="inputPesquisa">
+              <option value="LOJA">Loja</option>
+              <option value="DELIVERY">Delivery</option>
+            </select>
+            <label for="tipo-de-venda">Tipo de Compra</label>
+          </div>
+          <div class="inputFormaDePagamento single-input">
+            <select name="formadepagamento" id="forma-de-pagamento" class="inputPesquisa">
+              <option value="DINHEIRO">Dinheiro</option>
+              <option value="CARTAO">Cartão</option>
+              <option value="PIX">Pix</option>
+            </select>
+            <label for="forma-de-pagamento">Forma De Pagamento</label>
           </div>
         </div>
         <div class="divButtonFiltrar">
