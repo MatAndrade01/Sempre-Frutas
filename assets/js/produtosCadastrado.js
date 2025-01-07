@@ -173,4 +173,30 @@ const createRowProducts = (produtosFiltrados) => {
   });
 };
 
+// Função para deletar um produto
+function deleteProduct(productId) {
+  // Pergunta ao usuário se ele tem certeza de que deseja excluir o produto
+  const confirmDelete = confirm('Você tem certeza que deseja excluir este produto?');
+  if (!confirmDelete) return; // Se o usuário cancelar, a função retorna e nada é excluído.
+
+  // Envia a solicitação para o backend
+  fetch(`http://localhost:3333/deleteProduto/${productId}`, {
+    method: 'DELETE',
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'Produto excluído com sucesso.') {
+        alert('Produto excluído com sucesso!');
+        // Atualiza a lista de produtos após a exclusão
+        getRowsProducts();
+      } else {
+        alert('Erro ao excluir o produto!');
+      }
+    })
+    .catch(error => {
+      console.error('Erro ao excluir o produto:', error);
+      alert('Erro ao excluir o produto!');
+    });
+}
+
 getRowsProducts();

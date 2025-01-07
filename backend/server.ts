@@ -1,396 +1,421 @@
 import fastify from 'fastify';
 import { FastifyRequest } from 'fastify';
-import { client } from './_database.ts';
+import mysql from 'mysql2';
 import { z } from 'zod';
 import cors from '@fastify/cors';
 import formbody from '@fastify/formbody';
+
+// Create MySQL connection pool
+const pool = mysql.createPool({
+  host: 'srv1526.hstgr.io',
+  user: 'u673416921_semprefrutas',
+  password: 'Semprefrutas00@',
+  database: 'u673416921_sempre_frutas',
+});
+
+// Using promise-based connection for MySQL
+const promisePool = pool.promise();
+
+// Test database connection
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
+    process.exit(1);  // Exit process if connection fails
+  } else {
+    console.log('Conexão bem-sucedida com o banco de dados MySQL');
+    connection.release();  // Release the connection after test
+  }
+});
 
 const server = fastify();
 await server.register(cors);
 await server.register(formbody);
 
-client.connect();
-
-// Endpoint para listar produtos cadastrados
+// Endpoint to list registered products
 server.get('/produtosCadastrado', async (request, reply) => {
-    const createEventSchema = z.object({
-        nomepesquisa: z.string().optional(), // Nome do produto para pesquisa
-    });
+  const createEventSchema = z.object({
+    nomepesquisa: z.string().optional(), // Product name for search
+  });
 
-    const { nomepesquisa } = createEventSchema.parse(request.query);
+  const { nomepesquisa } = createEventSchema.parse(request.query);
 
-    if (nomepesquisa) {
-        const result = await client.query('SELECT * FROM produtos WHERE nome = $1', [nomepesquisa.toUpperCase()]);
-        return result.rows;
-    } else {
-        const result = await client.query('SELECT * FROM produtos');
-        return result.rows;
-    }
+  if (nomepesquisa) {
+    const [rows] = await promisePool.query('SELECT * FROM produtos WHERE nome = ?', [nomepesquisa.toUpperCase()]);
+    return Array.isArray(rows) ? rows : [];
+  } else {
+    const [rows] = await promisePool.query('SELECT * FROM produtos');
+    return Array.isArray(rows) ? rows : [];
+  }
 });
 
-
+// Endpoint for stock details
 server.get('/estoque', async (request, reply) => {
-    const createEventSchema = z.object({
-        nomePesquisa: z.string().optional(),
-    });
+  const createEventSchema = z.object({
+    nomePesquisa: z.string().optional(),
+  });
 
-    const {nomePesquisa} = createEventSchema.parse(request.query);
+  const { nomePesquisa } = createEventSchema.parse(request.query);
 
-    if(nomePesquisa) {
-        const result = await client.query('SELECT * FROM estoque WHERE nomedoproduto = $1', [nomePesquisa]);
-        return result.rows;
-    } else {
-        const result = await client.query('SELECT * FROM estoque');
-        return result.rows;
-    }
+  if (nomePesquisa) {
+    const [rows] = await promisePool.query('SELECT * FROM estoque WHERE nomedoproduto = ?', [nomePesquisa]);
+    return Array.isArray(rows) ? rows : [];
+  } else {
+    const [rows] = await promisePool.query('SELECT * FROM estoque');
+    return Array.isArray(rows) ? rows : [];
+  }
 });
 
-// Endpoint para obter o ID máximo na tabela produtos
+// Endpoint to get max ID in products table
 server.get('/getId', async (request, reply) => {
-    const getAll = await client.query('SELECT MAX(id) FROM produtos');
-    return getAll.rows;
+  const [rows] = await promisePool.query('SELECT MAX(id) AS max_id FROM produtos');
+  return Array.isArray(rows) ? rows : [];
 });
 
-// Endpoint para registrar a entrada de itens no estoque
+// Endpoint to register new item entry
 server.post('/entradaDeItems', async (request, reply) => {
-    const createEventSchema = z.object({
-        quantidade: z.string().min(1).nullable(),
-        valorcompra: z.string().min(1).nullable(),
-        valortotal: z.string(),
-        nome: z.string().nullable(),
-        tipodeentrada: z.string(),
-        quantidadeporcaixa: z.string().nullable(),
-    });
+  const createEventSchema = z.object({
+    quantidade: z.string().min(1).nullable(),
+    valorcompra: z.string().min(1).nullable(),
+    valortotal: z.string(),
+    nome: z.string().nullable(),
+    tipodeentrada: z.string(),
+    quantidadeporcaixa: z.string().nullable(),
+  });
 
+  const data = createEventSchema.parse(request.body);
+  const nameUper = data.nome?.toUpperCase();
 
-    // Parse dos dados da requisição
-    const data = createEventSchema.parse(request.body);
-    const nameUper = data.nome?.toUpperCase();
+  const [productResult] = await promisePool.query(
+    'SELECT quantidadedoproduto FROM estoque WHERE nomedoproduto = ?',
+    [nameUper]
+  );
 
-    
+  const [nomeProdutoEstoque] = await promisePool.query(
+    'SELECT nomedoproduto FROM estoque WHERE nomedoproduto = ?',
+    [nameUper]
+  );
 
-    // Verificação no banco para a quantidade do produto
-    const productResult = await client.query(
-        'SELECT quantidadedoproduto FROM estoque WHERE nomedoproduto = $1',
-        [nameUper]
-    );
+  const nomeProdutoEstoqueResult = nomeProdutoEstoque as mysql.RowDataPacket[];
+  const productResultData = productResult as mysql.RowDataPacket[];
 
-    // Verificação do nome do produto no estoque
-    const nomeProdutoEstoque = await client.query(
-        'SELECT nomedoproduto FROM estoque WHERE nomedoproduto = $1',
-        [nameUper]
-    );
+  if (nomeProdutoEstoqueResult[0]?.nomedoproduto === nameUper && data.quantidade && data.quantidadeporcaixa) {
+    const existingQuantity = productResultData[0].quantidadedoproduto;
+    let newQuantity = 0;
+    const quantityBox = parseInt(data.quantidade) * parseInt(data.quantidadeporcaixa);
 
-    // Se o produto existir no estoque e a quantidade for informada
-    if (nomeProdutoEstoque.rows[0]?.nomedoproduto === nameUper && data.quantidade && data.quantidadeporcaixa) {
-        const existingQuantity = productResult.rows[0].quantidadedoproduto;
-        let newQuantity = 0
+    try {
+      if (data.tipodeentrada === 'caixa') {
+        newQuantity = parseInt(existingQuantity) + quantityBox;
 
-        const quantityBox = parseInt(data.quantidade) * parseInt(data.quantidadeporcaixa);
+        await promisePool.query(
+          'INSERT INTO entrada (quantidade, valordecompra, nome, tipodeentrada, quantidadeporcaixa, valortotal) VALUES (?, ?, ?, ?, ?, ?)',
+          [quantityBox, data.valorcompra, nameUper, data.tipodeentrada, data.quantidadeporcaixa, data.valortotal]
+        );
 
-        try {
-            // Inserir na tabela de entrada se for CAIXA
-            if(data.tipodeentrada === 'caixa') {
-                
-                newQuantity = parseInt(existingQuantity) + quantityBox;
+        await promisePool.query(
+          'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra, formadepagamento) VALUES (?, ?, ?, ?, ?, ?)',
+          [nameUper, data.valorcompra, 'ENTRADA DE CAIXA', quantityBox, "NAO FOI COMPRA", "NAO FOI COMPRA"]
+        );
 
-                await client.query(
-                    'INSERT INTO entrada ( quantidade, valordecompra, nome, tipodeentrada, quantidadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                    [quantityBox, data.valorcompra, nameUper, data.tipodeentrada, data.   quantidadeporcaixa, data.valortotal]
-                );
+        await promisePool.query(
+          'UPDATE estoque SET quantidadedoproduto = ? WHERE nomedoproduto = ?',
+          [newQuantity, nameUper]
+        );
+      } else if (data.tipodeentrada === 'unidade') {
+        newQuantity = parseInt(existingQuantity) + parseInt(data.quantidade);
 
-                await client.query(
-                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                    [nameUper, data.valorcompra, 'ENTRADA DE CAIXA', quantityBox, "NAO FOI COMPRA" ]
-                );
-                // Atualizar a quantidade no estoque
-                await client.query(
-                    'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
-                    [newQuantity, nameUper]
-                );
-            } else if (data.tipodeentrada === 'unidade') {
+        await promisePool.query(
+          'INSERT INTO entrada (quantidade, valordecompra, nome, tipodeentrada, quantidadeporcaixa, valortotal) VALUES (?, ?, ?, ?, ?, ?)',
+          [data.quantidade, data.valorcompra, nameUper, data.tipodeentrada, data.quantidadeporcaixa, data.valortotal]
+        );
 
-                newQuantity = parseInt(existingQuantity) + parseInt(data.quantidade);
+        await promisePool.query(
+          'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES (?, ?, ?, ?, ?)',
+          [nameUper, data.valorcompra, 'ENTRADA DE UNIDADE', data.quantidade, "NAO FOI COMPRA"]
+        );
 
-                await client.query(
-                    'INSERT INTO entrada ( quantidade, valordecompra, nome, tipodeentrada, quantidadeporcaixa, valortotal) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                    [data.quantidade, data.valorcompra, nameUper, data.tipodeentrada, data.   quantidadeporcaixa, data.valortotal]
-                );
+        await promisePool.query(
+          'UPDATE estoque SET quantidadedoproduto = ? WHERE nomedoproduto = ?',
+          [newQuantity, nameUper]
+        );
+      }
 
-                await client.query(
-                    'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES ($1, $2, $3, $4 $5) RETURNING *',
-                    [nameUper, data.valorcompra, 'ENTRADA DE UNIDADE', data.quantidade, "NAO FOI COMPRA"]
-                );
-
-                // Atualizar a quantidade no estoque
-                await client.query(
-                'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
-                [newQuantity, nameUper]
-                );
-
-            }
-
-
-            console.log(`Estoque atualizado para o produto ${data.nome}: ${newQuantity} unidades.`);
-            reply.status(200).send({ message: `Estoque atualizado para o produto ${data.nome}` });
-        } catch (err) {
-            console.error('Erro ao atualizar o estoque:', err);
-            reply.status(500).send({ message: 'Erro interno ao atualizar o estoque.' });
-        }
-    } else {
-        console.log(`Produto ${data.nome} não encontrado no estoque. Não é possível dar entrada.`);
-        reply.status(400).send({ message: `Produto ${data.nome} não encontrado no estoque. Não é possível dar entrada.` });
+      console.log(`Estoque atualizado para o produto ${data.nome}: ${newQuantity} unidades.`);
+      reply.status(200).send({ message: `Estoque atualizado para o produto ${data.nome}` });
+    } catch (err) {
+      console.error('Erro ao atualizar o estoque:', err);
+      reply.status(500).send({ message: 'Erro interno ao atualizar o estoque.' });
     }
-});
-
-
-// Endpoint para cadastro de novo item
-server.post('/cadastroDeItem', async (request, reply) => {
-    const createEventSchema = z.object({
-        nome: z.string().min(1).nullable(),
-        valor: z.string().min(1).nullable(),
-        unidadereferencia: z.string().min(1).nullable(),
-        categoria: z.string().min(1).nullable(),
-    });
-
-    const data = createEventSchema.parse(request.body);
-
-    const getNomeProdutoCadastrado = await client.query('SELECT * FROM produtos WHERE nome = $1', [data.nome?.toUpperCase()]);
-
-    if (getNomeProdutoCadastrado.rowCount) {
-        for (let i = 0; i < getNomeProdutoCadastrado.rowCount; i++) {
-            if (data.nome?.toUpperCase() === getNomeProdutoCadastrado.rows[i].nome) {
-                return reply.status(400).send({ message: 'Item já cadastrado' });
-            }
-        }
-    }
-
-    const result = await client.query(
-        'INSERT INTO produtos (nome, valor, unidadereferencia, categoria) VALUES ($1, $2, $3, $4) RETURNING id',
-        [data.nome?.toUpperCase(), data.valor, data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase()]
-    );
-
-    await client.query(
-        'INSERT INTO estoque (nomedoproduto, quantidadedoproduto, unidadedereferencia, categoria, valordevenda) VALUES ($1, 0, $2, $3, $4)',
-        [data.nome?.toUpperCase(), data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), data.valor?.toUpperCase()]
-    );
-
-    // Enviar resposta mínima
-    return reply.status(201).send({ message: 'Produto cadastrado com sucesso' });
+  } else {
+    console.log(`Produto ${data.nome} não encontrado no estoque. Não é possível dar entrada.`);
+    reply.status(400).send({ message: `Produto ${data.nome} não encontrado no estoque. Não é possível dar entrada.` });
+  }
 });
 
 server.post('/saidaDeItem', async (request, reply) => {
-    const createEventSchema = z.object({
-        nome: z.string(),
-        quantidade: z.number().min(1),
-        tipoSaida: z.string(),
-        valorDaSaida: z.number(),
-    });
+  const createEventSchema = z.object({
+      nome: z.string(),
+      quantidade: z.number().min(1),
+      tipoSaida: z.string(),
+      valorDaSaida: z.number(),
+  });
 
-    try {
-        const { nome, quantidade, tipoSaida, valorDaSaida } = createEventSchema.parse(request.body);
+  try {
+      const { nome, quantidade, tipoSaida, valorDaSaida } = createEventSchema.parse(request.body);
 
-        const nomeProduto = nome.toUpperCase();
+      const nomeProduto = nome.toUpperCase();
 
-        // Verificar se o produto existe no estoque
-        const result = await client.query('SELECT quantidadedoproduto FROM estoque WHERE nomedoproduto = $1', [nomeProduto]);
+      // Verificar se o produto existe no estoque
+      const [result] = await promisePool.query(
+          'SELECT quantidadedoproduto FROM estoque WHERE nomedoproduto = ?',
+          [nomeProduto]
+      );
 
-        if (result.rowCount === 0) {
-            return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
-        }
+      const rows = result as mysql.RowDataPacket[];
+      if (rows.length === 0) {
+          return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
+      }
 
-        const quantidadeAtual = parseInt(result.rows[0].quantidadedoproduto);
-        const novaQuantidade = quantidadeAtual - quantidade;
+      const stockRows = result as mysql.RowDataPacket[];
+      const quantidadeAtual = parseInt(rows[0].quantidadedoproduto, 10);
+      const novaQuantidade = quantidadeAtual - quantidade;
 
-        if (novaQuantidade < 0) {
-            return reply.status(400).send({ message: 'Quantidade insuficiente no estoque.' });
-        }
+      if (novaQuantidade < 0) {
+          return reply.status(400).send({ message: 'Quantidade insuficiente no estoque.' });
+      }
 
-        // Atualizar a quantidade no estoque
-        await client.query('UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2', [novaQuantidade, nomeProduto]);
+      // Atualizar a quantidade no estoque
+      await promisePool.query(
+          'UPDATE estoque SET quantidadedoproduto = ? WHERE nomedoproduto = ?',
+          [novaQuantidade, nomeProduto]
+      );
 
-        // Registrar a saída no relatório
-        await client.query(
-            'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra) VALUES ($1, $2, $3, $4, $5)',
-            [nomeProduto, valorDaSaida, tipoSaida, quantidade, "NAO FOI COMPRA"]
-        );
+      // Registrar a saída no relatório
+      await promisePool.query(
+          'INSERT INTO relatorio (nomedoproduto, valor, tipodemovimento, quantidade, tipodecompra, formadepagamento) VALUES (?, ?, ?, ?, ?, ?)',
+          [nomeProduto, valorDaSaida, tipoSaida, quantidade, "NAO FOI COMPRA", "NAO FOI   COMPRA"]
+      );
 
-        return reply.status(200).send({ message: 'Saída registrada com sucesso.' });
-    } catch (error: unknown) {  // Agora o tipo do erro é 'unknown'
-        if (error instanceof Error) {
-            
-            return reply.status(500).send({ message: `Erro ao registrar saída de item: ${error.message}` });
-        } else {
-            console.error('Erro desconhecido ao registrar saída de item');
-            return reply.status(500).send({ message: 'Erro desconhecido ao registrar saída de item.' });
-        }
-    }
+      return reply.status(200).send({ message: 'Saída registrada com sucesso.' });
+  } catch (error) {
+      if (error instanceof Error) {
+          return reply.status(500).send({ message: `Erro ao registrar saída de item: ${error.message}` });
+      } else {
+          console.error('Erro desconhecido ao registrar saída de item');
+          return reply.status(500).send({ message: 'Erro desconhecido ao registrar saída de item.' });
+      }
+  }
+});
+
+
+// Endpoint to register a new item
+server.post('/cadastroDeItem', async (request, reply) => {
+  const createEventSchema = z.object({
+    nome: z.string().min(1).nullable(),
+    valor: z.string().min(1).nullable(),
+    unidadereferencia: z.string().min(1).nullable(),
+    categoria: z.string().min(1).nullable(),
+  });
+
+  const data = createEventSchema.parse(request.body);
+
+  const [getNomeProdutoCadastrado] = await promisePool.query('SELECT * FROM produtos WHERE nome = ?', [data.nome?.toUpperCase()]);
+
+  if (Array.isArray(getNomeProdutoCadastrado) && getNomeProdutoCadastrado.length > 0) {
+    return reply.status(400).send({ message: 'Item já cadastrado' });
+  }
+
+  await promisePool.query(
+    'INSERT INTO produtos (nome, valor, unidadereferencia, categoria) VALUES (?, ?, ?, ?)',
+    [data.nome?.toUpperCase(), data.valor, data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase()]
+  );
+
+  await promisePool.query(
+    'INSERT INTO estoque (nomedoproduto, quantidadedoproduto, unidadedereferencia, categoria, valordevenda) VALUES (?, 0, ?, ?, ?)',
+    [data.nome?.toUpperCase(), data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), data.valor]
+  );
+
+  return reply.status(201).send({ message: 'Produto cadastrado com sucesso' });
 });
 
 server.get('/relatorio', async (request, reply) => {
-    const createEventSchema = z.object({
-        nomepesquisa: z.string().optional(),
-        datainicial: z.string().optional(),
-        datafinal: z.string().optional(),
-        tipodemovimentacao: z.string().optional(),
-        tipodevenda: z.string().optional(),
-        formadepagamento: z.string().optional()
-    });
+  const createEventSchema = z.object({
+      nomepesquisa: z.string().optional(),
+      datainicial: z.string().optional(),
+      datafinal: z.string().optional(),
+      tipodemovimentacao: z.string().optional(),
+      tipodevenda: z.string().optional(),
+      formadepagamento: z.string().optional(),
+  });
 
-    // Validando os parâmetros da query string
-    const { nomepesquisa, datainicial, datafinal, tipodemovimentacao, tipodevenda, formadepagamento } = createEventSchema.parse(request.query);
+  // Validando os parâmetros da query string
+  const { nomepesquisa, datainicial, datafinal, tipodemovimentacao, tipodevenda, formadepagamento } = createEventSchema.parse(request.query);
 
-    console.log(nomepesquisa); // Verifique o valor de nomepesquisa
+  console.log(nomepesquisa); // Verifique o valor de nomepesquisa
 
-    // Transformando nomepesquisa para maiúsculas
-    const nomeUper = nomepesquisa ? nomepesquisa.toUpperCase() : nomepesquisa;
+  // Transformando nomepesquisa para maiúsculas
+  const nomeUper = nomepesquisa ? nomepesquisa.toUpperCase() : nomepesquisa;
 
-    let query = 'SELECT * FROM relatorio WHERE 1=1'; // Base da query
-    const values = [];
+  let query = 'SELECT * FROM relatorio WHERE 1=1'; // Base da query
+  const values = [];
 
-    // Filtro por nomedoproduto (usando ILIKE para busca insensível a maiúsculas/minúsculas)
-    if (nomepesquisa) {
-        query += ` AND TRIM(BOTH FROM nomedoproduto) ILIKE $${values.length + 1}`; // Usando TRIM
-        values.push(`${nomeUper}`); // Adicionando o valor com nome transformado em maiúsculas
-    }
+  // Filtro por nomedoproduto (usando LIKE para busca insensível a maiúsculas/minúsculas)
+  if (nomepesquisa) {
+      query += ` AND UPPER(TRIM(nomedoproduto)) LIKE ?`; // Usando TRIM e UPPER
+      values.push(`%${nomeUper}%`); // Adicionando o valor com nome transformado em maiúsculas
+  }
 
-    // Filtro por data inicial (comparando apenas a data)
-    if (datainicial) {
-        query += ` AND data::DATE >= $${values.length + 1}`;
-        values.push(datainicial);
-    }
+  // Filtro por data inicial
+  if (datainicial) {
+      query += ` AND DATE(data) >= ?`;
+      values.push(datainicial);
+  }
 
-    // Filtro por data final (comparando apenas a data)
-    if (datafinal) {
-        query += ` AND data::DATE <= $${values.length + 1}`;
-        values.push(datafinal);
-    }
+  // Filtro por data final
+  if (datafinal) {
+      query += ` AND DATE(data) <= ?`;
+      values.push(datafinal);
+  }
 
-    // Filtro por tipo de movimentação
-    if (tipodemovimentacao) {
-        query += ` AND tipodemovimento = $${values.length + 1}`;
-        values.push(tipodemovimentacao);
-    }
+  // Filtro por tipo de movimentação
+  if (tipodemovimentacao) {
+      query += ` AND tipodemovimento = ?`;
+      values.push(tipodemovimentacao);
+  }
 
-    // Filtro por tipo de venda
-    if (tipodevenda) {
-        query += ` AND tipodecompra = $${values.length + 1}`;
-        values.push(tipodevenda);
-    }
-    // Filtro por forma de pagamento
-    if (formadepagamento) {
-        query += ` AND formadepagamento = $${values.length + 1}`;
-        values.push(formadepagamento);
-    }
+  // Filtro por tipo de venda
+  if (tipodevenda) {
+      query += ` AND tipodecompra = ?`;
+      values.push(tipodevenda);
+  }
 
-    // Imprime a query e os valores para depuração
-    console.log('Query:', query);
-    console.log('Values:', values);
+  // Filtro por forma de pagamento
+  if (formadepagamento) {
+      query += ` AND formadepagamento = ?`;
+      values.push(formadepagamento);
+  }
 
-    // Executando a consulta no banco
-    const result = await client.query(query, values);
+  // Imprime a query e os valores para depuração
+  console.log('Query:', query);
+  console.log('Values:', values);
 
-    console.log(result.rows);
-    // Retornando os dados filtrados
-    return result.rows;
+  try {
+      // Executando a consulta no banco
+      const [rows] = await promisePool.query(query, values);
+
+      console.log(rows);
+      // Retornando os dados filtrados
+      return reply.send(rows);
+  } catch (error) {
+      console.error('Erro ao buscar relatório:', error);
+      return reply.status(500).send({ message: 'Erro ao buscar relatório.' });
+  }
 });
-
-
-
-// Endpoint para excluir um produto
-server.delete('/deleteProduto/:id', async (request: FastifyRequest, reply) => {
-    const { id } = request.params as { id: string };  // Forçando a tipagem de 'id' como string
-
-    try {
-        // Verificar se o produto existe na tabela produtos
-        const produtoResult = await client.query('SELECT * FROM produtos WHERE id = $1', [id]);
-
-        if (produtoResult.rowCount === 0) {
-            return reply.status(404).send({ message: 'Produto não encontrado.' });
-        }
-
-        // Verificar se o produto existe na tabela estoque
-        const estoqueResult = await client.query('SELECT * FROM estoque WHERE nomedoproduto = $1', [produtoResult.rows[0].nome]);
-
-        if (estoqueResult.rowCount === 0) {
-            return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
-        }
-
-        // Excluir o produto da tabela de estoque
-        await client.query('DELETE FROM estoque WHERE nomedoproduto = $1', [produtoResult.rows[0].nome]);
-
-        // Excluir o produto da tabela produtos
-        await client.query('DELETE FROM produtos WHERE id = $1', [id]);
-
-        return reply.status(200).send({ message: 'Produto excluído com sucesso.' });
-    } catch (error) {
-        // Logando mais detalhes do erro para depuração
-        console.error('Erro ao excluir produto:', error);
-
-        // Verificando o tipo de erro
-        if (error instanceof Error) {
-            return reply.status(500).send({ message: `Erro interno ao excluir o produto: ${error.message}` });
-        }
-
-        // Caso não seja um erro esperado, retornamos uma mensagem genérica
-        return reply.status(500).send({ message: 'Erro desconhecido ao excluir o produto.' });
-    }
-});
-
 
 server.put('/atualizarProduto/:id', async (request, reply) => {
-    const { id } = request.params as { id: string }; // Obtendo o ID do produto da URL
+  const { id } = request.params as { id: string }; // Obtendo o ID do produto da URL
 
-    const createEventSchema = z.object({
-        nome: z.string().min(1).nullable(),
-        valor: z.string().min(1).nullable(),
-        unidadereferencia: z.string().min(1).nullable(),
-        categoria: z.string().min(1).nullable(),
-    });
+  const createEventSchema = z.object({
+      nome: z.string().min(1).nullable(),
+      valor: z.string().min(1).nullable(),
+      unidadereferencia: z.string().min(1).nullable(),
+      categoria: z.string().min(1).nullable(),
+  });
 
-    try {
-        const data = createEventSchema.parse(request.body);
+  try {
+      const data = createEventSchema.parse(request.body);
 
-        // Inicia uma transação para garantir que ambas as atualizações (produtos e estoque) sejam feitas de forma segura
-        await client.query('BEGIN'); // Inicia a transação
+      // Inicia uma transação para garantir que ambas as atualizações (produtos e estoque) sejam feitas de forma segura
+      const connection = await promisePool.getConnection();
+      await connection.beginTransaction(); // Inicia a transação
 
-        // Atualizando o produto na tabela 'produtos'
-        const resultProduto = await client.query(
-            `UPDATE produtos
-            SET nome = $1, valor = $2, unidadereferencia = $3, categoria = $4
-            WHERE id = $5 RETURNING *`,
-            [data.nome?.toUpperCase(), data.valor, data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), id]
-        );
+      // Atualizando o produto na tabela 'produtos'
+      const [resultProduto] = await connection.execute<mysql.ResultSetHeader>(
+          `UPDATE produtos
+          SET nome = ?, valor = ?, unidadereferencia = ?, categoria = ?
+          WHERE id = ?`,
+          [
+              data.nome?.toUpperCase(),
+              data.valor,
+              data.unidadereferencia?.toUpperCase(),
+              data.categoria?.toUpperCase(),
+              id,
+          ]
+      );
 
-        if (resultProduto.rowCount === 0) {
-            await client.query('ROLLBACK'); // Desfaz qualquer alteração se o produto não for encontrado
-            return reply.status(404).send({ message: 'Produto não encontrado.' });
-        }
+      if (resultProduto.affectedRows === 0) {
+          await connection.rollback(); // Desfaz qualquer alteração se o produto não for encontrado
+          connection.release();
+          return reply.status(404).send({ message: 'Produto não encontrado.' });
+      }
 
-        // Atualizando a tabela 'estoque' (caso seja necessário atualizar o estoque junto)
-        const resultEstoque = await client.query(
-            `UPDATE estoque
-            SET nomedoproduto = $1, unidadedereferencia = $2, categoria = $3
-            WHERE id = $4 RETURNING *`,
-            [data.nome?.toUpperCase(), data.unidadereferencia?.toUpperCase(), data.categoria?.toUpperCase(), id] // Pode ser necessário ajustar esses campos
-        );
+      // Atualizando a tabela 'estoque' (caso seja necessário atualizar o estoque junto)
+      const [resultEstoque] = await connection.execute<mysql.ResultSetHeader>(
+          `UPDATE estoque
+          SET nomedoproduto = ?, unidadedereferencia = ?, categoria = ?
+          WHERE id = ?`,
+          [
+              data.nome?.toUpperCase(),
+              data.unidadereferencia?.toUpperCase(),
+              data.categoria?.toUpperCase(),
+              id,
+          ]
+      );
 
-        if (resultEstoque.rowCount === 0) {
-            await client.query('ROLLBACK'); // Se o estoque não for atualizado, desfaz as mudanças no produto
-            return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
-        }
+      if (resultEstoque.affectedRows === 0) {
+          await connection.rollback(); // Se o estoque não for atualizado, desfaz as mudanças no produto
+          connection.release();
+          return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
+      }
 
-        // Se tudo ocorrer bem, comita a transação
-        await client.query('COMMIT');
-        
-        return reply.status(200).send({ message: 'Produto e estoque atualizados com sucesso' });
-
-    } catch (error) {
-        console.error('Erro ao atualizar o produto:', error);
-        await client.query('ROLLBACK'); // Em caso de erro, desfaz a transação
-        return reply.status(500).send({ message: 'Erro interno ao atualizar o produto.' });
-    }
+      // Se tudo ocorrer bem, comita a transação
+      await connection.commit();
+      connection.release();
+      
+      return reply.status(200).send({ message: 'Produto e estoque atualizados com sucesso' });
+  } catch (error) {
+      console.error('Erro ao atualizar o produto:', error);
+      return reply.status(500).send({ message: 'Erro interno ao atualizar o produto.' });
+  }
 });
+
+server.delete('/deleteProduto/:id', async (request: FastifyRequest, reply) => {
+  const { id } = request.params as { id: string };
+  console.log('Tentando deletar o produto com ID:', id);
+
+  try {
+    // Verificando se o produto existe
+    const [produtoResult] = await promisePool.query('SELECT * FROM produtos WHERE id = ?', [id]);
+    console.log('Produto encontrado:', produtoResult);
+
+    if (!(produtoResult as mysql.RowDataPacket[]).length) {
+      return reply.status(404).send({ message: 'Produto não encontrado.' });
+    }
+
+    // Obtendo o nome do produto para verificar no estoque
+    const nomeProduto = (produtoResult as mysql.RowDataPacket[])[0].nome;
+    console.log('Nome do produto:', nomeProduto);
+
+    const [estoqueResult] = await promisePool.query<mysql.RowDataPacket[]>('SELECT * FROM estoque WHERE nomedoproduto = ?', [nomeProduto]);
+    console.log('Produto no estoque:', estoqueResult);
+
+    if (!(estoqueResult as mysql.RowDataPacket[]).length) {
+      return reply.status(404).send({ message: 'Produto não encontrado no estoque.' });
+    }
+
+    // Deletando do estoque
+    await promisePool.query('DELETE FROM estoque WHERE nomedoproduto = ?', [nomeProduto]);
+
+    // Deletando do produto
+    await promisePool.query('DELETE FROM produtos WHERE id = ?', [id]);
+
+    return reply.status(200).send({ message: 'Produto excluído com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao excluir produto:', error);
+    return reply.status(500).send({ message: 'Erro interno ao excluir o produto.' });
+  }
+});
+
 
 server.post('/faturamento', async (request, reply) => {
   // Atualizando o schema para incluir as novas informações
@@ -421,42 +446,52 @@ server.post('/faturamento', async (request, reply) => {
     console.log(`Tipo de compra: ${tipodecompra}`);
 
     // Lógica do faturamento
+    const connection = await promisePool.getConnection();
+    await connection.beginTransaction(); // Inicia a transação
+
     for (const item of itens) {
       console.log(`Faturando item: ${item.nome} com a quantidade ${item.quantidade}`);
 
       // Recuperar informações do estoque (exemplo)
-      const estoqueResult = await client.query(
-        'SELECT quantidadedoproduto, valordevenda FROM estoque WHERE nomedoproduto = $1',
+      const [estoqueResult] = await connection.execute(
+        'SELECT quantidadedoproduto, valordevenda FROM estoque WHERE nomedoproduto = ?',
         [item.nome]
       );
 
-      if (estoqueResult.rows.length === 0) {
+      const estoqueRows = estoqueResult as mysql.RowDataPacket[];
+      if (estoqueRows.length === 0) {
+        await connection.rollback(); // Desfaz qualquer alteração em caso de erro
+        connection.release();
         reply.status(404).send({ message: `Produto ${item.nome} não encontrado no estoque.` });
         return;
       }
 
-      const produto = estoqueResult.rows[0];
+      const produto = (estoqueResult as mysql.RowDataPacket[])[0];
       const novaQuantidade = produto.quantidadedoproduto - item.quantidade;
 
       // Atualizar a quantidade no estoque
-      await client.query(
-        'UPDATE estoque SET quantidadedoproduto = $1 WHERE nomedoproduto = $2',
+      await connection.execute(
+        'UPDATE estoque SET quantidadedoproduto = ? WHERE nomedoproduto = ?',
         [novaQuantidade, item.nome]
       );
 
       // Registrar a saída no relatório
-      await client.query(
-        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor, tipodecompra, formadepagamento) VALUES ($1, $2, $3, $4, $5, $6)',
-        [item.nome, 'VENDA', item.quantidade, item.valor, data.tipodecompra, data.tipodepagamento]
+      await connection.execute(
+        'INSERT INTO relatorio (nomedoproduto, tipodemovimento, quantidade, valor, tipodecompra, formadepagamento) VALUES (?, ?, ?, ?, ?, ?)',
+        [item.nome, 'VENDA', item.quantidade, item.valor, tipodecompra, tipodepagamento]
       );
-
     }
     
-    await client.query(
-      'INSERT INTO itensfaturados (itens, valorpago, valortotal, tipodepagamento) VALUES ($1, $2, $3, $4)',
-      [itens, data.valorpago, data.valortotal, data.tipodepagamento]
-    )
+    // Registrar o faturamento na tabela 'itensfaturados'
+    await connection.execute(
+      'INSERT INTO itensfaturados (itens, valorpago, valortotal, tipodepagamento) VALUES (?, ?, ?, ?)',
+      [JSON.stringify(itens), valorpago, valortotal, tipodepagamento]
+    );
+
     // Finalizar faturamento e enviar a resposta
+    await connection.commit(); // Comita a transação
+    connection.release();
+    
     reply.status(200).send({ message: 'Faturamento realizado com sucesso' });
   } catch (err) {
     console.error('Erro ao faturar:', err);
@@ -464,7 +499,16 @@ server.post('/faturamento', async (request, reply) => {
   }
 });
 
-// Inicializando o servidor
-server.listen({ port: 3333 }).then(() => {
-    console.log('Servidor funcionando na porta 3333');
-});
+
+// Start the Fastify server
+const start = async () => {
+  try {
+    await server.listen({ port: 3333 });
+    console.log('Servidor Fastify rodando na porta 3333');
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+};
+
+start();
