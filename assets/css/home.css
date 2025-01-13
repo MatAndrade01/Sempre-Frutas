@@ -6,7 +6,7 @@
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         height: 3rem;
         width: 100%;
         position: relative;
@@ -14,7 +14,7 @@
 
     .divMenuElogo {
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
 
     .divMenuBuguer {
@@ -32,44 +32,50 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width:1.5rem;
+        width: 1.5rem;
         height: 1.5rem;
     }
 
     #idDropDowMenu {
-        display: none; 
-        position: absolute; 
-        top: 100%; 
+        display: none;
+        position: absolute;
+        top: 100%;
         left: 0;
-        background: #FFBD25; 
-        z-index: 10; 
+        background: #FFBD25;
+        z-index: 10;
         opacity: 0;
-        transform: translateY(-10px); 
-        visibility: hidden; 
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     }
 
     /* Classe para mostrar o menu com animação */
     #idDropDowMenu.show {
-        display: block; /* Torna o menu visível */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Move o menu para baixo */
-        visibility: visible; /* Torna o menu visível */
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+        display: block;
+        /* Torna o menu visível */
+        opacity: 1;
+        /* Torna o menu visível */
+        transform: translateY(0);
+        /* Move o menu para baixo */
+        visibility: visible;
+        /* Torna o menu visível */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        /* Transições suaves */
     }
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
     #idDropDowMenu .divRelatorioDropdowMenu {
-        padding: 10px; /* Espaçamento interno do menu */
+        padding: 10px;
+        /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
         display: block;
         padding-top: 15px;
-        text-decoration: none; 
-        color: #000; 
+        text-decoration: none;
+        color: #000;
         font-size: .8rem;
     }
 
@@ -96,7 +102,7 @@
 
     /* Estilos para a seção e rodapé */
     section {
-        height: 100vh; 
+        height: 100vh;
         width: 100%;
         margin-top: 10px;
         margin-left: 15px;
@@ -112,8 +118,10 @@
     .divSectionEstoque {
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 200px 200px; /* Ajusta automaticamente o layout */
-        gap: 20px; /* Espaçamento entre os itens */
+        grid-template-columns: 200px 200px;
+        /* Ajusta automaticamente o layout */
+        gap: 20px;
+        /* Espaçamento entre os itens */
     }
 
     .divSectionRelatorio {
@@ -123,8 +131,10 @@
     .divSectionFaturamento {
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 200px 200px; /* Ajusta automaticamente o layout */
-        gap: 20px; /* Espaçamento entre os itens */
+        grid-template-columns: 200px 200px;
+        /* Ajusta automaticamente o layout */
+        gap: 20px;
+        /* Espaçamento entre os itens */
     }
 
     .buttonHome {
@@ -153,15 +163,16 @@
         text-align: center;
     }
 }
+
 /*TABLETE*/
 @media screen and (min-width: 667px) and (max-width: 992px) {
-    
+
     /* Estilos básicos do cabeçalho e do menu */
     header {
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         height: 3rem;
         width: 100%;
         position: relative;
@@ -169,7 +180,7 @@
 
     .divMenuElogo {
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
 
     .divMenuBuguer {
@@ -187,45 +198,51 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width:2.5rem;
+        width: 2.5rem;
         height: 2.5rem;
     }
 
 
     #idDropDowMenu {
-        display: none; 
-        position: absolute; 
-        top: 100%; 
+        display: none;
+        position: absolute;
+        top: 100%;
         left: 0;
-        background: #FFBD25; 
-        z-index: 10; 
+        background: #FFBD25;
+        z-index: 10;
         opacity: 0;
-        transform: translateY(-10px); 
-        visibility: hidden; 
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     }
 
     /* Classe para mostrar o menu com animação */
     #idDropDowMenu.show {
-        display: block; /* Torna o menu visível */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Move o menu para baixo */
-        visibility: visible; /* Torna o menu visível */
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+        display: block;
+        /* Torna o menu visível */
+        opacity: 1;
+        /* Torna o menu visível */
+        transform: translateY(0);
+        /* Move o menu para baixo */
+        visibility: visible;
+        /* Torna o menu visível */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        /* Transições suaves */
     }
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
     #idDropDowMenu .divRelatorioDropdowMenu {
-        padding: 10px; /* Espaçamento interno do menu */
+        padding: 10px;
+        /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
         display: block;
         padding-top: 15px;
-        text-decoration: none; 
-        color: #000; 
+        text-decoration: none;
+        color: #000;
         font-size: .8rem;
     }
 
@@ -266,8 +283,10 @@
     .divSectionEstoque {
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Ajusta automaticamente o layout */
-        gap: 15px; /* Espaçamento entre os itens */
+        grid-template-columns: 1fr 1fr;
+        /* Ajusta automaticamente o layout */
+        gap: 15px;
+        /* Espaçamento entre os itens */
         height: 0;
     }
 
@@ -275,8 +294,10 @@
         margin-left: 15px;
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 200px 200px; /* Ajusta automaticamente o layout */
-        gap: 20px; /* Espaçamento entre os itens */
+        grid-template-columns: 200px 200px;
+        /* Ajusta automaticamente o layout */
+        gap: 20px;
+        /* Espaçamento entre os itens */
     }
 
     .buttonHome {
@@ -306,15 +327,16 @@
         text-align: center;
     }
 }
+
 /*DESKTOP*/
 @media screen and (min-width: 992px) {
-    
+
     /* Estilos básicos do cabeçalho e do menu */
     header {
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         height: 4rem;
         width: 100%;
         position: relative;
@@ -322,7 +344,7 @@
 
     .divMenuElogo {
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
 
     .divMenuBuguer {
@@ -340,53 +362,61 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width:2.5rem;
+        width: 2.5rem;
         height: 2.5rem;
         margin-left: 5px;
     }
 
 
     #idDropDowMenu {
-        display: none; 
-        position: absolute; 
-        top: 100%; 
+        display: none;
+        position: absolute;
+        top: 100%;
         left: 0;
-        background: #FFBD25; 
-        z-index: 10; 
+        background: #FFBD25;
+        z-index: 10;
         opacity: 0;
-        transform: translateY(-10px); 
-        visibility: hidden; 
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     }
 
     /* Classe para mostrar o menu com animação */
     #idDropDowMenu.show {
-        display: block; /* Torna o menu visível */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Move o menu para baixo */
-        visibility: visible; /* Torna o menu visível */
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+        display: block;
+        /* Torna o menu visível */
+        opacity: 1;
+        /* Torna o menu visível */
+        transform: translateY(0);
+        /* Move o menu para baixo */
+        visibility: visible;
+        /* Torna o menu visível */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        /* Transições suaves */
     }
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
     #idDropDowMenu .divRelatorioDropdowMenu {
-        padding: 10px; /* Espaçamento interno do menu */
+        padding: 10px;
+        /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
         display: block;
         padding-top: 15px;
-        text-decoration: none; 
-        color: #000; 
+        text-decoration: none;
+        color: #000;
         font-size: .8rem;
     }
+
     #idDropDowMenu a:hover {
         cursor: pointer;
-        color: #006b0f; 
-        
+        color: #006b0f;
+
     }
+
     /* Outros estilos para o cabeçalho e conteúdo */
     .divLogo {
         display: flex;
@@ -425,8 +455,10 @@
     .divSectionEstoque {
         margin-top: 30px;
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Ajusta automaticamente o layout */
-        gap: 15px; /* Espaçamento entre os itens */
+        grid-template-columns: 1fr 1fr;
+        /* Ajusta automaticamente o layout */
+        gap: 15px;
+        /* Espaçamento entre os itens */
         height: 0;
     }
 
@@ -434,16 +466,20 @@
         margin-top: 30px;
         margin-left: 15px;
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Ajusta automaticamente o layout */
-        gap: 15px; /* Espaçamento entre os itens */
+        grid-template-columns: 1fr 1fr;
+        /* Ajusta automaticamente o layout */
+        gap: 15px;
+        /* Espaçamento entre os itens */
         height: 0;
     }
 
     .divSectionRelatorio {
         margin-left: 15px;
         margin-top: 30px;
-        grid-template-columns: 200px 200px; /* Ajusta automaticamente o layout */
-        gap: 20px; /* Espaçamento entre os itens */
+        grid-template-columns: 200px 200px;
+        /* Ajusta automaticamente o layout */
+        gap: 20px;
+        /* Espaçamento entre os itens */
     }
 
     .buttonHome {

@@ -112,25 +112,25 @@
     height: 100vh;
   }
 
-  section .divpathItensCadastrados {
+  section .divpathItensEstoque {
     display: flex;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
   }
 
-  section .divpathItensCadastrados {
+  section .divpathItensEstoque {
     display: flex;
     margin-top: 3vh;
     margin-left: 20px;
   }
 
-  section .divpathItensCadastrados svg {
+  section .divpathItensEstoque svg {
     display: flex;
     margin-left: 0;
   }
 
-  section .divpathItensCadastrados p {
+  section .divpathItensEstoque p {
     display: flex;
     margin: auto;
     margin-left: 0;
@@ -440,18 +440,18 @@
     flex-direction: column;
   }
 
-  section .divpathItensCadastrados {
+  section .divpathItensEstoque {
     display: flex;
     margin-top: 3vh;
     margin-left: 20px;
   }
 
-  section .divpathItensCadastrados svg {
+  section .divpathItensEstoque svg {
     display: flex;
     margin-left: 0;
   }
 
-  section .divpathItensCadastrados p {
+  section .divpathItensEstoque p {
     display: flex;
     margin: auto;
     margin-left: 0;

@@ -4,7 +4,7 @@
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         height: 3rem;
         width: 100%;
         position: relative;
@@ -12,7 +12,7 @@
 
     .divMenuElogo {
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
 
     .divMenuBuguer {
@@ -30,51 +30,59 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width:1.5rem;
+        width: 1.5rem;
         height: 1.5rem;
     }
 
 
     #idDropDowMenu {
-        display: none; 
-        position: absolute; 
-        top: 100%; 
+        display: none;
+        position: absolute;
+        top: 100%;
         left: 0;
-        background: #FFBD25; 
-        z-index: 10; 
+        background: #FFBD25;
+        z-index: 10;
         opacity: 0;
-        transform: translateY(-10px); 
-        visibility: hidden; 
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     }
 
     /* Classe para mostrar o menu com animação */
     #idDropDowMenu.show {
-        display: block; /* Torna o menu visível */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Move o menu para baixo */
-        visibility: visible; /* Torna o menu visível */
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+        display: block;
+        /* Torna o menu visível */
+        opacity: 1;
+        /* Torna o menu visível */
+        transform: translateY(0);
+        /* Move o menu para baixo */
+        visibility: visible;
+        /* Torna o menu visível */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        /* Transições suaves */
     }
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
     #idDropDowMenu .divRelatorioDropdowMenu {
-        padding: 10px; /* Espaçamento interno do menu */
+        padding: 10px;
+        /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
         display: block;
         padding-top: 15px;
-        text-decoration: none; 
-        color: #000; 
+        text-decoration: none;
+        color: #000;
         font-size: .8rem;
     }
+
     #idDropDowMenu a:hover {
         cursor: pointer;
-        color: #006b0f; 
+        color: #006b0f;
     }
+
     /* Outros estilos para o cabeçalho e conteúdo */
     .divLogo {
         display: flex;
@@ -83,7 +91,7 @@
 
     .divLogo img {
         height: auto;
-        max-width: 100%; 
+        max-width: 100%;
         height: 5vh;
         margin-top: -10px;
     }
@@ -98,12 +106,12 @@
         font-size: 1rem;
     }
 
-    section{
+    section {
         display: flex;
         flex-direction: column;
         height: 100vh;
     }
-    
+
     section .divpathCadastroDeItens {
         display: flex;
         margin-top: 10px;
@@ -128,7 +136,7 @@
         margin: auto;
         margin-left: 0;
     }
-    
+
     section .divdadosProdutos {
         display: flex;
         background-color: #dfdede;
@@ -150,7 +158,7 @@
         position: relative;
     }
 
-    #formEditarProduto  .single-input label {
+    #formEditarProduto .single-input label {
         position: absolute;
         left: 0;
         justify-content: center;
@@ -175,17 +183,17 @@
 
     #formEditarProduto .single-input .inputEditarProduto:focus,
     #formEditarProduto .single-input .inputEditarProduto:valid {
-        border: 1px solid #006b0f ;
+        border: 1px solid #006b0f;
     }
-    
-    #formEditarProduto .single-input .inputEditarProduto:focus ~ label,
-    #formEditarProduto .single-input .inputEditarProduto:valid ~ label{
+
+    #formEditarProduto .single-input .inputEditarProduto:focus~label,
+    #formEditarProduto .single-input .inputEditarProduto:valid~label {
         transform: translateY(-24px);
         font-size: .9rem;
         left: 0;
         color: #006b0f;
     }
-   
+
     #formEditarProduto .divButtonSalvar {
         display: flex;
     }
@@ -209,13 +217,14 @@
         text-align: center;
     }
 }
+
 /*TABLETE*/
 @media screen and (min-width: 667px) and (max-width: 992px) {
     header {
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         height: 3rem;
         width: 100%;
         position: relative;
@@ -223,7 +232,7 @@
 
     .divMenuElogo {
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
 
     .divMenuBuguer {
@@ -241,47 +250,54 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width:2.5rem;
+        width: 2.5rem;
         height: 2.5rem;
     }
 
 
     #idDropDowMenu {
-        display: none; 
-        position: absolute; 
-        top: 100%; 
+        display: none;
+        position: absolute;
+        top: 100%;
         left: 0;
-        background: #FFBD25; 
-        z-index: 10; 
+        background: #FFBD25;
+        z-index: 10;
         opacity: 0;
-        transform: translateY(-10px); 
-        visibility: hidden; 
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     }
 
     /* Classe para mostrar o menu com animação */
     #idDropDowMenu.show {
-        display: block; /* Torna o menu visível */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Move o menu para baixo */
-        visibility: visible; /* Torna o menu visível */
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+        display: block;
+        /* Torna o menu visível */
+        opacity: 1;
+        /* Torna o menu visível */
+        transform: translateY(0);
+        /* Move o menu para baixo */
+        visibility: visible;
+        /* Torna o menu visível */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        /* Transições suaves */
     }
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
     #idDropDowMenu .divRelatorioDropdowMenu {
-        padding: 10px; /* Espaçamento interno do menu */
+        padding: 10px;
+        /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
         display: block;
         padding-top: 15px;
-        text-decoration: none; 
-        color: #000; 
+        text-decoration: none;
+        color: #000;
         font-size: 1.5rem;
     }
+
     /* Outros estilos para o cabeçalho e conteúdo */
     .divLogo {
         display: flex;
@@ -292,7 +308,7 @@
         height: auto;
         max-width: 100%;
         height: 4vh;
-        margin-top: -5px; 
+        margin-top: -5px;
     }
 
     .divNameUser {
@@ -305,12 +321,12 @@
         font-size: 1rem;
     }
 
-    section{
+    section {
         display: flex;
         flex-direction: column;
         height: 100vh;
     }
-    
+
     section .divpathCadastroDeItens {
         display: flex;
         margin-top: 10px;
@@ -323,7 +339,7 @@
         width: 98%;
         margin-left: auto;
         margin-right: auto;
-     }
+    }
 
     section .divpathCadastroDeItens svg {
         display: flex;
@@ -335,7 +351,7 @@
         margin: auto;
         margin-left: 0;
     }
-    
+
     section .divdadosProdutos {
         display: flex;
         background-color: #dfdede;
@@ -356,7 +372,7 @@
         position: relative;
     }
 
-    #formEditarProduto  .single-input label {
+    #formEditarProduto .single-input label {
         position: absolute;
         left: 0;
         justify-content: center;
@@ -381,17 +397,17 @@
 
     #formEditarProduto .single-input .inputEditarProduto:focus,
     #formEditarProduto .single-input .inputEditarProduto:valid {
-        border: 1px solid #006b0f ;
+        border: 1px solid #006b0f;
     }
-    
-    #formEditarProduto .single-input .inputEditarProduto:focus ~ label,
-    #formEditarProduto .single-input .inputEditarProduto:valid ~ label{
+
+    #formEditarProduto .single-input .inputEditarProduto:focus~label,
+    #formEditarProduto .single-input .inputEditarProduto:valid~label {
         transform: translateY(-4vh);
         font-size: 2vh;
         left: 0;
         color: #006b0f;
     }
-   
+
     #formEditarProduto .divButtonSalvar {
         display: flex;
     }
@@ -416,8 +432,9 @@
         text-align: center;
     }
 }
+
 /*DESKTOP*/
-@media screen and (min-width: 992px){
+@media screen and (min-width: 992px) {
     body {
         height: 100%;
     }
@@ -426,7 +443,7 @@
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         height: 4rem;
         width: 100%;
         position: relative;
@@ -434,7 +451,7 @@
 
     .divMenuElogo {
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
 
     .divMenuBuguer {
@@ -452,51 +469,57 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width:2.5rem;
+        width: 2.5rem;
         height: 2.5rem;
     }
 
 
     #idDropDowMenu {
-        display: none; 
-        position: absolute; 
-        top: 100%; 
+        display: none;
+        position: absolute;
+        top: 100%;
         left: 0;
-        background: #FFBD25; 
-        z-index: 10; 
+        background: #FFBD25;
+        z-index: 10;
         opacity: 0;
-        transform: translateY(-10px); 
-        visibility: hidden; 
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; 
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     }
 
     /* Classe para mostrar o menu com animação */
     #idDropDowMenu.show {
-        display: block; /* Torna o menu visível */
-        opacity: 1; /* Torna o menu visível */
-        transform: translateY(0); /* Move o menu para baixo */
-        visibility: visible; /* Torna o menu visível */
-        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease; /* Transições suaves */
+        display: block;
+        /* Torna o menu visível */
+        opacity: 1;
+        /* Torna o menu visível */
+        transform: translateY(0);
+        /* Move o menu para baixo */
+        visibility: visible;
+        /* Torna o menu visível */
+        transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        /* Transições suaves */
     }
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
     #idDropDowMenu .divRelatorioDropdowMenu {
-        padding: 10px; /* Espaçamento interno do menu */
+        padding: 10px;
+        /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
         display: block;
         padding-top: 15px;
-        text-decoration: none; 
-        color: #000; 
+        text-decoration: none;
+        color: #000;
     }
 
     #idDropDowMenu a:hover {
         cursor: pointer;
-        color: #006b0f; 
-        
+        color: #006b0f;
+
     }
 
     /* Outros estilos para o cabeçalho e conteúdo */
@@ -524,7 +547,7 @@
         display: flex;
         flex-direction: column;
     }
-    
+
     section .divpathCadastroDeItens {
         display: flex;
         margin-top: 1vh;
@@ -534,10 +557,10 @@
     }
 
     section hr {
-       text-align: center;
-       width: 98%;
-       margin-left: auto;
-       margin-right: auto;
+        text-align: center;
+        width: 98%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     section .divpathCadastroDeItens p {
@@ -545,7 +568,7 @@
         margin: auto;
         margin-left: 0;
     }
-    
+
     section .divdadosProdutos {
         display: flex;
         background-color: #dfdede;
@@ -568,7 +591,7 @@
         position: relative;
     }
 
-    #formEditarProduto  .single-input label {
+    #formEditarProduto .single-input label {
         position: absolute;
         left: 0;
         justify-content: center;
@@ -603,7 +626,7 @@
         background-color: #adadad;
     }
 
-    #formEditarProduto .single-input .setInput ~ label {
+    #formEditarProduto .single-input .setInput~label {
         transform: translateY(-4vh);
         font-size: 2vh;
         left: 0;
@@ -612,17 +635,17 @@
 
     #formEditarProduto .single-input .inputEditarProduto:focus,
     #formEditarProduto .single-input .inputEditarProduto:valid {
-        border: 1px solid #006b0f ;
+        border: 1px solid #006b0f;
     }
-    
-    #formEditarProduto .single-input .inputEditarProduto:focus ~ label,
-    #formEditarProduto .single-input .inputEditarProduto:valid ~ label{
+
+    #formEditarProduto .single-input .inputEditarProduto:focus~label,
+    #formEditarProduto .single-input .inputEditarProduto:valid~label {
         transform: translateY(-4vh);
         font-size: 2vh;
         left: 0;
         color: #006b0f;
     }
-   
+
     #formEditarProduto .divButtonSalvar {
         display: flex;
     }
