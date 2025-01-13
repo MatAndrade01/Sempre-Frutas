@@ -120,6 +120,13 @@
         margin-top: 40px;
     }
 
+    .divSectionFaturamento {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: 200px 200px; /* Ajusta automaticamente o layout */
+        gap: 20px; /* Espaçamento entre os itens */
+    }
+
     .buttonHome {
         display: flex;
         flex-direction: column;

@@ -173,6 +173,17 @@
         margin-bottom: 40px;
     }
 
+    #formCadastro .single-input .setInput {
+        border: 1px solid #006b0f ;
+    }
+
+    #formCadastro .single-input .setInput ~ label {
+        transform: translateY(-24px);
+        font-size: .9rem;
+        left: 0;
+        color: #006b0f;
+    }
+
     #formCadastro .single-input .inputCadastro:focus,
     #formCadastro .single-input .inputCadastro:valid {
         border: 1px solid #006b0f ;
