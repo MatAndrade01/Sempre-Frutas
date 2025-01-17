@@ -6,16 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const username = document.getElementById('idUser').value;
         const password = document.getElementById('idPassword').value;
+        const userLabel = document.getElementById('userLabel');
+        const inputUser = document.getElementById('idUser');
+        const passwordLabel = document.getElementById('passwordLabel');
+        const inputPassword = document.getElementById('idPassword');
+        const mensagemError = document.getElementById('mensagem');
 
         // Simulando um login simples com dados fixos
         const validUsername = 'admin';
         const validPassword = 'admin';
 
         if (username === validUsername && password === validPassword) {
-            // Redirecionar para outra página ou executar alguma ação
-            window.location.href = '/pages/home.html'; // Exemplo de redirecionamento
+            window.location.href = '/pages/home.html';
+
+            
         } else {
-            alert('Usuário ou senha incorretos. Tente novamente.');
+            mensagemError.setAttribute('style', 'display: block');
+            mensagemError.innerHTML = 'Usuario ou senha incorretos'
+            inputUser.focus();
         }
     });
 });
