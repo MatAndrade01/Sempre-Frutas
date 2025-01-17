@@ -6,7 +6,7 @@
     justify-content: space-between;
     align-items: center;
     height: 3rem;
-    width: 100%;
+    width: 100vw;
     position: relative;
   }
 
@@ -117,12 +117,6 @@
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
-  }
-
-  section .divpathItensEstoque {
-    display: flex;
-    margin-top: 3vh;
-    margin-left: 20px;
   }
 
   section .divpathItensEstoque svg {
@@ -318,7 +312,7 @@
   footer {
     background: #FFBD25;
     height: 6vh;
-    width: 100%;
+    width: 100vw;
     bottom: 0;
     position: fixed;
   }

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const response = await fetch(`http://localhost:3333/atualizarProduto/${produtoId}`, {
+            const response = await fetch(`https://semprefrutasapi.shop/atualizarProduto/${produtoId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

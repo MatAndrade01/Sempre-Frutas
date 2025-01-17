@@ -74,7 +74,7 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
 // Função para buscar características do item no servidor
 async function buscarCaracteristicasDoItem(nomeItem) {
   try {
-    const response = await fetch(`http://localhost:3333/estoque?nomePesquisa=${nomeItem}`);
+    const response = await fetch(`https://semprefrutasapi.shop/estoque?nomePesquisa=${nomeItem}`);
     const data = await response.json();
 
     if (data && data.length > 0) {

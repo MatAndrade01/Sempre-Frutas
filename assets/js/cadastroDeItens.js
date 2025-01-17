@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Definir o código do produto
     async function definirId() {
         const inputId = document.getElementById('idCodigoDoProduto');
-        const url = 'http://localhost:3333/getId';
+        const url = 'https://semprefrutasapi.shop/getId';
         const response = await fetch(url);
         const responseJson = await response.json();
         const ultimoId = responseJson[0].max;

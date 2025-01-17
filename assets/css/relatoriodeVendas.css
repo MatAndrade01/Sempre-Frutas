@@ -1,3 +1,316 @@
+@media only screen and (max-width: 667px) {
+  header {
+    display: flex;
+    background: #FFBD25;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;
+    width: 100vw;
+    position: relative;
+}
+
+.divMenuElogo {
+    display: flex;
+    align-items: center;
+}
+
+.divMenuBuguer {
+    display: flex;
+    margin-left: 10px;
+    margin-right: 20px;
+    border-right: 1px solid black;
+    width: 50px;
+}
+
+#idButtonBuguer {
+    background: transparent;
+    cursor: pointer;
+    border: none;
+}
+
+#idButtonBuguer #idBurguerIcon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+#idDropDowMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #FFBD25;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+}
+
+/* Classe para mostrar o menu com animação */
+#idDropDowMenu.show {
+    display: block;
+    /* Torna o menu visível */
+    opacity: 1;
+    /* Torna o menu visível */
+    transform: translateY(0);
+    /* Move o menu para baixo */
+    visibility: visible;
+    /* Torna o menu visível */
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+    /* Transições suaves */
+}
+
+/* Estilos adicionais para o conteúdo do menu */
+#idDropDowMenu .divEstoqueDropdowMenu,
+#idDropDowMenu .divRelatorioDropdowMenu {
+    padding: 10px;
+    /* Espaçamento interno do menu */
+    /* Outros estilos conforme necessário */
+}
+
+#idDropDowMenu a {
+    display: block;
+    padding-top: 15px;
+    text-decoration: none;
+    color: #000;
+    font-size: .8rem;
+}
+
+/* Outros estilos para o cabeçalho e conteúdo */
+.divLogo {
+    display: flex;
+    align-items: center;
+}
+
+.divLogo img {
+    height: 5vh;
+    margin-top: -10px;
+}
+
+.divNameUser {
+    display: flex;
+    align-items: center;
+}
+
+#idNameUser {
+    margin-right: 1rem;
+    font-size: 0.7rem;
+}
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+section .divpathItensCadastrados {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
+section .divpathItensCadastrados svg {
+  display: flex;
+  margin-left: 0;
+}
+
+section .divpathItensCadastrados p {
+  display: flex;
+  margin: auto;
+  margin-left: 0;
+}
+
+section hr {
+  width: 96vw;
+  display: flex;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+section form {
+  margin-top: 2rem;
+}
+
+section .divPesquisa {
+  display: flex;
+  width: 95vw;
+  margin-top: 50px;
+  justify-content: space-between;
+}
+
+form .single-input {
+  position: relative;
+  margin-left: 20px;
+
+}
+
+form .single-input .inputPesquisa {
+  max-width: 15rem;
+  width: 15rem;
+  color: rgb(0, 0, 0);
+  padding: 5px;
+  border: 1px solid black;
+  outline: 0;
+  border-radius: 5px;
+}
+
+form .single-input .inputPesquisa:focus~label,
+form .single-input .inputPesquisa:valid~label {
+  transform: translateY(-26px);
+  font-size: .9rem;
+  color: #000;
+  font-weight: bold;
+
+}
+
+form .single-input label {
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  cursor: text;
+  color: rgb(150, 150, 150);
+  transition: 0.5s ease-in-out;
+  font-size: .8rem;
+}
+
+section .divPesquisa .divInputText {
+  display: flex;
+}
+
+section .divPesquisa .divButtonFiltrar button {
+  cursor: pointer;
+  border: none;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+section .divPesquisa .divButtonFiltrar button:hover {
+  color: #006b0f;
+  background-color: #afaeae;
+}
+
+section .divTabelaDeProdutos {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 0;
+  justify-content: center;
+  width: 96vw;
+}
+
+section .divTabelaDeProdutos .tabelaDeProdutos {
+  width: 100%;
+}
+
+thead {
+  background-color: #555;
+  color: #fff;
+}
+
+thead tr th {
+  text-align: center;
+  padding: 12px;
+}
+
+tbody tr td {
+  text-align: center;
+  padding: 12px;
+}
+
+tbody tr td .divDropdowGear {
+  display: flex;
+  justify-content: center;
+}
+
+tbody tr td .divDropdowGear svg {
+  height: 15px;
+}
+
+tbody tr td #idDropdowLink {
+  display: flex;
+  flex-direction: column;
+  display: none;
+  background-color: #afaeae;
+  position: absolute;
+  margin-top: 30px;
+  margin-left: 55px;
+  padding: 20px;
+}
+
+tbody tr td #idDropdowLink .divVisualizarProduto,
+tbody tr td #idDropdowLink .divAlterarProduto,
+tbody tr td #idDropdowLink .divExcluirProduto {
+  padding: 5px;
+}
+
+tbody tr td #idDropdowLink .divVisualizarProduto a {
+  display: flex;
+  margin: auto;
+  justify-content: space-between;
+}
+
+
+tbody tr td a {
+  display: flex;
+  text-decoration: none;
+  color: #000;
+}
+
+tbody tr td a:hover {
+  color: #006b0f;
+}
+
+tbody tr td button {
+  display: flex;
+  border: none;
+  background-color: transparent;
+}
+
+tbody tr td #idExcluir:hover {
+  cursor: pointer;
+  color: rgb(182, 3, 3);
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #e0e0e0;
+}
+
+tbody tr .buttonGear {
+  border: none;
+  padding: 3px;
+  background-color: #b9b9b97e;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+tbody tr .buttonGear:hover {
+  background-color: #b9b9b9;
+}
+
+.pagination {
+  display: none;
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.pagination button {
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+footer {
+  background: #FFBD25;
+  height: 6vh;
+  width: 100vw;
+  bottom: 0;
+  position: fixed;
+}
+
+}
 /*DESKTOP*/
 @media screen and (min-width: 992px) {
 
@@ -9,37 +322,36 @@
     background: #FFBD25;
     justify-content: space-between;
     align-items: center;
-    height: 4rem;
+    height: 3rem;
     width: 100%;
     position: relative;
-  }
+}
 
-  .divMenuElogo {
+.divMenuElogo {
     display: flex;
     align-items: center;
-  }
+}
 
-  .divMenuBuguer {
+.divMenuBuguer {
     display: flex;
     margin-left: 10px;
     margin-right: 20px;
     border-right: 1px solid black;
-    width: 80px;
-  }
+    width: 50px;
+}
 
-  #idButtonBuguer {
+#idButtonBuguer {
     background: transparent;
     cursor: pointer;
     border: none;
-  }
+}
 
-  #idButtonBuguer #idBurguerIcon svg {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-left: 5px;
-  }
+#idButtonBuguer #idBurguerIcon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
 
-  #idDropDowMenu {
+#idDropDowMenu {
     display: none;
     position: absolute;
     top: 100%;
@@ -50,10 +362,10 @@
     transform: translateY(-10px);
     visibility: hidden;
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-  }
+}
 
-  /* Classe para mostrar o menu com animação */
-  #idDropDowMenu.show {
+/* Classe para mostrar o menu com animação */
+#idDropDowMenu.show {
     display: block;
     /* Torna o menu visível */
     opacity: 1;
@@ -64,50 +376,44 @@
     /* Torna o menu visível */
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     /* Transições suaves */
-  }
+}
 
-  /* Estilos adicionais para o conteúdo do menu */
-  #idDropDowMenu .divEstoqueDropdowMenu,
-  #idDropDowMenu .divRelatorioDropdowMenu {
+/* Estilos adicionais para o conteúdo do menu */
+#idDropDowMenu .divEstoqueDropdowMenu,
+#idDropDowMenu .divRelatorioDropdowMenu {
     padding: 10px;
     /* Espaçamento interno do menu */
     /* Outros estilos conforme necessário */
-  }
+}
 
-  #idDropDowMenu a {
+#idDropDowMenu a {
     display: block;
     padding-top: 15px;
     text-decoration: none;
     color: #000;
     font-size: .8rem;
-  }
+}
 
-  #idDropDowMenu a:hover {
-    cursor: pointer;
-    color: #006b0f;
-
-  }
-
-  /* Outros estilos para o cabeçalho e conteúdo */
-  .divLogo {
+/* Outros estilos para o cabeçalho e conteúdo */
+.divLogo {
     display: flex;
     align-items: center;
-  }
+}
 
-  .divLogo img {
-    height: 7.5vh;
+.divLogo img {
+    height: 5vh;
     margin-top: -10px;
-  }
+}
 
-  .divNameUser {
+.divNameUser {
     display: flex;
     align-items: center;
-  }
+}
 
-  #idNameUser {
+#idNameUser {
     margin-right: 1rem;
-    font-size: 1rem;
-  }
+    font-size: 0.7rem;
+}
 
   section {
     display: flex;

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const nomepesquisa = document.querySelector('input[name="nomepesquisa"]').value; // Nome do produto
   
       // Monta a URL com os parâmetros de pesquisa
-      const url = `http://localhost:3333/estoque?nomepesquisa=${nomepesquisa}`;
+      const url = `https://semprefrutasapi.shop/estoque?nomepesquisa=${nomepesquisa}`;
   
       // Exibe um indicador de carregamento enquanto aguarda a resposta da API
       const carregando = document.createElement('span');

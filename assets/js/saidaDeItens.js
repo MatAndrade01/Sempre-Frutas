@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const nomeProdutoInput = document.getElementById('idNomeDoProduto'); // Campo de nome do produto
     const quantidadeInput = document.getElementById('idQuantidadeSaida'); // Campo de quantidade
     const valorTotalInput = document.getElementById('idValorDaSaida'); // Campo de valor total
-    const urlBase = 'http://localhost:3333/produtosCadastrado'; // Base URL para a API
+    const urlBase = 'https://semprefrutasapi.shop/produtosCadastrado'; // Base URL para a API
     
     let valorDaVenda = 0; // Variável para armazenar o valor de venda do produto
     
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     
         try {
-            const response = await fetch('http://localhost:3333/saidaDeItem', {
+            const response = await fetch('https://semprefrutasapi.shop/saidaDeItem', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
