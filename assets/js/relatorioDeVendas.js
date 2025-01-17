@@ -8,9 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const formaDePagamento = document.querySelector("#forma-de-pagamento");
 
   // Função para formatar a data como 'YYYY-MM-DD'
-  function formatDate(date) {
-    return date.toISOString().split('T')[0]; // Retorna no formato 'YYYY-MM-DD'
-  }
+// Função para formatar a data como 'YYYY-MM-DD' no horário local
+function formatDate(date) {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return localDate.toISOString().split('T')[0];
+}
+
   
   // Função para exibir/ocultar campos com base no filtro selecionado
   function toggleFields() {

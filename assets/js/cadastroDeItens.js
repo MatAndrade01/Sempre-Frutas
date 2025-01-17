@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = 'https://semprefrutasapi.shop/getId';
         const response = await fetch(url);
         const responseJson = await response.json();
-        const ultimoId = responseJson[0].max;
+        const ultimoId = responseJson[0].max_id;
         inputId.value = ultimoId + 1; // Incrementa o ID para o próximo produto
     }
     definirId();
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Enviar os dados para a API
         try {
-            const response = await fetch('http://localhost:3333/cadastroDeItem', {
+            const response = await fetch('https://semprefrutasapi.shop/cadastroDeItem', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
