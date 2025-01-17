@@ -20,7 +20,7 @@
         margin-left: 10px;
         margin-right: 20px;
         border-right: 1px solid black;
-        width: 50px;
+        width: 70px;
     }
 
     #idButtonBuguer {
@@ -30,8 +30,8 @@
     }
 
     #idButtonBuguer #idBurguerIcon svg {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
     }
 
 
@@ -78,11 +78,6 @@
         font-size: .8rem;
     }
 
-    #idDropDowMenu a:hover {
-        cursor: pointer;
-        color: #006b0f;
-    }
-
     /* Outros estilos para o cabeçalho e conteúdo */
     .divLogo {
         display: flex;
@@ -90,10 +85,8 @@
     }
 
     .divLogo img {
-        height: auto;
-        max-width: 100%;
-        height: 5vh;
-        margin-top: -10px;
+        height: 4vh;
+        margin-top: -5px;
     }
 
     .divNameUser {
@@ -446,10 +439,6 @@
 
 /*DESKTOP*/
 @media screen and (min-width: 992px) {
-    body {
-        height: 100%;
-    }
-
     header {
         display: flex;
         background: #FFBD25;
@@ -482,6 +471,7 @@
     #idButtonBuguer #idBurguerIcon svg {
         width: 2.5rem;
         height: 2.5rem;
+        margin-left: 5px;
     }
 
 
@@ -525,6 +515,7 @@
         padding-top: 15px;
         text-decoration: none;
         color: #000;
+        font-size: .8rem;
     }
 
     #idDropDowMenu a:hover {

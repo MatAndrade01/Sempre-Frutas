@@ -444,7 +444,7 @@
         background: #FFBD25;
         justify-content: space-between;
         align-items: center;
-        height: 4rem;
+        height: 3rem;
         width: 100%;
         position: relative;
     }
@@ -459,7 +459,7 @@
         margin-left: 10px;
         margin-right: 20px;
         border-right: 1px solid black;
-        width: 80px;
+        width: 70px;
     }
 
     #idButtonBuguer {
@@ -514,12 +514,7 @@
         padding-top: 15px;
         text-decoration: none;
         color: #000;
-    }
-
-    #idDropDowMenu a:hover {
-        cursor: pointer;
-        color: #006b0f;
-
+        font-size: .8rem;
     }
 
     /* Outros estilos para o cabeçalho e conteúdo */
@@ -529,8 +524,8 @@
     }
 
     .divLogo img {
-        height: 7.5vh;
-        margin-top: -10px;
+        height: 4vh;
+        margin-top: -5px;
     }
 
     .divNameUser {
