@@ -94,6 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  const divMensagem = document.querySelector('#divMensagem');
+  const mensagem = document.querySelector('#mensagem');
+
   // Chama a função para definir a data atual no campo de data
   definirDataAtual();
 
@@ -132,16 +135,33 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (response.ok) {
-          alert("Saída registrada com sucesso!");
+          mensagem.innerHTML='Saída registrada com sucesso!';
+          divMensagem.style.display = 'flex'; 
+
+          // Oculta a mensagem após 3 segundos
+          setTimeout(() => {
+            divMensagem.style.display = 'none';
+          }, 3000);
+
           // Limpar os campos do formulário
           document.getElementById("formSainda").reset();
         } else {
           console.log(data.message);
-          alert(`Erro: ${data.message}`);
+          mensagem.innerHTML = 'Erro ao dar saida no produto';
+          mensagem.style.color = '#b94a48'
+          divMensagem.style.display = 'flex';
+          divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
+          divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
+          setTimeout(() => {
+            divMensagem.style.display = 'none';
+            mensagem.style.color = '#04750ad0'
+            divMensagem.style.display = 'flex';
+            divMensagem.style.backgroundColor = '#acd3aed0'; // Altere para a cor desejada
+            divMensagem.style.borderColor = '#06570ad0'; // Altere para a cor da borda desejada
+          }, 3000);
         }
       } catch (error) {
         console.error("Erro ao enviar saída:", error);
-        alert("Erro ao processar a saída.");
       }
     });
 });

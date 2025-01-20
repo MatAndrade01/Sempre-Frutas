@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const button = document.getElementById('idButtonBuguer');
     const menu = document.getElementById('idDropDowMenu');
+    const divMensagem = document.querySelector('#divMensagem');
+    const mensagem = document.querySelector('#mensagem')
   
     button.addEventListener('click', function() {
         // Verifica se o menu está visível
@@ -54,11 +56,29 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 // Limpar o formulário após o sucesso
                 form.reset();
-                alert('Produto cadastrado com sucesso!');
+                mensagem.innerHTML = 'Produto cadastrado com sucesso!';
+                divMensagem.style.display = 'flex'; 
+
+                // Oculta a mensagem após 5 segundos
+                setTimeout(() => {
+                    divMensagem.style.display = 'none';
+                }, 3000);
+
                 definirId(); // Atualiza o ID do produto
                 definirDataAtual(); // Atualiza a data no campo
             } else {
-                alert('Erro ao cadastrar o produto');
+                mensagem.innerHTML = 'Erro ao cadastrar o produto';
+                
+                divMensagem.style.display = 'flex';
+                divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
+                divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
+
+                setTimeout(() => {
+                    divMensagem.style.display = 'none';
+                    mensagem.style.color = '#04750ad0'
+                    divMensagem.style.backgroundColor = '#acd3aed0'; // Altere para a cor desejada
+                    divMensagem.style.borderColor = '#06570ad0'; // Altere para a cor da borda desejada
+                }, 3000);
             }
         } catch (error) {
             console.error('Erro ao conectar com a API:', error);

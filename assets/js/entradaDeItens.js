@@ -53,6 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Chama a função para definir a data atual ao carregar a página
     definirDataAtual();
 
+    const divMensagem = document.querySelector('#divMensagem');
+    const mensagem = document.querySelector('#mensagem');
+
     // Interceptar o envio do formulário para enviar dados via fetch
     const form = document.getElementById('formEntrada');
     form.addEventListener('submit', async function(event) {
@@ -61,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Coletar os dados do formulário
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        console.log(data); // Exibe os dados coletados no console para depuração
 
 
         // Verifica se 'quantidadeporcaixa' está vazio ou nulo e substitui por 0
@@ -82,10 +84,29 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 // Limpar o formulário após o sucesso
                 form.reset();
-                alert('Entrada feita com sucesso!');
+                mensagem.innerHTML='Entrada feita com sucesso!';
+                divMensagem.style.display = 'flex'; 
+
+                // Oculta a mensagem após 5 segundos
+                setTimeout(() => {
+                    divMensagem.style.display = 'none';
+                }, 3000);
+
                 definirDataAtual(); // Atualiza a data no campo
             } else {
-                alert('Erro ao dar entrada no produto');
+                mensagem.innerHTML = 'Erro ao dar entrada no produto';
+                mensagem.style.color = '#b94a48'
+                divMensagem.style.display = 'flex';
+                divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
+                divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
+
+                setTimeout(() => {
+                    divMensagem.style.display = 'none';
+                    mensagem.style.color = '#04750ad0'
+                    divMensagem.style.display = 'flex';
+                    divMensagem.style.backgroundColor = '#acd3aed0'; // Altere para a cor desejada
+                    divMensagem.style.borderColor = '#06570ad0'; // Altere para a cor da borda desejada
+                }, 3000);
             }
         } catch (error) {
             console.error('Erro ao conectar com a API:', error);

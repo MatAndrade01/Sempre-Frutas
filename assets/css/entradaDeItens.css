@@ -634,6 +634,29 @@
         margin-left: 0;
     }
 
+    section #divMensagem {
+        display: none;
+        
+        position: absolute;
+        
+        background-color: #acd3aed0;
+        color: #04750ad0;
+
+        width: 20vw;
+        height: 7vh;
+        
+        top: 25%; /* Opcional, para centralizar verticalmente também */
+        left: 88%;
+        transform: translate(-50%, -50%);
+
+        border-radius: 5px;
+        border: 1px solid #06570ad0;
+    }
+
+    section #divMensagem p{   
+        margin: auto;
+    } 
+
     section .divdadosProdutos {
         display: flex;
         background-color: #dfdede;

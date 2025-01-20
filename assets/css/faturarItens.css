@@ -150,6 +150,24 @@ main .divpathItensCaixa p {
   margin-left: 0;
 }
 
+main #divMensagem {
+  display: none;
+  margin: 12px auto;
+  
+  background-color: #f2dede;
+  color: #b94a48;
+
+  width: 97vw;
+  height: 10vh;
+  
+  border-radius: 5px;
+  border: 1px solid #d68d8d;
+}
+
+main #divMensagem p{   
+  margin: auto;
+} 
+
 main .dados-do-cliente {
   display: flex;
   gap: 2rem;

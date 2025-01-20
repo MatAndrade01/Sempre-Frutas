@@ -185,11 +185,17 @@ form.addEventListener("submit", async (event) => {
 
   const nomeDoItem = nome.value.toUpperCase();
   const quantidadeDeItens = parseFloat(quantidade.value);
+  const divMensagem = document.querySelector('#divMensagem');
+  const mensagem = document.querySelector('#mensagem');
 
   if (!nomeDoItem || isNaN(quantidadeDeItens) || quantidadeDeItens <= 0) {
-    alert(
-      "Por favor, preencha todos os campos corretamente com uma quantidade válida."
-    );
+    mensagem.innerHTML = 
+      "Por favor, preencha todos os campos corretamente com uma quantidade válida.";
+    divMensagem.style.display = 'flex';
+    nome.focus()
+    setTimeout(() => {
+      divMensagem.style.display = 'none';
+    }, 10000);
     return;
   }
 
@@ -197,9 +203,13 @@ form.addEventListener("submit", async (event) => {
     await buscarCaracteristicasDoItem(nomeDoItem);
 
   if (quantidadeDeItens > quantidadeDisponivel) {
-    alert(
-      `Quantidade solicitada excede a quantidade disponível no estoque. Quantidade disponível: ${quantidadeDisponivel}`
-    );
+    mensagem.innerHTML = 
+      `Quantidade solicitada excede a quantidade disponível no estoque. Quantidade disponível: ${quantidadeDisponivel}`;
+    divMensagem.style.display = 'flex';
+    quantidade.focus();
+    setTimeout(() => {
+      divMensagem.style.display = 'none';
+    }, 10000);
     return;
   }
 
@@ -225,7 +235,13 @@ const botaoFaturar = document.querySelector("#button-faturar");
 
 botaoFaturar.addEventListener("click", async () => {
   if (compras.length === 0) {
-    alert("A lista de faturamento está vazia!");
+    mensagem.innerHTML = 
+      "A lista de faturamento está vazia!";
+    divMensagem.style.display = 'flex';
+    nome.focus();
+    setTimeout(() => {
+      divMensagem.style.display = 'none';
+    }, 10000);
     return;
   }
 
@@ -244,7 +260,13 @@ botaoFaturar.addEventListener("click", async () => {
   const valordaentrega = document.querySelector("#valor-da-entrega").value;
 
   if (!tipodepagamento || isNaN(valorpago) || isNaN(valortotal)) {
-    alert("Por favor, preencha todos os campos do formulário corretamente.");
+    mensagem.innerHTML = 
+    "Por favor, preencha todos os campos do formulário corretamente.";
+    divMensagem.style.display = 'flex';
+    valorpago.focus();
+    setTimeout(() => {
+      divMensagem.style.display = 'none';
+    }, 10000);
     return;
   }
 
@@ -276,8 +298,6 @@ botaoFaturar.addEventListener("click", async () => {
     const data = await response.json();
 
     if (response.ok) {
-      alert("Faturamento realizado com sucesso!");
-
       // Gerar e abrir o cupom fiscal para impressão
       abrirTelaDeImpressao(dadosFaturamento);
 
@@ -290,7 +310,12 @@ botaoFaturar.addEventListener("click", async () => {
     }
   } catch (error) {
     console.error("Erro ao processar o faturamento:", error);
-    alert("Erro ao faturar os itens. Tente novamente.");
+    mensagem.innerHTML = 
+    "Erro ao faturar os itens. Tente novamente mais tarde.";
+    divMensagem.style.display = 'flex';
+    setTimeout(() => {
+      divMensagem.style.display = 'none';
+    }, 10000);
   }
 
   // Limpa o campo de valor pago
