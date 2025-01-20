@@ -225,6 +225,8 @@ form.addEventListener("submit", async (event) => {
   // Recalcular o valor total
   calcularValorTotal();
 
+  console.log(valor)
+
   // Limpar os campos
   nome.value = "";
   quantidade.value = "";
