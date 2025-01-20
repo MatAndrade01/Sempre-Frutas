@@ -123,3 +123,25 @@ document.addEventListener('DOMContentLoaded', function() {
     valorCompraInput.addEventListener("input", calcularValorTotal);
     document.getElementById("idQuantidadePorCaixa").addEventListener("input", calcularValorTotal);
 });
+
+const userLogado = localStorage.getItem('userLogado');
+let logado = document.querySelector('.nomeLogado');
+
+logado.innerHTML = `Bem vindo ${userLogado}`;
+
+if(localStorage.getItem('token') == null) {
+    alert('Você não está logado para acessar essa pagina!');
+    window.location.href = '/index.html';
+}
+
+if(localStorage.getItem('tipodeusuario') == 'caixa') {
+    alert('Você não acesso a essa pagina!');
+    window.location.href = './home.html';
+}
+
+function sair() {
+    window.location.href = '/index.html';
+    localStorage.removeItem('token');
+    localStorage.removeItem('userLogado');
+    localStorage.removeItem('tipodeusuario');
+}

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const response = await fetch(`https://semprefrutasapi.shop/atualizarProduto/${produtoId}`, {
+            const response = await fetch(`https://backend-sempre-frutas.onrender.com/atualizarProduto/${produtoId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -68,3 +68,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+const userLogado = localStorage.getItem('userLogado');
+let logado = document.querySelector('.nomeLogado');
+
+logado.innerHTML = `Bem vindo ${userLogado}`;
+
+if(localStorage.getItem('tipodeusuario') == 'caixa') {
+        alert('Você não acesso a essa pagina!');
+        window.location.href = './home.html';
+    }
+
+    if(localStorage.getItem('tipodeusuario') == 'caixa') {
+        alert('Você não acesso a essa pagina!');
+        window.location.href = './home.html';
+    }
+
+function sair() {
+    window.location.href = '/index.html';
+    localStorage.removeItem('token');
+    localStorage.removeItem('userLogado');
+    localStorage.removeItem('tipodeusuario');
+}

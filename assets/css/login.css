@@ -246,6 +246,10 @@
         height: 100%;
     }
 
+    header {
+        position: relative; /* Necessário para o posicionamento absoluto funcionar */
+    }
+
     .divImage {
         background-color: red;
     }
@@ -261,6 +265,29 @@
         display: flex;
         flex-direction: column;
     }
+
+    #divMensagemErro {
+        display: none;
+        
+        position: absolute;
+        
+        background-color: #f2dede;
+        color: #b94a48;
+
+        width: 15vw;
+        height: 7vh;
+        
+        top: 18%; /* Opcional, para centralizar verticalmente também */
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        border-radius: 5px;
+        border: 1px solid #d68d8d;
+    }
+
+    #divMensagemErro p {
+        margin: auto;
+    } 
 
     #idPhotoLogin {
         width: 160px;

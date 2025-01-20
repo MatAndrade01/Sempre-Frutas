@@ -17,7 +17,7 @@ let logado = document.querySelector('.nomeLogado');
 
 logado.innerHTML = `Bem vindo ${userLogado}`;
 
-if(localStorage.getItem('token') == null) {
+if(localStorage.getItem('token') == null) { 
     alert('Você não está logado para acessar essa pagina!');
     window.location.href = '/index.html';
 }

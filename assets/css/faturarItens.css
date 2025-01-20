@@ -1,6 +1,7 @@
 /* Estilos básicos do cabeçalho e do menu */
 
 
+/* Estilos básicos do cabeçalho e do menu */
 header {
   display: flex;
   background: #FFBD25;
@@ -66,18 +67,20 @@ header {
 
 /* Estilos adicionais para o conteúdo do menu */
 #idDropDowMenu .divEstoqueDropdowMenu,
-#idDropDowMenu .divRelatorioDropdowMenu {
+#idDropDowMenu .divRelatorioDropdowMenu,
+#idDropDowMenu .divFaturamentoDropDow {
   padding: 10px;
   /* Espaçamento interno do menu */
   /* Outros estilos conforme necessário */
 }
 
 #idDropDowMenu a {
-  display: block;
   padding-top: 15px;
   text-decoration: none;
   color: #000;
   font-size: .8rem;
+  display: flex;
+  align-items: center;
 }
 
 #idDropDowMenu a:hover {
@@ -97,14 +100,23 @@ header {
   margin-top: -10px;
 }
 
-.divNameUser {
+.nomeLogadoEexit {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.divSair {
   display: flex;
   align-items: center;
 }
 
-#idNameUser {
+#idButtonSair {
   margin-right: 1rem;
   font-size: 1rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 main {

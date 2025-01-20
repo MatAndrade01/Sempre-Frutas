@@ -439,12 +439,13 @@
         height: 100%;
     }
 
+    /* Estilos básicos do cabeçalho e do menu */
     header {
         display: flex;
         background: #FFBD25;
         justify-content: space-between;
         align-items: center;
-        height: 3rem;
+        height: 4rem;
         width: 100%;
         position: relative;
     }
@@ -459,7 +460,7 @@
         margin-left: 10px;
         margin-right: 20px;
         border-right: 1px solid black;
-        width: 70px;
+        width: 80px;
     }
 
     #idButtonBuguer {
@@ -471,6 +472,7 @@
     #idButtonBuguer #idBurguerIcon svg {
         width: 2.5rem;
         height: 2.5rem;
+        margin-left: 5px;
     }
 
 
@@ -503,18 +505,26 @@
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
-    #idDropDowMenu .divRelatorioDropdowMenu {
+    #idDropDowMenu .divRelatorioDropdowMenu,
+    #idDropDowMenu .divFaturamentoDropDow {
         padding: 10px;
         /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
     }
 
     #idDropDowMenu a {
-        display: block;
         padding-top: 15px;
         text-decoration: none;
         color: #000;
         font-size: .8rem;
+        display: flex;
+        align-items: center;
+    }
+
+    #idDropDowMenu a:hover {
+        cursor: pointer;
+        color: #006b0f;
+
     }
 
     /* Outros estilos para o cabeçalho e conteúdo */
@@ -524,18 +534,27 @@
     }
 
     .divLogo img {
-        height: 4vh;
-        margin-top: -5px;
+        height: 7.5vh;
+        margin-top: -10px;
     }
 
-    .divNameUser {
+    .nomeLogadoEexit {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .divSair {
         display: flex;
         align-items: center;
     }
 
-    #idNameUser {
+    #idButtonSair {
         margin-right: 1rem;
         font-size: 1rem;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
     }
 
     section {

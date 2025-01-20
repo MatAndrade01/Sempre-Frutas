@@ -1,3 +1,57 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const button = document.getElementById("idButtonBuguer");
+  const menu = document.getElementById("idDropDowMenu");
+
+  button.addEventListener("click", function () {
+    // Verifica se o menu está visível
+    if (menu.classList.contains("show")) {
+      menu.classList.remove("show"); // Oculta o menu
+    } else {
+      menu.classList.add("show"); // Mostra o menu
+    }
+  });
+
+  const userLogado = localStorage.getItem("userLogado");
+  let logado = document.querySelector(".nomeLogado");
+
+  logado.innerHTML = `Bem vindo ${userLogado}`;
+
+  if (localStorage.getItem("token") == null) {
+    alert("Você não está logado para acessar essa pagina!");
+    window.location.href = "/index.html";
+  }
+
+  if (localStorage.getItem("tipodeusuario") == "caixa") {
+    let cadastroDeAlimentosDropdown = document.querySelector(
+      ".cadastroDeAlimentosDropDow"
+    );
+    cadastroDeAlimentosDropdown.style.display = "none";
+    let produtosCadastradosDropdown = document.querySelector(
+      ".produtosCadastradosDropDow"
+    );
+    produtosCadastradosDropdown.style.display = "none";
+    let entradaDeEstoqueDropdown = document.querySelector(
+      ".entradaDeEstoqueDropDow"
+    );
+    entradaDeEstoqueDropdown.style.display = "none";
+    let saidaDeEstoqueDropdown = document.querySelector(
+      ".saidaDeEstoqueDropDow"
+    );
+    saidaDeEstoqueDropdown.style.display = "none";
+    let divRelatorioDropdown = document.querySelector(
+      ".divRelatorioDropdowMenu"
+    );
+    divRelatorioDropdown.style.display = "none";
+  }
+
+  function sair() {
+    window.location.href = "/index.html";
+    localStorage.removeItem("token");
+    localStorage.removeItem("userLogado");
+    localStorage.removeItem("tipodeusuario");
+  }
+});
+
 const form = document.querySelector("#todo-form");
 const nome = document.querySelector("#nome-item");
 const quantidade = document.querySelector("#quantidade-item");
@@ -7,23 +61,26 @@ function verificarSelect() {
   const tipoDeCompra = document.querySelector("#tipo-de-compra");
   const valorDaEntrega = document.querySelector("#valor-da-entrega");
 
-  if (tipoDeCompra.value === "LOJA") { // Corrigido aqui
+  if (tipoDeCompra.value === "LOJA") {
+    // Corrigido aqui
     valorDaEntrega.readOnly = true;
-    valorDaEntrega.style.pointerEvents = 'none';
-    valorDaEntrega.style.backgroundColor = '#adadad';
-  } else { // Se for outro tipo de compra, habilitar o campo
+    valorDaEntrega.style.pointerEvents = "none";
+    valorDaEntrega.style.backgroundColor = "#adadad";
+  } else {
+    // Se for outro tipo de compra, habilitar o campo
     valorDaEntrega.readOnly = false;
-    valorDaEntrega.style.pointerEvents = 'auto';
-    valorDaEntrega.style.backgroundColor = ''; // Reseta a cor de fundo
+    valorDaEntrega.style.pointerEvents = "auto";
+    valorDaEntrega.style.backgroundColor = ""; // Reseta a cor de fundo
   }
 }
 
 // Adiciona um evento ao campo tipoDeCompra para verificar a opção selecionada
-document.getElementById('tipo-de-compra').addEventListener('change', verificarSelect);
+document
+  .getElementById("tipo-de-compra")
+  .addEventListener("change", verificarSelect);
 
 // Chama a função verificarSelect ao carregar a página
-window.addEventListener('load', verificarSelect); // Garantir que seja chamado quando a página carregar
-
+window.addEventListener("load", verificarSelect); // Garantir que seja chamado quando a página carregar
 
 let compras = [];
 
@@ -41,10 +98,10 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
   spanUnidade.textContent = unidade;
 
   const spanValor = document.createElement("span");
-  const valorFormatado = new Intl.NumberFormat('pt-BR', { 
-    style: 'currency', 
-    currency: 'BRL', 
-    minimumFractionDigits: 2 
+  const valorFormatado = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
   }).format(valor);
   spanValor.textContent = valorFormatado;
 
@@ -74,21 +131,31 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
 // Função para buscar características do item no servidor
 async function buscarCaracteristicasDoItem(nomeItem) {
   try {
-    const response = await fetch(`https://semprefrutasapi.shop/estoque?nomePesquisa=${nomeItem}`);
+    const response = await fetch(
+      `https://semprefrutasapi.shop/estoque?nomePesquisa=${nomeItem}`
+    );
     const data = await response.json();
 
     if (data && data.length > 0) {
       return {
         unidade: data[0].unidadedereferencia,
         valor: data[0].valordevenda,
-        quantidadeDisponivel: data[0].quantidadedoproduto
+        quantidadeDisponivel: data[0].quantidadedoproduto,
       };
     } else {
-      return { unidade: "Unidade não encontrada", valor: 0, quantidadeDisponivel: 0 };
+      return {
+        unidade: "Unidade não encontrada",
+        valor: 0,
+        quantidadeDisponivel: 0,
+      };
     }
   } catch (error) {
     console.error("Erro ao buscar características:", error);
-    return { unidade: "Erro ao carregar unidade", valor: 0, quantidadeDisponivel: 0 };
+    return {
+      unidade: "Erro ao carregar unidade",
+      valor: 0,
+      quantidadeDisponivel: 0,
+    };
   }
 }
 
@@ -102,9 +169,10 @@ campoValorDaEntrega.addEventListener("input", calcularValorTotal);
 function calcularValorTotal() {
   const valordaentrega = parseFloat(campoValorDaEntrega.value) || 0;
 
-  const valorTotal = compras.reduce((total, item) => {
-    return total + item.quantidade * item.valor;
-  }, 0) + valordaentrega;
+  const valorTotal =
+    compras.reduce((total, item) => {
+      return total + item.quantidade * item.valor;
+    }, 0) + valordaentrega;
 
   // Atualizar o input com o valor total formatado
   const inputValorTotal = document.querySelector("#valor-total");
@@ -119,14 +187,19 @@ form.addEventListener("submit", async (event) => {
   const quantidadeDeItens = parseFloat(quantidade.value);
 
   if (!nomeDoItem || isNaN(quantidadeDeItens) || quantidadeDeItens <= 0) {
-    alert("Por favor, preencha todos os campos corretamente com uma quantidade válida.");
+    alert(
+      "Por favor, preencha todos os campos corretamente com uma quantidade válida."
+    );
     return;
   }
 
-  const { unidade, valor, quantidadeDisponivel } = await buscarCaracteristicasDoItem(nomeDoItem);
+  const { unidade, valor, quantidadeDisponivel } =
+    await buscarCaracteristicasDoItem(nomeDoItem);
 
   if (quantidadeDeItens > quantidadeDisponivel) {
-    alert(`Quantidade solicitada excede a quantidade disponível no estoque. Quantidade disponível: ${quantidadeDisponivel}`);
+    alert(
+      `Quantidade solicitada excede a quantidade disponível no estoque. Quantidade disponível: ${quantidadeDisponivel}`
+    );
     return;
   }
 
@@ -134,7 +207,7 @@ form.addEventListener("submit", async (event) => {
     nome: nomeDoItem,
     quantidade: quantidadeDeItens,
     unidade: unidade,
-    valor: valor
+    valor: valor,
   });
 
   mostrarListaDeCompras(nomeDoItem, quantidadeDeItens, unidade, valor);
@@ -143,8 +216,8 @@ form.addEventListener("submit", async (event) => {
   calcularValorTotal();
 
   // Limpar os campos
-  nome.value = '';
-  quantidade.value = '';
+  nome.value = "";
+  quantidade.value = "";
 });
 
 // Evento do botão Faturar
@@ -162,12 +235,13 @@ botaoFaturar.addEventListener("click", async () => {
   const valortotal = parseFloat(document.querySelector("#valor-total").value);
   const nomedocliente = document.querySelector("#nome-do-cliente").value;
   const cidadedocliente = document.querySelector("#cidade-do-cliente").value;
-  const enderecodocliente = document.querySelector("#endereco-do-cliente").value;
+  const enderecodocliente = document.querySelector(
+    "#endereco-do-cliente"
+  ).value;
   const numerodacasadocliente = document.querySelector("#numero-da-casa").value;
   const bairrodocliente = document.querySelector("#bairro-do-cliente").value;
   const tipodecompra = document.querySelector("#tipo-de-compra").value;
   const valordaentrega = document.querySelector("#valor-da-entrega").value;
-
 
   if (!tipodepagamento || isNaN(valorpago) || isNaN(valortotal)) {
     alert("Por favor, preencha todos os campos do formulário corretamente.");
@@ -191,7 +265,7 @@ botaoFaturar.addEventListener("click", async () => {
   };
 
   try {
-    const response = await fetch("http://localhost:3333/faturamento", {
+    const response = await fetch("https://semprefrutasapi.shop/faturamento", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -220,13 +294,13 @@ botaoFaturar.addEventListener("click", async () => {
   }
 
   // Limpa o campo de valor pago
-  document.querySelector("#valor-pago").value = '';
-  document.querySelector("#nome-do-cliente").value = '';
-  document.querySelector("#bairro-do-cliente").value = '';
-  document.querySelector("#cidade-do-cliente").value = '';
-  document.querySelector("#endereco-do-cliente").value = '';
-  document.querySelector("#numero-da-casa").value = '';
-  document.querySelector("#valor-da-entrega").value = '';
+  document.querySelector("#valor-pago").value = "";
+  document.querySelector("#nome-do-cliente").value = "";
+  document.querySelector("#bairro-do-cliente").value = "";
+  document.querySelector("#cidade-do-cliente").value = "";
+  document.querySelector("#endereco-do-cliente").value = "";
+  document.querySelector("#numero-da-casa").value = "";
+  document.querySelector("#valor-da-entrega").value = "";
 });
 
 // Função para gerar e abrir a tela de impressão do cupom fiscal
@@ -309,7 +383,9 @@ function abrirTelaDeImpressao(dadosFaturamento) {
 
         <div class="dados-cliente">
           <p><strong>Cliente:</strong> ${dadosFaturamento.cliente}</p>
-          <p><strong>Endereço do Cliente:</strong> ${dadosFaturamento.enderecocliente}</p>
+          <p><strong>Endereço do Cliente:</strong> ${
+            dadosFaturamento.enderecocliente
+          }</p>
         </div>
 
         <table class="table">
@@ -322,28 +398,46 @@ function abrirTelaDeImpressao(dadosFaturamento) {
             </tr>
           </thead>
           <tbody>
-            ${dadosFaturamento.itens.map(item => `
+            ${dadosFaturamento.itens
+              .map(
+                (item) => `
               <tr>
                 <td>${item.nome}</td>
                 <td>${item.quantidade}</td>
-                <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</td>
-                <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.quantidade * item.valor)}</td>
+                <td>${new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(item.valor)}</td>
+                <td>${new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(item.quantidade * item.valor)}</td>
               </tr>
-            `).join('')}
+            `
+              )
+              .join("")}
             <tr>
               <td>${dadosFaturamento.tipodecompra}</td>
               <td></td>
               <td></td>
-              <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(dadosFaturamento.valordaentrega)}</td>
+              <td>${new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(dadosFaturamento.valordaentrega)}</td>
             </tr>
           </tbody>
         </table>
 
         <div class="total">
-          <strong>Total: </strong>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(dadosFaturamento.valortotal)}
+          <strong>Total: </strong>${new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(dadosFaturamento.valortotal)}
         </div>
         <div>
-          <strong>Forma de Pagamento:${dadosFaturamento.tipodepagamento}</strong>
+          <strong>Forma de Pagamento:${
+            dadosFaturamento.tipodepagamento
+          }</strong>
         </div>
 
         <div class="footer">

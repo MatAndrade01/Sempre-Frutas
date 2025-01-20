@@ -328,8 +328,6 @@
 @media screen and (min-width: 992px) {
 
   /* Estilos básicos do cabeçalho e do menu */
-
-
   header {
     display: flex;
     background: #FFBD25;
@@ -338,35 +336,35 @@
     height: 4rem;
     width: 100%;
     position: relative;
-}
+  }
 
-.divMenuElogo {
+  .divMenuElogo {
     display: flex;
     align-items: center;
-}
+  }
 
-.divMenuBuguer {
+  .divMenuBuguer {
     display: flex;
     margin-left: 10px;
     margin-right: 20px;
     border-right: 1px solid black;
     width: 80px;
-}
+  }
 
-#idButtonBuguer {
+  #idButtonBuguer {
     background: transparent;
     cursor: pointer;
     border: none;
-}
+  }
 
-#idButtonBuguer #idBurguerIcon svg {
+  #idButtonBuguer #idBurguerIcon svg {
     width: 2.5rem;
     height: 2.5rem;
     margin-left: 5px;
-}
+  }
 
 
-#idDropDowMenu {
+  #idDropDowMenu {
     display: none;
     position: absolute;
     top: 100%;
@@ -377,10 +375,10 @@
     transform: translateY(-10px);
     visibility: hidden;
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-}
+  }
 
-/* Classe para mostrar o menu com animação */
-#idDropDowMenu.show {
+  /* Classe para mostrar o menu com animação */
+  #idDropDowMenu.show {
     display: block;
     /* Torna o menu visível */
     opacity: 1;
@@ -391,50 +389,61 @@
     /* Torna o menu visível */
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
     /* Transições suaves */
-}
+  }
 
-/* Estilos adicionais para o conteúdo do menu */
-#idDropDowMenu .divEstoqueDropdowMenu,
-#idDropDowMenu .divRelatorioDropdowMenu {
+  /* Estilos adicionais para o conteúdo do menu */
+  #idDropDowMenu .divEstoqueDropdowMenu,
+  #idDropDowMenu .divRelatorioDropdowMenu,
+  #idDropDowMenu .divFaturamentoDropDow {
     padding: 10px;
     /* Espaçamento interno do menu */
     /* Outros estilos conforme necessário */
-}
+  }
 
-#idDropDowMenu a {
-    display: block;
+  #idDropDowMenu a {
     padding-top: 15px;
     text-decoration: none;
     color: #000;
     font-size: .8rem;
+    display: flex;
+    align-items: center;
 }
 
-#idDropDowMenu a:hover {
+  #idDropDowMenu a:hover {
     cursor: pointer;
     color: #006b0f;
 
-}
+  }
 
-/* Outros estilos para o cabeçalho e conteúdo */
-.divLogo {
+  /* Outros estilos para o cabeçalho e conteúdo */
+  .divLogo {
     display: flex;
     align-items: center;
-}
+  }
 
-.divLogo img {
+  .divLogo img {
     height: 7.5vh;
     margin-top: -10px;
-}
+  }
 
-.divNameUser {
+  .nomeLogadoEexit {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .divSair {
     display: flex;
     align-items: center;
-}
+  }
 
-#idNameUser {
+  #idButtonSair {
     margin-right: 1rem;
     font-size: 1rem;
-}
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
 
   section {
     display: flex;
