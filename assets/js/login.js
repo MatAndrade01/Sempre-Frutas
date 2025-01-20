@@ -1,45 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.querySelector('form');
     
-    loginForm.addEventListener('submit', function(event) {
+    loginForm.addEventListener('submit', async function(event) {
         event.preventDefault(); // Evita o comportamento padrão de envio do formulário
 
         const username = document.getElementById('idUser').value;
         const password = document.getElementById('idPassword').value;
-        const userLabel = document.getElementById('userLabel');
         const inputUser = document.getElementById('idUser');
-        const passwordLabel = document.getElementById('passwordLabel');
-        const inputPassword = document.getElementById('idPassword');
         const mensagemError = document.getElementById('mensagem');
 
-        // Simulando um login simples com dados fixos
-        const validUsername = 'admin';
-        const validPassword = 'admin';
+        try {
+            const response = await fetch('https://backend-sempre-frutas.onrender.com/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ login: username, senha: password }),
+            });
 
-        if (username === validUsername && password === validPassword) {
-            window.location.href = '/pages/home.html';
+            if (!response.ok) {
+                throw new Error('Usuário ou senha incorretos');
+            }
 
+            const data = await response.json();
+            console.log(data);
             
-        } else {
+            // Sucesso no login
+            window.location.href = 'http://127.0.0.1:5501/pages/home.html';
+
+            // Simula o armazenamento de token e informações do usuário
+            let token = data.token || Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2);
+            localStorage.setItem('token', token);
+            localStorage.setItem('userLogado', data.login || username);
+            console.log(data.tipodeusuario);
+            localStorage.setItem('tipodeusuario', data.tipodeusuario);
+        } catch (error) {
+            // Exibe mensagem de erro
             mensagemError.setAttribute('style', 'display: block');
-            mensagemError.innerHTML = 'Usuario ou senha incorretos'
+            mensagemError.innerHTML = error.message;
             inputUser.focus();
         }
     });
-});
 
-document.addEventListener('DOMContentLoaded', () => {
+    // Lógica para alternar visibilidade da senha
     const passwordInput = document.getElementById('idPassword');
     const togglePassword = document.getElementById('eyeIcon');
 
     togglePassword.addEventListener('click', function() {
-        // Verifica o tipo atual do input de senha
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
 
-        // Alterna a imagem do ícone (opcional, se você tiver diferentes imagens para mostrar/ocultar)
         this.querySelector('img').src = type === 'password' 
-            ? '/assets/image/icon/eyeIconClose.svg'  // Ícone de "olho fechado"
-            : '/assets/image/icon/eyeIconOpen.svg'; // Ícone de "olho aberto"
+            ? '/assets/image/icon/eyeIconClose.svg'
+            : '/assets/image/icon/eyeIconOpen.svg';
     });
 });

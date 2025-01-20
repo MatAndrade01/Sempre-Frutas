@@ -257,16 +257,6 @@
         margin-top: -5px;
     }
 
-    .divNameUser {
-        display: flex;
-        align-items: center;
-    }
-
-    #idNameUser {
-        margin-right: 1rem;
-        font-size: 1rem;
-    }
-
     /* Estilos para a seção e rodapé */
     section {
         display: grid;
@@ -397,7 +387,8 @@
 
     /* Estilos adicionais para o conteúdo do menu */
     #idDropDowMenu .divEstoqueDropdowMenu,
-    #idDropDowMenu .divRelatorioDropdowMenu {
+    #idDropDowMenu .divRelatorioDropdowMenu,
+    #idDropDowMenu .divFaturamentoDropDow {
         padding: 10px;
         /* Espaçamento interno do menu */
         /* Outros estilos conforme necessário */
@@ -428,14 +419,23 @@
         margin-top: -10px;
     }
 
-    .divNameUser {
+    .nomeLogadoEexit {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .divSair {
         display: flex;
         align-items: center;
     }
 
-    #idNameUser {
+    #idButtonSair {
         margin-right: 1rem;
         font-size: 1rem;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
     }
 
     /* Estilos para a seção e rodapé */

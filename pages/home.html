@@ -26,7 +26,7 @@
                 <div id="idDropDowMenu">
                     <div class="divEstoqueDropdowMenu">
                         <h3 class="titleEstoqueDropdow">Estoque</h3>
-                        <a href="../pages/cadastroDeItens.html" class="buttonsBuguerDropdowMenu">
+                        <a href="../pages/cadastroDeItens.html" class="buttonsBuguerDropdowMenu cadastroDeAlimentosDropDow">
                             <p class="subTitleDropdowMenu"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-plus-2">
@@ -47,7 +47,7 @@
                                     <path d="M12 22V12" />
                                 </svg>Estoque</p>
                         </a>
-                        <a href="../pages/produtosCadastrado.html" class="buttonsBuguerDropdowMenu">
+                        <a href="../pages/produtosCadastrado.html" class="buttonsBuguerDropdowMenu produtosCadastradosDropDow">
                             <p class="subTitleDropdowMenu"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-search">
@@ -60,7 +60,7 @@
                                     <path d="M20.27 17.27 22 19" />
                                 </svg>Produtos cadastrados</p>
                         </a>
-                        <a href="../pages/entradaDeItens.html" class="buttonsBuguerDropdowMenu">
+                        <a href="../pages/entradaDeItens.html" class="buttonsBuguerDropdowMenu entradaDeEstoqueDropDow">
                             <p class="subTitleDropdowMenu"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-plus">
@@ -73,7 +73,7 @@
                                     <line x1="12" x2="12" y1="22" y2="12" />
                                 </svg>Entrada</p>
                         </a>
-                        <a href="../pages/saidaDeItens.html" class="buttonsBuguerDropdowMenu">
+                        <a href="../pages/saidaDeItens.html" class="buttonsBuguerDropdowMenu saidaDeEstoqueDropDow">
                             <p class="subTitleDropdowMenu"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-minus">
@@ -86,7 +86,7 @@
                                 </svg>Saida</p>
                         </a>
                     </div>
-                    <div class="divRelatorioDropdowMenu">
+                    <div class="divFaturamentoDropDow">
                         <h3 class="titleRelatorioDropdow">Faturamento</h3>
                         <a href="../pages/faturarIntens.html" class="buttonsBuguerDropdowMenu">
                             <p class="subTitleDropdowMenu"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -113,7 +113,7 @@
                     </div>
                     <div class="divRelatorioDropdowMenu">
                         <h3 class="titleRelatorioDropdow">Relatório</h3>
-                        <a href="../pages/relatorioDeVenda.html" class="buttonsBuguerDropdowMenu">
+                        <a href="../pages/relatorioDeVenda.html" class="buttonsBuguerDropdowMenu relatorioDropDow">
                             <p class="subTitleDropdowMenu"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text">
@@ -131,8 +131,11 @@
                 <a href="../pages/home.html"><img src="../assets/image/logoHeader.png" alt="Logo"></a>
             </div>
         </div>
-        <div class="divNameUser">
-            <p id="idNameUser">Admin</p>
+        <div class="nomeLogadoEexit">
+            <p class="nomeLogado"></p>
+            <div class="divSair">
+                <button id="idButtonSair" onclick="sair()"><img src="../assets/image/icon/exit.svg" alt="Icone para sair"></button>
+            </div>
         </div>
     </header>
     <section>
