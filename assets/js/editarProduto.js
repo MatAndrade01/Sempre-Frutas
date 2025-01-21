@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     try {
       const response = await fetch(
-        `https://backend-sempre-frutas.onrender.com/atualizarProduto/${produtoId}`,
+        `http://localhost:3333/atualizarProduto/${produtoId}`,
         {
           method: "PUT",
           headers: {
@@ -108,7 +108,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       // Fecha a aba após o sucesso
       window.close();
 
-      form.reset(); // Limpa os campos do formulário após sucesso
     } catch (error) {
       console.error("Erro:", error);
       alert("Falha ao atualizar produto");
