@@ -1,27 +1,71 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", async function () {
   // Menu do botão burger
-  const button = document.getElementById('idButtonBuguer');
-  const menu = document.getElementById('idDropDowMenu');
-  button.addEventListener('click', function () {
-    menu.classList.toggle('show');
+  const button = document.getElementById("idButtonBuguer");
+  const menu = document.getElementById("idDropDowMenu");
+  button.addEventListener("click", function () {
+    menu.classList.toggle("show");
   });
 
   // Dropdown de opções com botão de engrenagem
-  const buttonsGear = document.querySelectorAll('.buttonGear');
-  const dropLinks = document.querySelectorAll('.optionsMenu');
+  const buttonsGear = document.querySelectorAll(".buttonGear");
+  const dropLinks = document.querySelectorAll(".optionsMenu");
 
-  buttonsGear.forEach(button => {
-    button.addEventListener('click', function (event) {
+  buttonsGear.forEach((button) => {
+    button.addEventListener("click", function (event) {
       event.stopPropagation();
       const dropLink = button.nextElementSibling;
       toggleDropdown(dropLink);
     });
   });
 
-  document.addEventListener('click', function (event) {
-    dropLinks.forEach(dropLink => {
-      if (dropLink.style.display === 'block' && !dropLink.contains(event.target)) {
-        dropLink.style.display = 'none';
+  // Obtendo o login do usuário
+  const userLogado = localStorage.getItem("userLogado");
+  let logado = document.querySelector(".nomeLogado");
+
+  if (!userLogado) {
+    alert("Login do usuário não encontrado!");
+    window.location.href = "/index.html";
+    return;
+  }
+
+  logado.innerHTML = `Bem vindo ${userLogado}`;
+
+  // Verifica se o token existe (usuário está logado)
+  if (localStorage.getItem("token") == null) {
+    alert("Você não está logado para acessar essa página!");
+    window.location.href = "/index.html";
+    return;
+  }
+
+  try {
+    // Fazendo a requisição ao backend para buscar o tipo de usuário
+    const response = await fetch(
+      `http://localhost:3333/tipodeusuario?login=${encodeURIComponent(
+        userLogado
+      )}`
+    );
+    const data = await response.json();
+
+    if (response.ok) {
+      const { tipodeusuario } = data;
+      // Se o tipo de usuário for 'caixa', esconde os elementos
+      if (tipodeusuario === "caixa") {
+        alert("Você não acesso a essa pagina!");
+        window.location.href = "./home.html";
+      }
+    }
+  } catch (error) {
+    console.error("Erro ao fazer a requisição:", error);
+    alert("Erro ao conectar com o servidor");
+  }
+
+  document.addEventListener("click", function (event) {
+    dropLinks.forEach((dropLink) => {
+      if (
+        dropLink.style.display === "block" &&
+        !dropLink.contains(event.target)
+      ) {
+        dropLink.style.display = "none";
       }
     });
   });
@@ -29,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Função para alternar a exibição do dropdown
 function toggleDropdown(dropdown) {
-  dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+  dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
 }
 
 // Paginação e pesquisa de produtos
@@ -38,28 +82,34 @@ const productsPerPage = 15;
 let allProducts = [];
 
 const getRowsProducts = () => {
-  document.getElementById('searchForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
+  document
+    .getElementById("searchForm")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-    const nomepesquisa = document.querySelector('input[name="nomepesquisa"]').value;
-    const url = `https://semprefrutasapi.shop/produtosCadastrado?nomepesquisa=${nomepesquisa}`;
+      const nomepesquisa = document.querySelector(
+        'input[name="nomepesquisa"]'
+      ).value;
+      const url = `https://semprefrutasapi.shop/produtosCadastrado?nomepesquisa=${nomepesquisa}`;
 
-    const carregando = document.createElement('span');
-    carregando.classList.add('carregando');
-    document.querySelector('body').appendChild(carregando);
+      const carregando = document.createElement("span");
+      carregando.classList.add("carregando");
+      document.querySelector("body").appendChild(carregando);
 
-    const responseFetch = await fetch(url);
-    const responseJson = await responseFetch.json();
-    carregando.classList.remove('carregando');
+      const responseFetch = await fetch(url);
+      const responseJson = await responseFetch.json();
+      carregando.classList.remove("carregando");
 
-    // Filtra os produtos
-    allProducts = responseJson.filter(item =>
-      nomepesquisa ? item.nome.toLowerCase().includes(nomepesquisa.toLowerCase()) : true
-    );
+      // Filtra os produtos
+      allProducts = responseJson.filter((item) =>
+        nomepesquisa
+          ? item.nome.toLowerCase().includes(nomepesquisa.toLowerCase())
+          : true
+      );
 
-    currentPage = 1; // Reseta para a primeira página
-    updateProductsDisplay();
-  });
+      currentPage = 1; // Reseta para a primeira página
+      updateProductsDisplay();
+    });
 };
 
 // Atualiza os produtos na tabela
@@ -71,18 +121,18 @@ const updateProductsDisplay = () => {
   createRowProducts(produtosFiltrados);
   updatePaginationButtons();
 
-  const paginationDiv = document.querySelector('.pagination');
-  paginationDiv.style.display = produtosFiltrados.length > 0 ? 'flex' : 'none';
+  const paginationDiv = document.querySelector(".pagination");
+  paginationDiv.style.display = produtosFiltrados.length > 0 ? "flex" : "none";
 
-  const footer = document.querySelector('footer');
-  footer.style.position = produtosFiltrados.length < 6 ? 'fixed' : 'relative';
-  if (produtosFiltrados.length < 6) footer.style.bottom = '0';
+  const footer = document.querySelector("footer");
+  footer.style.position = produtosFiltrados.length < 6 ? "fixed" : "relative";
+  if (produtosFiltrados.length < 6) footer.style.bottom = "0";
 };
 
 // Atualiza os botões de navegação
 const updatePaginationButtons = () => {
-  const prevButton = document.getElementById('prevBtn');
-  const nextButton = document.getElementById('nextBtn');
+  const prevButton = document.getElementById("prevBtn");
+  const nextButton = document.getElementById("nextBtn");
 
   prevButton.disabled = currentPage === 1;
   nextButton.disabled = currentPage * productsPerPage >= allProducts.length;
@@ -104,15 +154,15 @@ const updatePaginationButtons = () => {
 
 // Criação das linhas dos produtos na tabela
 const createRowProducts = (produtosFiltrados) => {
-  let tHead = document.querySelector('thead');
-  let tbody = document.querySelector('tbody');
-  let footer = document.querySelector('footer');
-  
-  tbody.innerHTML = ''; // Limpa a tabela antes de renderizar
-  
+  let tHead = document.querySelector("thead");
+  let tbody = document.querySelector("tbody");
+  let footer = document.querySelector("footer");
+
+  tbody.innerHTML = ""; // Limpa a tabela antes de renderizar
+
   // Verifica se o cabeçalho já existe, se não, cria o cabeçalho
   if (!tHead.hasChildNodes()) {
-    const createTrHead = document.createElement('tr');
+    const createTrHead = document.createElement("tr");
     createTrHead.innerHTML = `
       <th>COD</th>
       <th>NOME</th>
@@ -124,14 +174,17 @@ const createRowProducts = (produtosFiltrados) => {
     tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
   }
 
-  footer.style.position = 'relative';
+  footer.style.position = "relative";
 
-  produtosFiltrados.forEach(item => {
-    const createTr = document.createElement('tr');
+  produtosFiltrados.forEach((item) => {
+    const createTr = document.createElement("tr");
     createTr.innerHTML = `
       <td>${item.id}</td>
       <td>${item.nome}</td>
-      <td>${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.valor)}</td>
+      <td>${new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(item.valor)}</td>
       <td>${item.unidadereferencia}</td>
       <td>${item.categoria}</td>
       <td>
@@ -143,7 +196,9 @@ const createRowProducts = (produtosFiltrados) => {
               <circle cx="12" cy="12" r="3"/>
             </svg>
           </button>
-          <div class="optionsMenu" id="optionsMenu-${item.id}" style="display: none;">
+          <div class="optionsMenu" id="optionsMenu-${
+            item.id
+          }" style="display: none;">
             <button class="editOption" data-id="${item.id}">Editar</button>
             <button class="deleteOption" data-id="${item.id}">Excluir</button>
           </div>
@@ -155,19 +210,19 @@ const createRowProducts = (produtosFiltrados) => {
     const buttonGear = document.querySelector(`#idButtonGear-${item.id}`);
     const optionsMenu = document.querySelector(`#optionsMenu-${item.id}`);
 
-    buttonGear.addEventListener('click', () => {
+    buttonGear.addEventListener("click", () => {
       toggleDropdown(optionsMenu);
     });
 
     // Editar
-    const editButton = optionsMenu.querySelector('.editOption');
-    editButton.addEventListener('click', () => {
-      window.open(`editarProduto.html?id=${item.id}`, '_blank');
+    const editButton = optionsMenu.querySelector(".editOption");
+    editButton.addEventListener("click", () => {
+      window.open(`editarProduto.html?id=${item.id}`, "_blank");
     });
 
     // Excluir
-    const deleteButton = optionsMenu.querySelector('.deleteOption');
-    deleteButton.addEventListener('click', () => {
+    const deleteButton = optionsMenu.querySelector(".deleteOption");
+    deleteButton.addEventListener("click", () => {
       deleteProduct(item.id);
     });
   });
@@ -176,49 +231,36 @@ const createRowProducts = (produtosFiltrados) => {
 // Função para deletar um produto
 function deleteProduct(productId) {
   // Pergunta ao usuário se ele tem certeza de que deseja excluir o produto
-  const confirmDelete = confirm('Você tem certeza que deseja excluir este produto?');
+  const confirmDelete = confirm(
+    "Você tem certeza que deseja excluir este produto?"
+  );
   if (!confirmDelete) return; // Se o usuário cancelar, a função retorna e nada é excluído.
 
   // Envia a solicitação para o backend
   fetch(`https://semprefrutasapi.shop/deleteProduto/${productId}`, {
-    method: 'DELETE',
+    method: "DELETE",
   })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message === 'Produto excluído com sucesso.') {
-        alert('Produto excluído com sucesso!');
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message === "Produto excluído com sucesso.") {
+        alert("Produto excluído com sucesso!");
         // Atualiza a lista de produtos após a exclusão
         getRowsProducts();
       } else {
-        alert('Erro ao excluir o produto!');
+        alert("Erro ao excluir o produto!");
       }
     })
-    .catch(error => {
-      console.error('Erro ao excluir o produto:', error);
-      alert('Erro ao excluir o produto!');
+    .catch((error) => {
+      console.error("Erro ao excluir o produto:", error);
+      alert("Erro ao excluir o produto!");
     });
 }
 
 getRowsProducts();
 
-const userLogado = localStorage.getItem('userLogado');
-let logado = document.querySelector('.nomeLogado');
-
-logado.innerHTML = `Bem vindo ${userLogado}`;
-
-if(localStorage.getItem('token') == null) {
-    alert('Você não está logado para acessar essa pagina!');
-    window.location.href = '/index.html';
-}
-
-if(localStorage.getItem('tipodeusuario') == 'caixa') {
-  alert('Você não acesso a essa pagina!');
-  window.location.href = './home.html';
-}
-
 function sair() {
-    window.location.href = '/index.html';
-    localStorage.removeItem('token');
-    localStorage.removeItem('userLogado');
-    localStorage.removeItem('tipodeusuario');
+  window.location.href = "/index.html";
+  localStorage.removeItem("token");
+  localStorage.removeItem("userLogado");
+  localStorage.removeItem("tipodeusuario");
 }

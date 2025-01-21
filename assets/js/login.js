@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('idPassword').value;
 
         try {
-            const response = await fetch('https://backend-sempre-frutas.onrender.com/login', {
+            const response = await fetch('http://localhost:3333/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
-            console.log(data);
 
             // Sucesso no login
             window.location.href = 'http://127.0.0.1:5501/pages/home.html';
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const token = data.token || Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2);
             localStorage.setItem('token', token);
             localStorage.setItem('userLogado', data.login || username);
-            localStorage.setItem('tipodeusuario', data.tipodeusuario);
         } catch (error) {
             // Exibe mensagem de erro
             mensagemErro.innerHTML = error.message;

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const button = document.getElementById("idButtonBuguer");
   const menu = document.getElementById("idDropDowMenu");
 
@@ -11,19 +11,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Obtendo o login do usuário
   const userLogado = localStorage.getItem("userLogado");
   let logado = document.querySelector(".nomeLogado");
 
-  logado.innerHTML = `Bem vindo ${userLogado}`;
-
-  if (localStorage.getItem("token") == null) {
-    alert("Você não está logado para acessar essa pagina!");
+  if (!userLogado) {
+    alert("Login do usuário não encontrado!");
     window.location.href = "/index.html";
+    return;
   }
 
-  if (localStorage.getItem("tipodeusuario") == "caixa") {
-    alert("Você não acesso a essa pagina!");
-    window.location.href = "./home.html";
+  logado.innerHTML = `Bem vindo ${userLogado}`;
+
+  // Verifica se o token existe (usuário está logado)
+  if (localStorage.getItem("token") == null) {
+    alert("Você não está logado para acessar essa página!");
+    window.location.href = "/index.html";
+    return;
+  }
+
+  try {
+    // Fazendo a requisição ao backend para buscar o tipo de usuário
+    const response = await fetch(
+      `http://localhost:3333/tipodeusuario?login=${encodeURIComponent(
+        userLogado
+      )}`
+    );
+    const data = await response.json();
+
+    if (response.ok) {
+      const { tipodeusuario } = data;
+      // Se o tipo de usuário for 'caixa', esconde os elementos
+      if (tipodeusuario === "caixa") {
+        alert("Você não acesso a essa pagina!");
+        window.location.href = "./home.html";
+      }
+    }
+  } catch (error) {
+    console.error("Erro ao fazer a requisição:", error);
+    alert("Erro ao conectar com o servidor");
   }
 
   function sair() {

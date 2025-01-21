@@ -1,17 +1,53 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function () {
     const button = document.getElementById('idButtonBuguer');
     const menu = document.getElementById('idDropDowMenu');
-    const divMensagem = document.querySelector('#divMensagem');
-    const mensagem = document.querySelector('#mensagem')
   
-    button.addEventListener('click', function() {
-        // Verifica se o menu está visível
-        if (menu.classList.contains('show')) {
-            menu.classList.remove('show'); // Oculta o menu
-        } else {
-            menu.classList.add('show'); // Mostra o menu
-        }
+    // Lógica para abrir/fechar o menu dropdown
+    button.addEventListener('click', function () {
+      if (menu.classList.contains('show')) {
+        menu.classList.remove('show'); // Oculta o menu
+      } else {
+        menu.classList.add('show'); // Mostra o menu
+      }
     });
+  
+    // Obtendo o login do usuário
+    const userLogado = localStorage.getItem('userLogado');
+    let logado = document.querySelector('.nomeLogado');
+  
+    if (!userLogado) {
+      alert('Login do usuário não encontrado!');
+      window.location.href = '/index.html';
+      return;
+    }
+  
+    logado.innerHTML = `Bem vindo ${userLogado}`;
+  
+    // Verifica se o token existe (usuário está logado)
+    if (localStorage.getItem('token') == null) {
+      alert('Você não está logado para acessar essa página!');
+      window.location.href = '/index.html';
+      return;
+    }
+  
+    try {
+      // Fazendo a requisição ao backend para buscar o tipo de usuário
+      const response = await fetch(`http://localhost:3333/tipodeusuario?login=${encodeURIComponent(userLogado)}`);
+      const data = await response.json();
+  
+        if (response.ok) {
+            const { tipodeusuario } = data;
+            // Se o tipo de usuário for 'caixa', esconde os elementos
+            if (tipodeusuario === 'caixa') {
+                alert('Você não acesso a essa pagina!');
+                window.location.href = './home.html';
+            }
+        } 
+    }catch (error) {
+      console.error('Erro ao fazer a requisição:', error);
+      alert('Erro ao conectar com o servidor');
+      
+    }
 
     // Definir a data automaticamente
     function definirDataAtual() {
@@ -85,25 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-const userLogado = localStorage.getItem('userLogado');
-    let logado = document.querySelector('.nomeLogado');
     
-    logado.innerHTML = `Bem vindo ${userLogado}`;
-    
-    if(localStorage.getItem('token') == null) {
-        alert('Você não está logado para acessar essa pagina!');
-        window.location.href = '/index.html';
-    }
-    
-    if(localStorage.getItem('tipodeusuario') == 'caixa') {
-        alert('Você não acesso a essa pagina!');
-        window.location.href = './home.html';
-    }
-    
-    function sair() {
-        window.location.href = '/index.html';
-        localStorage.removeItem('token');
-        localStorage.removeItem('userLogado');
-        localStorage.removeItem('tipodeusuario');
-    }
+function sair() {
+    window.location.href = '/index.html';
+    localStorage.removeItem('token');
+    localStorage.removeItem('userLogado');
+    localStorage.removeItem('tipodeusuario');
+}

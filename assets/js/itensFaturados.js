@@ -1,56 +1,77 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const button = document.getElementById("idButtonBuguer");
-  const menu = document.getElementById("idDropDowMenu");
+document.addEventListener('DOMContentLoaded', async function () {
+  const button = document.getElementById('idButtonBuguer');
+  const menu = document.getElementById('idDropDowMenu');
 
-  button.addEventListener("click", function () {
-    // Verifica se o menu está visível
-    if (menu.classList.contains("show")) {
-      menu.classList.remove("show"); // Oculta o menu
+  // Lógica para abrir/fechar o menu dropdown
+  button.addEventListener('click', function () {
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show'); // Oculta o menu
     } else {
-      menu.classList.add("show"); // Mostra o menu
+      menu.classList.add('show'); // Mostra o menu
     }
   });
+
+  // Obtendo o login do usuário
+  const userLogado = localStorage.getItem('userLogado');
+  let logado = document.querySelector('.nomeLogado');
+
+  if (!userLogado) {
+    alert('Login do usuário não encontrado!');
+    window.location.href = '/index.html';
+    return;
+  }
+
+  logado.innerHTML = `Bem vindo ${userLogado}`;
+
+  // Verifica se o token existe (usuário está logado)
+  if (localStorage.getItem('token') == null) {
+    alert('Você não está logado para acessar essa página!');
+    window.location.href = '/index.html';
+    return;
+  }
+
+  try {
+    // Fazendo a requisição ao backend para buscar o tipo de usuário
+    const response = await fetch(`http://localhost:3333/tipodeusuario?login=${encodeURIComponent(userLogado)}`);
+    const data = await response.json();
+
+    if (response.ok) {
+      const { tipodeusuario } = data;
+
+      // Se o tipo de usuário for 'caixa', esconde os elementos
+      if (tipodeusuario === 'caixa') {
+        const dropdownClasses = [
+          '.cadastroDeAlimentosDropDow',
+          '.produtosCadastradosDropDow',
+          '.entradaDeEstoqueDropDow',
+          '.saidaDeEstoqueDropDow',
+          '.divRelatorioDropdowMenu',
+        ];
+        const sections = [
+          '.divSectionRelatorio',
+          '.cadastroDeAlimentos',
+          '.produtosCadastrados',
+          '.entrada',
+          '.saida',
+        ];
+
+        [...dropdownClasses, ...sections].forEach((selector) => {
+          const element = document.querySelector(selector);
+          if (element) {
+            element.style.display = 'none';
+          }
+        });
+      }
+    } else {
+      alert(data.error || 'Erro ao buscar o tipo de usuário');
+      window.location.href = '/index.html';
+    }
+  } catch (error) {
+    console.error('Erro ao fazer a requisição:', error);
+    alert('Erro ao conectar com o servidor');
+    
+  }
 });
-
-const userLogado = localStorage.getItem("userLogado");
-let logado = document.querySelector(".nomeLogado");
-
-logado.innerHTML = `Bem vindo ${userLogado}`;
-
-if (localStorage.getItem("token") == null) {
-  alert("Você não está logado para acessar essa pagina!");
-  window.location.href = "/index.html";
-}
-
-if (localStorage.getItem("tipodeusuario") == "caixa") {
-  let cadastroDeAlimentosDropdown = document.querySelector(
-    ".cadastroDeAlimentosDropDow"
-  );
-  cadastroDeAlimentosDropdown.style.display = "none";
-  let produtosCadastradosDropdown = document.querySelector(
-    ".produtosCadastradosDropDow"
-  );
-  produtosCadastradosDropdown.style.display = "none";
-  let entradaDeEstoqueDropdown = document.querySelector(
-    ".entradaDeEstoqueDropDow"
-  );
-  entradaDeEstoqueDropdown.style.display = "none";
-  let saidaDeEstoqueDropdown = document.querySelector(".saidaDeEstoqueDropDow");
-  saidaDeEstoqueDropdown.style.display = "none";
-  let divRelatorioDropdown = document.querySelector(".divRelatorioDropdowMenu");
-  divRelatorioDropdown.style.display = "none";
-
-  let relatorio = document.querySelector(".divSectionRelatorio");
-  relatorio.style.display = "none";
-  let cadastroDeAlimentos = document.querySelector(".cadastroDeAlimentos");
-  cadastroDeAlimentos.style.display = "none";
-  let produtosCadastrados = document.querySelector(".produtosCadastrados");
-  produtosCadastrados.style.display = "none";
-  let entradaDeEstoque = document.querySelector(".entrada");
-  entradaDeEstoque.style.display = "none";
-  let saidaDeEstoque = document.querySelector(".saida");
-  saidaDeEstoque.style.display = "none";
-}
 
 function sair() {
   window.location.href = "/index.html";
