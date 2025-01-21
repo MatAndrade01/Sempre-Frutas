@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       try {
         const response = await fetch(
-          "https://semprefrutasapi.shop/saidaDeItem",
+          "http://localhost:3333/saidaDeItem",
           {
             method: "POST",
             headers: {
