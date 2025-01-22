@@ -162,6 +162,9 @@
             <p>Estoque > Produtos Cadastrdados > Editar</p>
         </div>
         <hr>
+        <div id="divMensagem">
+            <p id="mensagem"></p>
+        </div>
         <div class="divdadosProdutos">
             <form id="formEditarProduto">
                 <div class="single-input">
@@ -177,8 +180,12 @@
                     <label for="Categoria">Categoria</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idUnidadeDeMedida" class="inputEditarProduto" name="unidadereferencia"
-                        required>
+                    <!-- <input type="text" id="idUnidadeDeMedida" class="inputEditarProduto" name="unidadereferencia"required> -->
+                    <select id="idUnidadeDeMedida" class="inputEditarProduto" name="unidadereferencia"required>
+                        <option value="KG">KG</option>
+                        <option value="UN">UN</option>
+                        <option value="L">L</option>
+                    </select>
                     <label for="idUnidadeDeMedida">Unidade de Medida</label>
                 </div>
                 <div class="single-input">

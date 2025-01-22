@@ -165,7 +165,6 @@
             <p>Estoque > Cadastro de Alimento</p>
         </div>
         <hr>
-
         <div id="divMensagem">
             <p id="mensagem"></p>
         </div>
@@ -189,7 +188,11 @@
                     <label for="Categoria">Categoria</label>
                 </div>
                 <div class="single-input">
-                    <input type="text" id="idUnidadeDeMedida" class="inputCadastro" name="unidadereferencia" required>
+                    <select id="idUnidadeDeMedida" class="inputCadastro" name="unidadereferencia" required>
+                        <option value="KG">KG</option>
+                        <option value="UN">UN</option>
+                        <option value="L">L</option>
+                    </select>
                     <label for="idUnidadeDeMedida">Unidade de Medida</label>
                 </div>
                 <div class="single-input">

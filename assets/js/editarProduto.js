@@ -99,18 +99,26 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
       console.log(response);
       if (!response.ok) {
-        throw new Error("Erro ao atualizar produto");
+        mensagem.innerHTML = 'Erro ao atualiza o produto';
+                
+        divMensagem.style.display = 'flex';
+        divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
+        divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
       }
 
       const result = await response.json();
-      alert("Produto atualizado com sucesso!");
+      mensagem.innerHTML = 'Produto atualizado com sucesso!';
+      divMensagem.style.display = 'flex';
+      setTimeout(() => {
+        divMensagem.style.display = 'none';
+        window.close();
+    }, 2000);
 
       // Fecha a aba após o sucesso
-      window.close();
+      
 
     } catch (error) {
       console.error("Erro:", error);
-      alert("Falha ao atualizar produto");
     }
   });
 });
