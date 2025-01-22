@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Enviar os dados para a API
     try {
       const response = await fetch(
-        "https://semprefrutasapi.shop/entradaDeItems",
+        "http://localhost:3333/entradaDeItems",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

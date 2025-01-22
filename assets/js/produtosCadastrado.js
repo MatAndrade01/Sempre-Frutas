@@ -90,7 +90,7 @@ const getRowsProducts = () => {
       const nomepesquisa = document.querySelector(
         'input[name="nomepesquisa"]'
       ).value;
-      const url = `https://semprefrutasapi.shop/produtosCadastrado?nomepesquisa=${nomepesquisa}`;
+      const url = `http://localhost:3333/produtosCadastrado?nomepesquisa=${nomepesquisa}`;
 
       const carregando = document.createElement("span");
       carregando.classList.add("carregando");
@@ -237,7 +237,7 @@ function deleteProduct(productId) {
   if (!confirmDelete) return; // Se o usuário cancelar, a função retorna e nada é excluído.
 
   // Envia a solicitação para o backend
-  fetch(`https://semprefrutasapi.shop/deleteProduto/${productId}`, {
+  fetch(`http://localhost:3333/deleteProduto/${productId}`, {
     method: "DELETE",
   })
     .then((response) => response.json())

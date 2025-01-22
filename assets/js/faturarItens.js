@@ -160,7 +160,7 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
 async function buscarCaracteristicasDoItem(nomeItem) {
   try {
     const response = await fetch(
-      `https://semprefrutasapi.shop/estoque?nomePesquisa=${nomeItem}`
+      `http://localhost:3333/estoque?nomePesquisa=${nomeItem}`
     );
     const data = await response.json();
 
@@ -317,7 +317,7 @@ botaoFaturar.addEventListener("click", async () => {
   };
 
   try {
-    const response = await fetch("https://semprefrutasapi.shop/faturamento", {
+    const response = await fetch("http://localhost:3333/faturamento", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

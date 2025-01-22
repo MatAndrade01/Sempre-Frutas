@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "#forma-de-pagamento"
         ).value;
         // Monta a URL com os parâmetros de pesquisa
-        const url = `https://semprefrutasapi.shop/relatorio?nomepesquisa=${nomepesquisa}&datainicial=${datainicial}&datafinal=${datafinal}&tipodemovimentacao=${tipodemovimentacao}&tipodevenda=${tipodevenda}&formadepagamento=${formadepagamento}`;
+        const url = `http://localhost:3333/relatorio?nomepesquisa=${nomepesquisa}&datainicial=${datainicial}&datafinal=${datafinal}&tipodemovimentacao=${tipodemovimentacao}&tipodevenda=${tipodevenda}&formadepagamento=${formadepagamento}`;
 
         // Exibe um indicador de carregamento enquanto aguarda a resposta da API
         const carregando = document.createElement("span");

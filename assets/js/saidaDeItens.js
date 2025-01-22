@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const nomeProdutoInput = document.getElementById("idNomeDoProduto"); // Campo de nome do produto
   const quantidadeInput = document.getElementById("idQuantidadeSaida"); // Campo de quantidade
   const valorTotalInput = document.getElementById("idValorDaSaida"); // Campo de valor total
-  const urlBase = "https://semprefrutasapi.shop/produtosCadastrado"; // Base URL para a API
+  const urlBase = "http://localhost:3333/produtosCadastrado"; // Base URL para a API
 
   let valorDaVenda = 0; // Variável para armazenar o valor de venda do produto
 
