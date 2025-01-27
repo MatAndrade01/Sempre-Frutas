@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Se a entrada for por "unidade", faz o cálculo baseado na quantidade
     if (tipoDeEntrada === "unidade") {
-      valorTotal = quantidadeValor * valorCompra;
+      valorTotal = valorCompra;
     }
     // Se a entrada for por "caixa", faz o cálculo baseado na quantidade por caixa
     else if (tipoDeEntrada === "caixa") {

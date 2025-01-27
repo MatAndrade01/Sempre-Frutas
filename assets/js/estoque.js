@@ -180,6 +180,15 @@ const updatePaginationButtons = () => {
   };
 };
 
+// Função para formatar o texto (primeira letra maiúscula)
+const capitalizeText = (text) => {
+  return text
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
 // Função para criar as linhas da tabela com os produtos
 const createRowProducts = (produtosFiltrados) => {
   let tHead = document.querySelector("thead");
@@ -190,12 +199,12 @@ const createRowProducts = (produtosFiltrados) => {
   if (!tHead.hasChildNodes()) {
     const createTrHead = document.createElement("tr");
     createTrHead.innerHTML = `
-      <th>COD</th>
-      <th>NOME</th>
-      <th>UNIDADE DE MEDIDA</th>
-      <th>QUANTIDADE</th>
-      <th>CATEGORIA</th>
-      <th>VALOR DE VENDA</th>
+      <th>Cod</th>
+      <th>Nome</th>
+      <th>Unidade de medida</th>
+      <th>Quantidade</th>
+      <th>Categoria</th>
+      <th>Valor de venda</th>
       `;
     tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
   }
@@ -206,10 +215,10 @@ const createRowProducts = (produtosFiltrados) => {
     const createTr = document.createElement("tr");
     createTr.innerHTML = `
         <td>${item.id}</td>
-        <td>${item.nomedoproduto}</td>
+        <td>${capitalizeText(item.nomedoproduto)}</td>
         <td>${item.unidadedereferencia}</td>
         <td>${item.quantidadedoproduto}</td>
-        <td>${item.categoria}</td>
+        <td>${capitalizeText(item.categoria)}</td>
         <td>${new Intl.NumberFormat("pt-BR", {
           style: "currency",
           currency: "BRL",
@@ -219,6 +228,7 @@ const createRowProducts = (produtosFiltrados) => {
     tbody.appendChild(createTr);
   });
 };
+
 
 // Função chamada para inicializar a pesquisa
 getRowsProducts();

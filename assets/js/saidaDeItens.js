@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
+
   // Obtendo o login do usuário
   const userLogado = localStorage.getItem("userLogado");
   let logado = document.querySelector(".nomeLogado");

@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
       tipoDeVendaSelect.closest(".single-input").style.display = "block";
       document.querySelector("#tipo-de-venda").value = "LOJA";
       document.querySelector("#tipo-de-movimentacao").value = "";
+      document.querySelector("#nomepesquisa").value = "";
       // Preenche os campos de data com a data atual
       document.getElementById("datainicial").value = formatDate(new Date());
       document.getElementById("datafinal").value = formatDate(new Date());
@@ -165,6 +166,16 @@ document.addEventListener("DOMContentLoaded", function () {
       dropLink.style.display = "none";
     }
   });
+
+  // Função para capitalizar as strings
+function capitalize(text) {
+  if (!text) return text;
+  return text
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
   let currentPage = 1;
   const productsPerPage = 15;
@@ -285,30 +296,34 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!tHead.hasChildNodes()) {
         const createTrHead = document.createElement("tr");
         createTrHead.innerHTML = `
-          <th>COD</th>
-          <th>NOME</th>
-          <th>QUANTIDADE</th>
-          <th>VALOR DA MOVIMENTAÇÃO</th>
-          <th>FORMA DE PAGAMENTO</th>
-          <th>TIPO DE MOVIMENTAÇÃO</th>
-          <th>TIPO DE COMPRA</th>
-          <th>DATA</th>
+          <th>Cod</th>
+          <th>Nome</th>
+          <th>Quantidade</th>
+          <th>Valor Da Movimentação</th>
+          <th>Forma De Pagamento</th>
+          <th>Tipo De Movimentação</th>
+          <th>Tipo De Compra</th>
+          <th>Data</th>
         `;
         tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
       }
 
       // Preenche o tbody com as linhas dos produtos filtrados
       produtosFiltrados.forEach((item) => {
-        const nomeProduto = item.nomedoproduto.trim(); // Remove espaços extras
+
+        const nomeProduto = capitalize(item.nomedoproduto.trim()); // Capitaliza o nome do produto
+        const formaPagamento = capitalize(item.formadepagamento); // Capitaliza forma de pagamento
+        const tipoMovimento = capitalize(item.tipodemovimento); // Capitaliza tipo de movimentação
+        const tipoCompra = capitalize(item.tipodecompra); // Capitaliza tipo de compra
         const createTr = document.createElement("tr");
         createTr.innerHTML = `
           <td>${item.id}</td>
           <td>${nomeProduto}</td>
           <td>${item.quantidade}</td>
           <td>R$ ${parseFloat(item.valor).toFixed(2).replace(".", ",")}</td>
-          <td>${item.formadepagamento}</td>
-          <td>${item.tipodemovimento}</td>
-          <td>${item.tipodecompra}</td>
+          <td>${formaPagamento}</td>
+          <td>${tipoMovimento}</td>
+          <td>${tipoCompra}</td>
           <td>${new Date(item.data).toLocaleDateString("pt-BR")}</td>
         `;
         tbody.appendChild(createTr);
