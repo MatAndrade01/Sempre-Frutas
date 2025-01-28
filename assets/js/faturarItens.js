@@ -163,13 +163,32 @@ async function buscarCaracteristicasDoItem(nomeItem) {
       `http://localhost:3333/estoque?nomePesquisa=${nomeItem}`
     );
     const data = await response.json();
-
+    console.log(data);
+    const quantidade = document.querySelector("#quantidade-item");
     if (data && data.length > 0) {
-      return {
-        unidade: data[0].unidadedereferencia,
-        valor: data[0].valordevenda,
-        quantidadeDisponivel: data[0].quantidadedoproduto,
-      };
+      if (data[0].opcaocadastro === "Sim") {
+        if(quantidade.value % data[0].quantidademinima === 0){
+
+          return {
+            unidade: data[0].unidadedereferencia,
+            valor: data[0].valorpromocao,
+            quantidadeDisponivel: data[0].quantidadedoproduto,
+          }
+        } else {
+          return {
+            unidade: data[0].unidadedereferencia,
+            valor: data[0].valordevenda,
+            quantidadeDisponivel: data[0].quantidadedoproduto,
+          }
+        }
+      } else if (data[0].opcaocadastro === "Não") {
+        console.log
+        return {
+          unidade: data[0].unidadedereferencia,
+          valor: data[0].valordevenda,
+          quantidadeDisponivel: data[0].quantidadedoproduto,
+        };
+      }
     } else {
       return {
         unidade: "Unidade não encontrada",
