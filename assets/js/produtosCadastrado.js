@@ -169,6 +169,9 @@ const createRowProducts = (produtosFiltrados) => {
       <th>VALOR DA VENDA</th>
       <th>UNIDADE DE MEDIDA</th>
       <th>CATEGORIA</th>
+      <th>PROMOÇÃO</th>
+      <th>QUANTIDADE MINIMA</th>
+      <th>VALOR PROMOCIONAL</th>
       <th>EDITAR</th>
     `;
     tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
@@ -177,6 +180,7 @@ const createRowProducts = (produtosFiltrados) => {
   footer.style.position = "relative";
 
   produtosFiltrados.forEach((item) => {
+    console.log(item);
     const createTr = document.createElement("tr");
     createTr.innerHTML = `
       <td>${item.id}</td>
@@ -187,6 +191,12 @@ const createRowProducts = (produtosFiltrados) => {
       }).format(item.valor)}</td>
       <td>${item.unidadereferencia}</td>
       <td>${item.categoria}</td>
+      <td>${item.opcaocadastro}</td>
+      <td>${item.quantidademinima}</td>
+            <td>${new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(item.valorpromocao)}</td>
       <td>
         <div class="divDropdowGear">
           <button class="buttonGear" id="idButtonGear-${item.id}">

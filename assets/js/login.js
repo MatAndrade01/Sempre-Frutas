@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             // Sucesso no login
-            window.location.href = 'http://127.0.0.1:5501/pages/home.html';
+            window.location.href = 'http://127.0.0.1:5500/pages/home.html';
 
             // Simula o armazenamento de token e informações do usuário
             const token = data.token || Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2);

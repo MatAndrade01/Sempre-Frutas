@@ -205,6 +205,9 @@ const createRowProducts = (produtosFiltrados) => {
       <th>Quantidade</th>
       <th>Categoria</th>
       <th>Valor de venda</th>
+      <th>PROMOÇÃO</th>
+      <th>QUANTIDADE MINIMA</th>
+      <th>VALOR PROMOCIONAL</th>
       `;
     tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
   }
@@ -223,6 +226,12 @@ const createRowProducts = (produtosFiltrados) => {
           style: "currency",
           currency: "BRL",
         }).format(item.valordevenda)}</td>
+        <td>${item.opcaocadastro}</td>
+        <td>${item.quantidademinima}</td>
+        <td>${new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(item.valorpromocao)}</td>
         `;
 
     tbody.appendChild(createTr);

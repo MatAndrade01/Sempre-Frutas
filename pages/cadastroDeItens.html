@@ -199,10 +199,41 @@
                     <input type="number" id="idValorDaCompra" class="inputCadastro" name="valor" required step="any">
                     <label for="idValorDaCompra">Valor de Venda</label>
                 </div>
+                <div class="input-option">
+                    <p>Tem Promoção?</p>
+                    <div class="options">
+                        <div>
+                            <input 
+                                type="radio" 
+                                name="opcaocadastro" 
+                                value="Não" 
+                                id="promocao-nao" 
+                                checked
+                            />
+                            <label for="promocao-nao">Não</label>
+                        </div>
+                        <div>
+                            <input 
+                                type="radio" 
+                                name="opcaocadastro" 
+                                value="Sim" 
+                                id="promocao-sim"
+                            />
+                            <label for="promocao-sim">Sim</label>
+                        </div>
+                    </div>
+                </div>                
+                <div class="single-input">
+                    <input type="number" id="idQuantidadeMinima" class="inputCadastro" name="quantidademinima" required  step="any">
+                    <label for="idQuantidadeMinima">Quantidade Minima</label>
+                </div>
+                <div class="single-input">
+                    <input type="number" id="idValorPromocao" class="inputCadastro" name="valorpromocao" required step="any">
+                    <label for="idValorPromocao">Valor de Promoção</label>
+                </div>
                 <div class="divButtonSalvar">
                     <input type="submit" id="idButtonSalvar" value="Salvar">
                 </div>
-
             </form>
         </div>
     </section>

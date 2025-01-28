@@ -671,6 +671,17 @@
         color: #006b0f;
     }
 
+    #formCadastro .input-option p {
+        margin-bottom: 1rem;
+    }
+
+    #formCadastro .input-option .options {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+
     #formCadastro .single-input .inputCadastro:focus,
     #formCadastro .single-input .inputCadastro:valid {
         border: 1px solid #006b0f;

@@ -1,40 +1,81 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const button = document.getElementById('idButtonBuguer');
     const menu = document.getElementById('idDropDowMenu');
-  
+
     // Lógica para abrir/fechar o menu dropdown
     button.addEventListener('click', function () {
-      if (menu.classList.contains('show')) {
-        menu.classList.remove('show'); // Oculta o menu
-      } else {
-        menu.classList.add('show'); // Mostra o menu
-      }
+        if (menu.classList.contains('show')) {
+            menu.classList.remove('show'); // Oculta o menu
+        } else {
+            menu.classList.add('show'); // Mostra o menu
+        }
     });
-  
+
+    // Seleciona todos os inputs do grupo
+    const radios = document.querySelectorAll('input[name="opcaocadastro"]');
+    const quantidadeMinima = document.getElementById('idQuantidadeMinima');
+    const valorPromocao = document.getElementById('idValorPromocao');
+
+    // Função para aplicar lógica com base no radio selecionado
+    function atualizarEstado() {
+        const selecionado = document.querySelector('input[name="opcaocadastro"]:checked').value;
+
+        if (selecionado === 'Não') {
+            // Configurações para "Não"
+            quantidadeMinima.removeAttribute("required");
+            valorPromocao.removeAttribute("required");
+            quantidadeMinima.style.backgroundColor = "#adadad"; // Muda a cor de fundo
+            valorPromocao.style.backgroundColor = "#adadad"; // Muda a cor de fundo
+            quantidadeMinima.style.pointerEvents = "none"; // Desativa interações
+            valorPromocao.style.pointerEvents = "none"; // Desativa interações
+            quantidadeMinima.disabled = true; // Desativa o campo
+            valorPromocao.disabled = true; // Desativa o campo
+        } else {
+            // Configurações para "Sim"
+            quantidadeMinima.setAttribute("required", true);
+            valorPromocao.setAttribute("required", true);
+            quantidadeMinima.style.backgroundColor = ""; // Reseta a cor de fundo
+            valorPromocao.style.backgroundColor = ""; // Reseta a cor de fundo
+            quantidadeMinima.style.pointerEvents = "auto"; // Habilita interações
+            valorPromocao.style.pointerEvents = "auto"; // Habilita interações
+            quantidadeMinima.disabled = false; // Habilita o campo
+            valorPromocao.disabled = false; // Habilita o campo
+        }
+    }
+
+    // Adiciona o evento 'change' para cada radio
+    radios.forEach(radio => {
+        radio.addEventListener('change', atualizarEstado);
+    });
+
+    // Verifica o estado inicial ao carregar a página
+    window.onload = atualizarEstado;
+
+
     // Obtendo o login do usuário
     const userLogado = localStorage.getItem('userLogado');
     let logado = document.querySelector('.nomeLogado');
-  
+
     if (!userLogado) {
-      alert('Login do usuário não encontrado!');
-      window.location.href = '/index.html';
-      return;
+        alert('Login do usuário não encontrado!');
+        window.location.href = '/index.html';
+        return;
     }
-  
+
     logado.innerHTML = `Bem vindo ${userLogado}`;
-  
+
     // Verifica se o token existe (usuário está logado)
     if (localStorage.getItem('token') == null) {
-      alert('Você não está logado para acessar essa página!');
-      window.location.href = '/index.html';
-      return;
+        alert('Você não está logado para acessar essa página!');
+        window.location.href = '/index.html';
+        return;
     }
-  
+
     try {
-      // Fazendo a requisição ao backend para buscar o tipo de usuário
-      const response = await fetch(`http://localhost:3333/tipodeusuario?login=${encodeURIComponent(userLogado)}`);
-      const data = await response.json();
-  
+        // Fazendo a requisição ao backend para buscar o tipo de usuário
+        const response = await fetch(`http://localhost:3333/tipodeusuario?login=${encodeURIComponent(userLogado)}`);
+        const data = await response.json();
+
         if (response.ok) {
             const { tipodeusuario } = data;
             // Se o tipo de usuário for 'caixa', esconde os elementos
@@ -42,11 +83,11 @@ document.addEventListener('DOMContentLoaded', async function () {
                 alert('Você não acesso a essa pagina!');
                 window.location.href = './home.html';
             }
-        } 
-    }catch (error) {
-      console.error('Erro ao fazer a requisição:', error);
-      alert('Erro ao conectar com o servidor');
-      
+        }
+    } catch (error) {
+        console.error('Erro ao fazer a requisição:', error);
+        alert('Erro ao conectar com o servidor');
+
     }
 
     // Definir a data automaticamente
@@ -58,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const dia = String(dataAtual.getDate()).padStart(2, '0');
         inputData.value = `${ano}-${mes}-${dia}`; // Atribui a data no formato YYYY-MM-DD
     }
-    
+
     definirDataAtual(); // Chama a função para definir a data atual ao carregar a página
 
     // Definir o código do produto
@@ -74,12 +115,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Interceptar o envio do formulário para enviar dados via fetch
     const form = document.getElementById('formCadastro');
-    form.addEventListener('submit', async function(event) {
+    form.addEventListener('submit', async function (event) {
         event.preventDefault(); // Previne o envio tradicional do formulário
 
         // Coletar os dados do formulário
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        console.log(data);
 
         // Enviar os dados para a API
         try {
@@ -93,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 // Limpar o formulário após o sucesso
                 form.reset();
                 mensagem.innerHTML = 'Produto cadastrado com sucesso!';
-                divMensagem.style.display = 'flex'; 
+                divMensagem.style.display = 'flex';
 
                 // Oculta a mensagem após 5 segundos
                 setTimeout(() => {
@@ -104,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 definirDataAtual(); // Atualiza a data no campo
             } else {
                 mensagem.innerHTML = 'Erro ao cadastrar o produto';
-                
+
                 divMensagem.style.display = 'flex';
                 divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
                 divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
@@ -121,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     });
 });
-    
+
 function sair() {
     window.location.href = '/index.html';
     localStorage.removeItem('token');
