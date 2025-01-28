@@ -663,6 +663,16 @@
         background-color: #adadad;
     }
 
+    #formEditarProduto .input-option p {
+        margin-bottom: 1rem;
+    }
+
+    #formEditarProduto .input-option .options {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
     #formEditarProduto .single-input .setInput~label {
         transform: translateY(-4vh);
         font-size: 2vh;

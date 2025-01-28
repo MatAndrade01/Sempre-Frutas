@@ -11,6 +11,46 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
+  // Seleciona todos os inputs do grupo
+    const radios = document.querySelectorAll('input[name="opcaocadastro"]');
+    const quantidadeMinima = document.getElementById('idQuantidadeMinima');
+    const valorPromocao = document.getElementById('idValorPromocao');
+
+    // Função para aplicar lógica com base no radio selecionado
+    function atualizarEstado() {
+        const selecionado = document.querySelector('input[name="opcaocadastro"]:checked').value;
+
+        if (selecionado === 'Não') {
+            // Configurações para "Não"
+            quantidadeMinima.removeAttribute("required");
+            valorPromocao.removeAttribute("required");
+            quantidadeMinima.style.backgroundColor = "#adadad"; // Muda a cor de fundo
+            valorPromocao.style.backgroundColor = "#adadad"; // Muda a cor de fundo
+            quantidadeMinima.style.pointerEvents = "none"; // Desativa interações
+            valorPromocao.style.pointerEvents = "none"; // Desativa interações
+            quantidadeMinima.disabled = true; // Desativa o campo
+            valorPromocao.disabled = true; // Desativa o campo
+        } else {
+            // Configurações para "Sim"
+            quantidadeMinima.setAttribute("required", true);
+            valorPromocao.setAttribute("required", true);
+            quantidadeMinima.style.backgroundColor = ""; // Reseta a cor de fundo
+            valorPromocao.style.backgroundColor = ""; // Reseta a cor de fundo
+            quantidadeMinima.style.pointerEvents = "auto"; // Habilita interações
+            valorPromocao.style.pointerEvents = "auto"; // Habilita interações
+            quantidadeMinima.disabled = false; // Habilita o campo
+            valorPromocao.disabled = false; // Habilita o campo
+        }
+    }
+
+    // Adiciona o evento 'change' para cada radio
+    radios.forEach(radio => {
+        radio.addEventListener('change', atualizarEstado);
+    });
+
+    // Verifica o estado inicial ao carregar a página
+    window.onload = atualizarEstado;
+
   // Obtendo o login do usuário
   const userLogado = localStorage.getItem("userLogado");
   let logado = document.querySelector(".nomeLogado");
@@ -84,6 +124,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       categoria: document.getElementById("Categoria").value,
       unidadereferencia: document.getElementById("idUnidadeDeMedida").value,
       valor: document.getElementById("idValorDaCompra").value,
+      opcaocadastro: document.querySelector('input[name="opcaocadastro"]:checked').value,
+      quantidademinima: document.getElementById("idQuantidadeMinima").value,
+      valorpromocao: document.getElementById("idValorPromocao").value,
     };
 
     try {
