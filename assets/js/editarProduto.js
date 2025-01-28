@@ -4,56 +4,55 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Lógica para abrir/fechar o menu dropdown
   button.addEventListener("click", function () {
-    if (menu.classList.contains("show")) {
-      menu.classList.remove("show"); // Oculta o menu
-    } else {
-      menu.classList.add("show"); // Mostra o menu
-    }
+    menu.classList.toggle("show");
   });
 
   // Seleciona todos os inputs do grupo
-    const radios = document.querySelectorAll('input[name="opcaocadastro"]');
-    const quantidadeMinima = document.getElementById('idQuantidadeMinima');
-    const valorPromocao = document.getElementById('idValorPromocao');
+  const radios = document.querySelectorAll('input[name="opcaocadastro"]');
+  const quantidadeMinima = document.getElementById("idQuantidadeMinima");
+  const valorPromocao = document.getElementById("idValorPromocao");
 
-    // Função para aplicar lógica com base no radio selecionado
-    function atualizarEstado() {
-        const selecionado = document.querySelector('input[name="opcaocadastro"]:checked').value;
+  // Função para aplicar lógica com base no radio selecionado
+  function atualizarEstado() {
+    const selecionado = document.querySelector(
+      'input[name="opcaocadastro"]:checked'
+    ).value;
 
-        if (selecionado === 'Não') {
-            // Configurações para "Não"
-            quantidadeMinima.removeAttribute("required");
-            valorPromocao.removeAttribute("required");
-            quantidadeMinima.style.backgroundColor = "#adadad"; // Muda a cor de fundo
-            valorPromocao.style.backgroundColor = "#adadad"; // Muda a cor de fundo
-            quantidadeMinima.style.pointerEvents = "none"; // Desativa interações
-            valorPromocao.style.pointerEvents = "none"; // Desativa interações
-            quantidadeMinima.disabled = true; // Desativa o campo
-            valorPromocao.disabled = true; // Desativa o campo
-        } else {
-            // Configurações para "Sim"
-            quantidadeMinima.setAttribute("required", true);
-            valorPromocao.setAttribute("required", true);
-            quantidadeMinima.style.backgroundColor = ""; // Reseta a cor de fundo
-            valorPromocao.style.backgroundColor = ""; // Reseta a cor de fundo
-            quantidadeMinima.style.pointerEvents = "auto"; // Habilita interações
-            valorPromocao.style.pointerEvents = "auto"; // Habilita interações
-            quantidadeMinima.disabled = false; // Habilita o campo
-            valorPromocao.disabled = false; // Habilita o campo
-        }
+    if (selecionado === "Não") {
+      quantidadeMinima.removeAttribute("required");
+      valorPromocao.removeAttribute("required");
+      quantidadeMinima.style.backgroundColor = "#adadad";
+      valorPromocao.style.backgroundColor = "#adadad";
+      quantidadeMinima.style.pointerEvents = "none";
+      valorPromocao.style.pointerEvents = "none";
+      quantidadeMinima.disabled = true;
+      valorPromocao.disabled = true;
+      document.getElementById("idQuantidadeMinima").value = "";
+      document.getElementById("idValorPromocao").value = "";
+
+    } else {
+      quantidadeMinima.setAttribute("required", true);
+      valorPromocao.setAttribute("required", true);
+      quantidadeMinima.style.backgroundColor = "";
+      valorPromocao.style.backgroundColor = "";
+      quantidadeMinima.style.pointerEvents = "auto";
+      valorPromocao.style.pointerEvents = "auto";
+      quantidadeMinima.disabled = false;
+      valorPromocao.disabled = false;
     }
+  }
 
-    // Adiciona o evento 'change' para cada radio
-    radios.forEach(radio => {
-        radio.addEventListener('change', atualizarEstado);
-    });
+  // Adiciona o evento 'change' para cada radio
+  radios.forEach((radio) => {
+    radio.addEventListener("change", atualizarEstado);
+  });
 
-    // Verifica o estado inicial ao carregar a página
-    window.onload = atualizarEstado;
+  // Verifica o estado inicial ao carregar a página
+  window.onload = atualizarEstado;
 
   // Obtendo o login do usuário
   const userLogado = localStorage.getItem("userLogado");
-  let logado = document.querySelector(".nomeLogado");
+  const logado = document.querySelector(".nomeLogado");
 
   if (!userLogado) {
     alert("Login do usuário não encontrado!");
@@ -78,12 +77,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       )}`
     );
     const data = await response.json();
-
     if (response.ok) {
       const { tipodeusuario } = data;
-      // Se o tipo de usuário for 'caixa', esconde os elementos
       if (tipodeusuario === "caixa") {
-        alert("Você não acesso a essa pagina!");
+        alert("Você não tem acesso a essa página!");
         window.location.href = "./home.html";
         return;
       }
@@ -93,8 +90,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     alert("Erro ao conectar com o servidor");
   }
 
+  // Obtém o ID do produto da URL
   const urlParams = new URLSearchParams(window.location.search);
-  const produtoId = urlParams.get("id"); // Obtém o ID da URL
+  const produtoId = urlParams.get("id");
 
   if (!produtoId) {
     alert("ID do produto não encontrado");
@@ -104,8 +102,22 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Preenche o campo 'id' com o ID obtido da URL
   document.getElementById("idCodigoDoProduto").value = produtoId;
 
-  const form = document.getElementById("formEditarProduto");
+  // Função para buscar os detalhes do produto pelo ID
+  async function carregarProduto(produtoId) {
+    try {
+      const response = await fetch(`http://localhost:3333/produtosCadastrado/${produtoId}`);
+      if (!response.ok) {
+        throw new Error("Não foi possível carregar o produto.");
+      }
+      const produto = await response.json();
+      preencherFormularioComProduto(produto);
+    } catch (error) {
+      console.error("Erro ao carregar o produto:", error);
+      alert("Erro ao carregar as informações do produto.");
+    }
+  }
 
+  // Função para preencher o formulário com os dados do produto
   function preencherFormularioComProduto(produto) {
     document.getElementById("idCodigoDoProduto").value = produto.id;
     document.getElementById("idNameProduto").value = produto.nome;
@@ -113,18 +125,44 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("idUnidadeDeMedida").value =
       produto.unidadereferencia;
     document.getElementById("idValorDaCompra").value = produto.valor;
+
+    // Preencher os valores de promoção e quantidade mínima, se necessário
+    document.querySelector(
+      `input[name="opcaocadastro"][value="${produto.opcaocadastro}"]`
+    ).checked = true;
+
+    if (produto.opcaocadastro === "Sim") {
+      document.getElementById("idQuantidadeMinima").value =
+        produto.quantidademinima;
+      document.getElementById("idValorPromocao").value = produto.valorpromocao;
+      quantidadeMinima.setAttribute("required", true);
+      valorPromocao.setAttribute("required", true);
+      quantidadeMinima.style.backgroundColor = ""; // Reseta a cor de fundo
+      valorPromocao.style.backgroundColor = ""; // Reseta a cor de fundo
+      quantidadeMinima.style.pointerEvents = "auto"; // Habilita interações
+      valorPromocao.style.pointerEvents = "auto"; // Habilita interações
+      quantidadeMinima.disabled = false; // Habilita o campo
+      valorPromocao.disabled = false; // Habilita o campo
+    }
   }
 
+  // Carrega as informações do produto ao abrir a página
+  carregarProduto(produtoId);
+
+  // Lógica para atualizar o produto ao enviar o formulário
+  const form = document.getElementById("formEditarProduto");
   form.addEventListener("submit", async function (event) {
-    event.preventDefault(); // Evita o envio padrão do formulário
+    event.preventDefault();
 
     const produtoData = {
-      id: produtoId, // O ID obtido da URL será enviado
+      id: produtoId,
       nome: document.getElementById("idNameProduto").value,
       categoria: document.getElementById("Categoria").value,
       unidadereferencia: document.getElementById("idUnidadeDeMedida").value,
       valor: document.getElementById("idValorDaCompra").value,
-      opcaocadastro: document.querySelector('input[name="opcaocadastro"]:checked').value,
+      opcaocadastro: document.querySelector(
+        'input[name="opcaocadastro"]:checked'
+      ).value,
       quantidademinima: document.getElementById("idQuantidadeMinima").value,
       valorpromocao: document.getElementById("idValorPromocao").value,
     };
@@ -140,28 +178,24 @@ document.addEventListener("DOMContentLoaded", async function () {
           body: JSON.stringify(produtoData),
         }
       );
-      console.log(response);
+
       if (!response.ok) {
         mensagem.innerHTML = 'Erro ao atualiza o produto';
                 
         divMensagem.style.display = 'flex';
         divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
         divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
+      } else if (response.ok) {
+        mensagem.innerHTML = 'Produto atualizado com sucesso!';
+        divMensagem.style.display = 'flex';
+        setTimeout(() => {
+          divMensagem.style.display = 'none';
+          window.close();
+        }, 2000);
       }
-
-      const result = await response.json();
-      mensagem.innerHTML = 'Produto atualizado com sucesso!';
-      divMensagem.style.display = 'flex';
-      setTimeout(() => {
-        divMensagem.style.display = 'none';
-        window.close();
-    }, 2000);
-
-      // Fecha a aba após o sucesso
-      
-
     } catch (error) {
       console.error("Erro:", error);
+      alert("Erro ao atualizar o produto.");
     }
   });
 });
