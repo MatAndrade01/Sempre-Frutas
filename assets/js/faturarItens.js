@@ -126,12 +126,21 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
   spanUnidade.textContent = unidade;
 
   const spanValor = document.createElement("span");
-  const valorFormatado = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-  }).format(valor);
-  spanValor.textContent = valorFormatado;
+  if (unidade === 'KG') {
+    const valorFormatadoKG = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 3,
+    }).format(valor);
+    spanValor.textContent = valorFormatadoKG;
+  } else if (unidade === 'UN') {
+    const valorFormatadoUN = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    }).format(valor);
+    spanValor.textContent = valorFormatadoUN;
+  };
 
   const buttonAdicionar = document.createElement("button");
   buttonAdicionar.textContent = "Remover";
@@ -140,7 +149,6 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
     const nomeRemove = liToRemove.querySelector("span").textContent;
 
     compras = compras.filter((item) => item.nome !== nomeRemove);
-
     todoListUl.removeChild(liToRemove);
 
     // Recalcular o valor total ao remover o item
@@ -163,7 +171,7 @@ async function buscarCaracteristicasDoItem(nomeItem) {
       `http://localhost:3333/estoque?nomePesquisa=${nomeItem}`
     );
     const data = await response.json();
-    console.log(data);
+    console.log(data); //Aqui
     const quantidade = document.querySelector("#quantidade-item");
     if (data && data.length > 0) {
       if (data[0].opcaocadastro === "Sim") {
@@ -181,8 +189,29 @@ async function buscarCaracteristicasDoItem(nomeItem) {
             quantidadeDisponivel: data[0].quantidadedoproduto,
           }
         }
+      } else if (data[0].opcaocadastro === "Sim" && data[0].unidadedereferencia === "KG") {
+        
+        if(quantidade.value % data[0].quantidademinima === 0){
+
+          return {
+            unidade: data[0].unidadedereferencia,
+            valor: data[0].valorg,
+            quantidadeDisponivel: data[0].quantidadedoproduto,
+          }
+        } else {
+          return {
+            unidade: data[0].unidadedereferencia,
+            valor: data[0].valorg,
+            quantidadeDisponivel: data[0].quantidadedoproduto,
+          }
+        }
+      } else if (data[0].opcaocadastro === "Não" && data[0].unidadedereferencia === "KG") {
+        return {
+          unidade: data[0].unidadedereferencia,
+          valor: data[0].valorg,
+          quantidadeDisponivel: data[0].quantidadedoproduto,
+        };
       } else if (data[0].opcaocadastro === "Não") {
-        console.log
         return {
           unidade: data[0].unidadedereferencia,
           valor: data[0].valordevenda,
@@ -271,8 +300,6 @@ form.addEventListener("submit", async (event) => {
 
   // Recalcular o valor total
   calcularValorTotal();
-
-  console.log(valor)
 
   // Limpar os campos
   nome.value = "";
@@ -482,6 +509,8 @@ function abrirTelaDeImpressao(dadosFaturamento) {
                 <td>${new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
+                  minimumFractionDigits: 3, // Mínimo de 3 casas decimais
+                  maximumFractionDigits: 3  // Máximo de 3 casas decimais
                 }).format(item.valor)}</td>
                 <td>${new Intl.NumberFormat("pt-BR", {
                   style: "currency",
