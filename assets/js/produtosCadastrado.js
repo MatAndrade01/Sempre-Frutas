@@ -164,15 +164,16 @@ const createRowProducts = (produtosFiltrados) => {
   if (!tHead.hasChildNodes()) {
     const createTrHead = document.createElement("tr");
     createTrHead.innerHTML = `
-      <th>COD</th>
-      <th>NOME</th>
-      <th>VALOR DA VENDA</th>
-      <th>UNIDADE DE MEDIDA</th>
-      <th>CATEGORIA</th>
-      <th>PROMOÇÃO</th>
-      <th>QUANTIDADE MINIMA</th>
-      <th>VALOR PROMOCIONAL</th>
-      <th>EDITAR</th>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Valor de venda</th>
+      <th>Valor G</th>
+      <th>Unidade de medida</th>
+      <th>Categoria</th>
+      <th>Promoção</th>
+      <th>Quantidade minima</th>
+      <th>Valor promocional</th>
+      <th>Editar</th>
     `;
     tHead.appendChild(createTrHead); // Adiciona o cabeçalho ao thead
   }
@@ -185,11 +186,17 @@ const createRowProducts = (produtosFiltrados) => {
     createTr.innerHTML = `
       <td>${item.id}</td>
       <td>${item.nome}</td>
+      <td>${item.unidadereferencia}</td>
       <td>${new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
       }).format(item.valor)}</td>
-      <td>${item.unidadereferencia}</td>
+      <td>${new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+          minimumFractionDigits: 3, // Mínimo de 3 casas decimais
+          maximumFractionDigits: 3  // Máximo de 3 casas decimais
+      }).format(item.valorg)}</td>
       <td>${item.categoria}</td>
       <td>${item.opcaocadastro}</td>
       <td>${item.quantidademinima}</td>

@@ -199,12 +199,13 @@ const createRowProducts = (produtosFiltrados) => {
   if (!tHead.hasChildNodes()) {
     const createTrHead = document.createElement("tr");
     createTrHead.innerHTML = `
-      <th>Cod</th>
+      <th>Id</th>
       <th>Nome</th>
       <th>Unidade de medida</th>
+      <th>Valor de venda</th>
+      <th>Valor G</th>
       <th>Quantidade</th>
       <th>Categoria</th>
-      <th>Valor de venda</th>
       <th>PROMOÇÃO</th>
       <th>QUANTIDADE MINIMA</th>
       <th>VALOR PROMOCIONAL</th>
@@ -216,16 +217,23 @@ const createRowProducts = (produtosFiltrados) => {
 
   produtosFiltrados.forEach((item) => {
     const createTr = document.createElement("tr");
+    console.log(item)
     createTr.innerHTML = `
         <td>${item.id}</td>
         <td>${capitalizeText(item.nomedoproduto)}</td>
         <td>${item.unidadedereferencia}</td>
-        <td>${item.quantidadedoproduto}</td>
-        <td>${capitalizeText(item.categoria)}</td>
         <td>${new Intl.NumberFormat("pt-BR", {
           style: "currency",
           currency: "BRL",
         }).format(item.valordevenda)}</td>
+        <td>${new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+          minimumFractionDigits: 3, // Mínimo de 3 casas decimais
+          maximumFractionDigits: 3  // Máximo de 3 casas decimais
+        }).format(item.valorg)}</td>
+        <td>${item.quantidadedoproduto}</td>
+        <td>${capitalizeText(item.categoria)}</td>
         <td>${item.opcaocadastro}</td>
         <td>${item.quantidademinima}</td>
         <td>${new Intl.NumberFormat("pt-BR", {
