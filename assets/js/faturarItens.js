@@ -450,9 +450,10 @@ function abrirTelaDeImpressao(dadosFaturamento) {
         <h2>********** CUPOM FISCAL **********</h2>
 
         <div class="dados-empresa">
-          <p><strong>Empresa:</strong> ${dadosFaturamento.empresa}</p>
-          <p><strong>CNPJ:</strong> ${dadosFaturamento.cnpj}</p>
-          <p><strong>Endereço:</strong> ${dadosFaturamento.endereco}</p>
+          <p><strong>Empresa:</strong> Sempre Frutas Selecionadas</p>
+          <p><strong>CNPJ:</strong> 18.863.146/00001-26</p>
+          <p><strong>Endereço:</strong> Feira Livre do Paulista</p>
+          <p><strong>Telefone/WhatsApp:</strong> (81) 9 8250-8317</p>
         </div>
 
         <div class="dados-cliente">
