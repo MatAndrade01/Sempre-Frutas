@@ -81,6 +81,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       if (produtos.length > 0) {
         valorDaVenda = produtos[0]?.valor || 0; // Obtém o valor do produto (valor)
+        unidadeDeReferencia = produtos[0].unidadereferencia;
+        valorg = produtos[0].valorg;
         calcularValorTotal(); // Recalcula o valor total
       } else {
         valorDaVenda = 0; // Se não encontrar o produto, reseta o valor
@@ -95,9 +97,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Função para calcular o valor total da saída
   function calcularValorTotal() {
-    const quantidade = parseFloat(quantidadeInput.value) || 0;
-    const valorTotal = quantidade * valorDaVenda;
-    valorTotalInput.value = valorTotal.toFixed(2); // Atualiza o valor no campo
+    if(unidadeDeReferencia === 'KG') {
+      const quantidade = parseFloat(quantidadeInput.value) || 0;
+      const valorTotal = quantidade * valorg;
+      valorTotalInput.value = valorTotal.toFixed(3); // Atualiza o valor no campo
+    } else {
+      const quantidade = parseFloat(quantidadeInput.value) || 0;
+      const valorTotal = quantidade * valorDaVenda;
+      valorTotalInput.value = valorTotal.toFixed(2); // Atualiza o valor no campo
+    }
   }
 
   // Adiciona um listener no campo de nome do produto para disparar a busca e o cálculo
@@ -172,9 +180,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
           // Limpar os campos do formulário
           document.getElementById("formSainda").reset();
+          definirDataAtual();
+
         } else {
-          console.log(data.message);
-          mensagem.innerHTML = 'Erro ao dar saida no produto';
+          mensagem.innerHTML = data.message || 'Erro ao dar saída no produto';
           mensagem.style.color = '#b94a48'
           divMensagem.style.display = 'flex';
           divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
@@ -182,7 +191,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           setTimeout(() => {
             divMensagem.style.display = 'none';
             mensagem.style.color = '#04750ad0'
-            divMensagem.style.display = 'flex';
             divMensagem.style.backgroundColor = '#acd3aed0'; // Altere para a cor desejada
             divMensagem.style.borderColor = '#06570ad0'; // Altere para a cor da borda desejada
           }, 3000);
