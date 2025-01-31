@@ -166,9 +166,9 @@ const createRowProducts = (produtosFiltrados) => {
     createTrHead.innerHTML = `
       <th>Id</th>
       <th>Nome</th>
+      <th>Unidade de medida</th>
       <th>Valor de venda</th>
       <th>Valor G</th>
-      <th>Unidade de medida</th>
       <th>Categoria</th>
       <th>Promoção</th>
       <th>Quantidade minima</th>
