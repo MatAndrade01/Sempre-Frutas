@@ -200,6 +200,7 @@ const createRowProducts = (produtosFiltrados) => {
     const createTrHead = document.createElement("tr");
     createTrHead.innerHTML = `
       <th>Id</th>
+      <th>Codigo</th>
       <th>Nome</th>
       <th>Unidade de medida</th>
       <th>Valor de venda</th>
@@ -220,6 +221,7 @@ const createRowProducts = (produtosFiltrados) => {
     console.log(item)
     createTr.innerHTML = `
         <td>${item.id}</td>
+        <td>${item.codigo}</td>
         <td>${capitalizeText(item.nomedoproduto)}</td>
         <td>${item.unidadedereferencia}</td>
         <td>${new Intl.NumberFormat("pt-BR", {

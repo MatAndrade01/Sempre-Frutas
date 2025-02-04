@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             menu.classList.add('show'); // Mostra o menu
         }
     });
-
+    
     // Seleciona todos os inputs do grupo
     const radios = document.querySelectorAll('input[name="opcaocadastro"]');
     const quantidadeMinima = document.getElementById('idQuantidadeMinima');
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Definir o código do produto
     async function definirId() {
-        const inputId = document.getElementById('idCodigoDoProduto');
+        const inputId = document.getElementById('idDoProduto');
         const url = 'http://localhost:3333/getId';
         const response = await fetch(url);
         const responseJson = await response.json();
@@ -112,6 +112,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         inputId.value = ultimoId + 1; // Incrementa o ID para o próximo produto
     }
     definirId();
+
+    async function definirCodigo() {
+        const codigoDoProduto = document.querySelector('#idCodigoDoProduto');
+        const gerarCodigo = Math.random().toString(14).substring(8)
+        codigoDoProduto.value = gerarCodigo;
+    }
+    definirCodigo();
 
     // Interceptar o envio do formulário para enviar dados via fetch
     const form = document.getElementById('formCadastro');
@@ -144,6 +151,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 definirId(); // Atualiza o ID do produto
                 definirDataAtual(); // Atualiza a data no campo
+                definirCodigo();
             } else {
                 mensagem.innerHTML = 'Erro ao cadastrar o produto';
 

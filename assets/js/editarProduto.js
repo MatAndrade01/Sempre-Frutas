@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // Preenche o campo 'id' com o ID obtido da URL
-  document.getElementById("idCodigoDoProduto").value = produtoId;
+  document.getElementById("idDoProduto").value = produtoId;
 
   // Função para buscar os detalhes do produto pelo ID
   async function carregarProduto(produtoId) {
@@ -119,7 +119,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Função para preencher o formulário com os dados do produto
   function preencherFormularioComProduto(produto) {
-    document.getElementById("idCodigoDoProduto").value = produto.id;
+    document.getElementById("idDoProduto").value = produto.id;
+    document.getElementById("codigoDoProduto").value = produto.codigo
     document.getElementById("idNameProduto").value = produto.nome;
     document.getElementById("Categoria").value = produto.categoria;
     document.getElementById("idUnidadeDeMedida").value =
