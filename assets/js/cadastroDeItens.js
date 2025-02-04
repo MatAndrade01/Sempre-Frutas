@@ -152,10 +152,26 @@ document.addEventListener('DOMContentLoaded', async function () {
                 definirId(); // Atualiza o ID do produto
                 definirDataAtual(); // Atualiza a data no campo
                 definirCodigo();
-            } else {
-                mensagem.innerHTML = 'Erro ao cadastrar o produto';
+            } else if(response.status === 400) {
+                mensagem.innerHTML = 'Codigo já cadastrado!';
 
                 divMensagem.style.display = 'flex';
+                mensagem.style.color = '#d68d8d'
+                divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
+                divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
+
+                definirCodigo();
+                setTimeout(() => {
+                    divMensagem.style.display = 'none';
+                    mensagem.style.color = '#04750ad0'
+                    divMensagem.style.backgroundColor = '#acd3aed0'; // Altere para a cor desejada
+                    divMensagem.style.borderColor = '#06570ad0'; // Altere para a cor da borda desejada
+                }, 3000);
+            } else {
+                mensagem.innerHTML = 'Erro ao Cadastra o Produto';
+
+                divMensagem.style.display = 'flex';
+                mensagem.style.color = '#d68d8d'
                 divMensagem.style.backgroundColor = '#f2dede'; // Altere para a cor desejada
                 divMensagem.style.borderColor = '#d68d8d'; // Altere para a cor da borda desejada
 
