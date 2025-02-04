@@ -87,6 +87,61 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Chama a função para definir a data atual ao carregar a página
   definirDataAtual();
 
+  const IdCodigoDoProduto = document.querySelector('#codigoDoProduto');
+const urlBase = "http://localhost:3333/produtosCadastrado"; // Base URL para a API
+
+// Função para capitalizar a primeira letra
+// Função para capitalizar a primeira letra
+function capitalizarPrimeiraLetra(nome) {
+  if (!nome) return nome;
+  return nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+}
+
+async function fetchNomeDoProduto() {
+  const codigoDoProduto = IdCodigoDoProduto.value.trim();
+  const codigoDoProdutoUp = codigoDoProduto.toUpperCase(); // Converte para maiúsculo
+  console.log(codigoDoProdutoUp);
+
+  if (!codigoDoProdutoUp) return; // Se não houver código de produto, não faz nada
+
+  const url = `${urlBase}?codigopesquisa=${encodeURIComponent(codigoDoProdutoUp)}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar os produtos');
+    }
+
+    const produtos = await response.json();
+
+    // Filtra o produto pelo código convertido para maiúsculo
+    const produtoEncontrado = produtos.find(produto => produto.codigo === codigoDoProdutoUp);
+
+    if (produtoEncontrado) {
+      const nomeDoProduto = produtoEncontrado.nome;
+      console.log('Nome do Produto:', nomeDoProduto);
+
+      // Aplica a função para capitalizar a primeira letra
+      const nomeFormatado = capitalizarPrimeiraLetra(nomeDoProduto);
+
+      // Atualiza o valor do input com o nome formatado
+      const inputNomeProduto = document.getElementById("idNomeDoProduto"); // Altere o ID conforme o seu input
+      if (inputNomeProduto) {
+        inputNomeProduto.value = nomeFormatado;
+      }
+    } else {
+      console.log('Produto não encontrado');
+    }
+  } catch (error) {
+    console.error("Erro ao buscar os produtos:", error);
+  }
+}
+
+// Adiciona um listener no campo de nome do produto para disparar a busca e o cálculo
+IdCodigoDoProduto.addEventListener("input", fetchNomeDoProduto);
+
+
   const divMensagem = document.querySelector("#divMensagem");
   const mensagem = document.querySelector("#mensagem");
 
