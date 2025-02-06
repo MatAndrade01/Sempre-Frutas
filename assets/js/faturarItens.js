@@ -164,8 +164,59 @@ function mostrarListaDeCompras(nome, quantidade, unidade, valor) {
   todoListUl.appendChild(li);
 }
 
+const IdCodigoDoProduto = document.querySelector('#codigoDoProduto');
+const urlProdutos = "http://localhost:3333/produtosCadastrado"; // Base URL para a API
+
+ // Função para capitalizar a primeira letra
+ function capitalizarPrimeiraLetra(nome) {
+  if (!nome) return nome;
+  return nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase();
+}
+
+async function fetchNomeDoProduto() {
+  const codigoDoProduto = IdCodigoDoProduto.value.trim();
+  const codigoDoProdutoUp = codigoDoProduto.toUpperCase(); // Converte para maiúsculo
+
+  console.log(codigoDoProdutoUp.value)
+
+  if (!codigoDoProdutoUp) return; // Se não houver código de produto, não faz nada
+
+  const url = `${urlProdutos}?codigopesquisa=${encodeURIComponent(codigoDoProdutoUp)}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Erro ao buscar os produtos');
+    }
+
+    const produtos = await response.json();
+
+    // Filtra o produto pelo código convertido para maiúsculo
+    const produtoEncontrado = produtos.find(produto => produto.codigo === codigoDoProdutoUp);
+    if (produtoEncontrado) {
+      const nomeDoProduto = produtoEncontrado.nome;
+
+       // Aplica a função para capitalizar a primeira letra
+       const nomeFormatado = capitalizarPrimeiraLetra(nomeDoProduto);
+
+      // Atualiza o valor do input com o nome formatado
+      const inputNomeProduto = document.getElementById("nome-item"); // Altere o ID conforme o seu input
+      if (inputNomeProduto) {
+        inputNomeProduto.value = nomeFormatado;
+      }
+    } else {
+      console.log('Produto não encontrado');
+    }
+  } catch (error) {
+    console.error("Erro ao buscar os produtos:", error);
+  }
+}
+
+// Adiciona um listener no campo de nome do produto para disparar a busca e o cálculo
+IdCodigoDoProduto.addEventListener("input", fetchNomeDoProduto);
+
 // Função para buscar características do item no servidor
-async function buscarCaracteristicasDoItem(nomeItem) {
+async function buscarCaracteristicasDoItem(nomeItem) { 
   try {
     const response = await fetch(
       `http://localhost:3333/estoque?nomePesquisa=${nomeItem}`
@@ -304,6 +355,8 @@ form.addEventListener("submit", async (event) => {
   // Limpar os campos
   nome.value = "";
   quantidade.value = "";
+  IdCodigoDoProduto.value = "";
+  
 });
 
 // Evento do botão Faturar
